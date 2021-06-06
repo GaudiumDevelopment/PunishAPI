@@ -3,12 +3,15 @@ package me.superbiebel.punishapi.tests.punishapitests;
 import me.superbiebel.punishapi.api.PunishAPI;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class PunishAPIShutdownTests {
     
     @Test
+    @Execution(ExecutionMode.CONCURRENT)
     public void readyBooleanShutdownTestTest() {
         PunishAPI api = new PunishAPI();
         api.startup();
@@ -17,6 +20,7 @@ public class PunishAPIShutdownTests {
     }
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
+    @Execution(ExecutionMode.CONCURRENT)
     public void multipleShutdownTest(int times) {
         PunishAPI api = new PunishAPI();
         api.startup();
@@ -27,6 +31,7 @@ public class PunishAPIShutdownTests {
     }
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
+    @Execution(ExecutionMode.CONCURRENT)
     public void multipleKilledShutdownTest(int times) {
         PunishAPI api = new PunishAPI();
         api.startup();
