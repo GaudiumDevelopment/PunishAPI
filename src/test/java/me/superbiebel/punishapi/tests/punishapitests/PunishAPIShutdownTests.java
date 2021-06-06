@@ -8,11 +8,11 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class PunishAPIShutdownTests {
+class PunishAPIShutdownTests {
     
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    public void readyBooleanShutdownTestTest() {
+    void readyBooleanShutdownTestTest() {
         PunishAPI api = new PunishAPI();
         api.startup();
         api.shutdown();
@@ -21,7 +21,7 @@ public class PunishAPIShutdownTests {
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
-    public void multipleShutdownTest(int times) {
+    void multipleShutdownTest(int times) {
         PunishAPI api = new PunishAPI();
         api.startup();
         api.shutdown();
@@ -32,7 +32,7 @@ public class PunishAPIShutdownTests {
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
-    public void multipleKilledShutdownTest(int times) {
+    void multipleKilledShutdownTest(int times) {
         PunishAPI api = new PunishAPI();
         api.startup();
         api.kill();

@@ -3,17 +3,22 @@ package me.superbiebel.punishapi.api;
 
 import lombok.Getter;
 import me.superbiebel.punishapi.System;
-
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import me.superbiebel.punishapi.data.Datamanager;
+import org.apache.logging.log4j.LogManager;
 
 //multiple instances of this class can be created!
 public class PunishAPI extends System {
     
     @Getter
     private DataAPI dataAPI;
+    @Getter
+    private Datamanager datamanager;
     
     public void onStartup(boolean forcedInit) {
+        LogManager.getLogger().debug("Starting up PunishAPI");
+        datamanager = new Datamanager();
+        datamanager.startup();
+        dataAPI = new DataAPI();
     }
     public void onShutdown() {
     }

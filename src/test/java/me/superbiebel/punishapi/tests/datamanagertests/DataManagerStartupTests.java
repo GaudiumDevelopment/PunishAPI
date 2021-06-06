@@ -8,12 +8,12 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class DataManagerStartupTests {
+class DataManagerStartupTests {
     
     //test if the boolean is
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    public void readyBooleanSartupTest() {
+    void readyBooleanSartupTest() {
         PunishAPI api = new PunishAPI();
         api.startup();
         Assertions.assertTrue(api.isReady());
@@ -23,7 +23,7 @@ public class DataManagerStartupTests {
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
-    public void multipleStartupTest(int times) {
+    void multipleStartupTest(int times) {
         PunishAPI api = new PunishAPI();
         api.startup();
         for (int i = 1; i<=times;i++) {
