@@ -7,20 +7,18 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DataAPI {
     
     private ConcurrentHashMap<ServiceType, Service> serviceRegistry;
+    private final PunishAPI punishAPI;
     
-    public void addService(ServiceType serviceType, Service service) {
-        if(serviceRegistry.containsKey(serviceType)) {
-            throw new IllegalStateException("Service was already registered");
-        }
-        serviceRegistry.put(serviceType,service);
-        try {
-            service.startup(false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public DataAPI(PunishAPI punishAPI) {
+        this.punishAPI = punishAPI;
     }
-    public void removeService() {
-    
+    //thread safe
+    public void addService(ServiceType serviceType, Service service) throws Exception {
+        punishAPI.getDatamanager().addService(serviceType, service);
+    }
+    //thread safe
+    public void removeService(ServiceType serviceType) throws Exception {
+        punishAPI.getDatamanager().removeService(serviceType);
     }
     
     

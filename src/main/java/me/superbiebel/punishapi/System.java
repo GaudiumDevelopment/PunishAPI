@@ -15,7 +15,7 @@ public abstract class System {
     private boolean killed = false;
     @Getter
     private boolean forcedStartup = false;
-    
+    //locked so threadsafe
     public void startup(boolean force) {
         try {
             startupShutdownLock.lock();
@@ -35,9 +35,11 @@ public abstract class System {
             startupShutdownLock.unlock();
         }
     }
+    //locked so threadsafe
     public void startup() {
         startup(false);
     }
+    //locked so threadsafe
     public void shutdown() {
         try {
             startupShutdownLock.lock();
@@ -50,6 +52,7 @@ public abstract class System {
             startupShutdownLock.unlock();
         }
     }
+    //locked so threadsafe
     public void kill() {
         try {
             startupShutdownLock.lock();

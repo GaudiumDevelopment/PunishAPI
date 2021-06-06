@@ -18,7 +18,7 @@ public class PunishAPI extends System {
         LogManager.getLogger().debug("Starting up PunishAPI");
         datamanager = new Datamanager();
         datamanager.startup();
-        dataAPI = new DataAPI();
+        dataAPI = new DataAPI(this);
     }
     public void onShutdown() {
     }
