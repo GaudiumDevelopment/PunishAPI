@@ -1,17 +1,75 @@
 package me.superbiebel.punishapi;
 
+import lombok.Getter;
+
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public abstract class System {
     
-    public void startup(boolean force) {
+    private final Lock startupShutdownLock = new ReentrantLock(true);
     
+    @Getter
+    private boolean ready = false;
+    @Getter
+    private boolean killed = false;
+    @Getter
+    private boolean forcedStartup = false;
+    
+    public void startup(boolean force) {
+        try {
+            startupShutdownLock.lock();
+            if (ready || force) {
+                if (force) {
+                    forcedStartup = true;
+                } else {
+                    throw new IllegalStateException("Api already started up!");
+                }
+            }
+            if (force) {
+                forcedStartup = true;
+            }
+            onStartup(force);
+            ready = true;
+        } finally {
+            startupShutdownLock.unlock();
+        }
     }
     public void startup() {
         startup(false);
     }
+    public void shutdown() {
+        try {
+            startupShutdownLock.lock();
+            if (!ready) {
+                throw new IllegalStateException("Api already shut down!");
+            }
+            onShutdown();
+            ready = false;
+        } finally {
+            startupShutdownLock.unlock();
+        }
+    }
+    public void kill() {
+        try {
+            startupShutdownLock.lock();
+            if (killed) {
+                throw new IllegalStateException("Api already killed!");
+            } else if (!ready) {
+                throw new IllegalStateException("Api already shut down!");
+            } else {
+                killed = true;
+                ready = false;
+                onShutdown();
+            }
+        
+        } finally {
+            startupShutdownLock.unlock();
+        }
+    }
     
     
     protected abstract void onStartup(boolean force);
-    protected abstract void onStartup();
     protected abstract void onShutdown();
     protected abstract void onKill();
 }
