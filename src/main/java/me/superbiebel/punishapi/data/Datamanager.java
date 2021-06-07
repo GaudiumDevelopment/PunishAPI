@@ -21,7 +21,7 @@ public class Datamanager extends System {
     public void onShutdown() {
         serviceRegistry.keys().asIterator().forEachRemaining(serviceType -> {
             try {
-                removeService(serviceType);
+                removeService(serviceType, false);
             } catch (Exception e) {
                 LogManager.getLogger().error("Could not unregister and shutdown servicetype: " + serviceType, e);
             }
@@ -30,7 +30,13 @@ public class Datamanager extends System {
     //locked so threadsafe
     @Override
     public void onKill() {
-    
+        serviceRegistry.keys().asIterator().forEachRemaining(serviceType -> {
+            try {
+                removeService(serviceType, true);
+            } catch (Exception e) {
+                LogManager.getLogger().error("Could not unregister and shutdown servicetype: " + serviceType, e);
+            }
+        });
     }
     //thread safe becuz of specialised datatype
     public void addService(DataAPI.ServiceType serviceType, Service service) throws Exception {
@@ -41,7 +47,7 @@ public class Datamanager extends System {
             service.startup(false);
     }
     //thread safe becuz of specialised datatype
-    public void removeService(DataAPI.ServiceType serviceType) throws Exception {
+    public void removeService(DataAPI.ServiceType serviceType, boolean kill) throws Exception {
         Service service = serviceRegistry.remove(serviceType);
         if (service == null) {
             throw new IllegalArgumentException("Servicetype not found");
