@@ -18,7 +18,7 @@ public class DataAPI {
     }
     //thread safe
     public void removeService(ServiceType serviceType) throws Exception {
-        punishAPI.getDatamanager().removeService(serviceType);
+        punishAPI.getDatamanager().removeService(serviceType,false);
     }
     
     

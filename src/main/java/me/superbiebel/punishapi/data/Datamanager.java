@@ -14,7 +14,7 @@ public class Datamanager extends System {
     //locked so threadsafe
     @Override
     public void onStartup(boolean force) {
-    
+        serviceRegistry = new ConcurrentHashMap<>();
     }
     //locked so threadsafe
     @Override
@@ -55,9 +55,11 @@ public class Datamanager extends System {
         service.shutdown();
     }
     //thread safe becuz of specialised datatype
-    public void getService(DataAPI.ServiceType serviceType) {
-        if (serviceRegistry.get(serviceType) == null) {
+    public Service getService(DataAPI.ServiceType serviceType) {
+        Service service = serviceRegistry.get(serviceType);
+        if (service == null) {
             throw new IllegalArgumentException("Servicetype not found");
         }
+        return service;
     }
 }

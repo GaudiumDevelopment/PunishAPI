@@ -23,7 +23,7 @@ public abstract class System {
                 if (force) {
                     forcedStartup = true;
                 } else {
-                    throw new IllegalStateException("Api already started up!");
+                    throw new IllegalStateException("System already started up!");
                 }
             }
             if (force) {
@@ -44,7 +44,7 @@ public abstract class System {
         try {
             startupShutdownLock.lock();
             if (!ready) {
-                throw new IllegalStateException("Api already shut down!");
+                throw new IllegalStateException("System already shut down!");
             }
             onShutdown();
             ready = false;
@@ -57,9 +57,9 @@ public abstract class System {
         try {
             startupShutdownLock.lock();
             if (killed) {
-                throw new IllegalStateException("Api already killed!");
+                throw new IllegalStateException("System already killed!");
             } else if (!ready) {
-                throw new IllegalStateException("Api already shut down!");
+                throw new IllegalStateException("System already shut down!");
             } else {
                 killed = true;
                 ready = false;
