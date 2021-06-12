@@ -1,5 +1,6 @@
 package me.superbiebel.punishapi.tests.punishapitests;
 
+import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.api.PunishAPI;
 import  org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ class PunishAPIStartupTests {
     void readyBooleanSartupTest() {
         PunishAPI api = new PunishAPI();
         api.startup();
-        Assertions.assertTrue(api.isReady());
+        Assertions.assertSame(SystemStatus.READY,api.status());
     }
     
     // test if the api is started up twice, it should throw an exception.

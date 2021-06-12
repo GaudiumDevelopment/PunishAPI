@@ -1,5 +1,6 @@
 package me.superbiebel.punishapi.tests.punishapitests;
 
+import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.api.PunishAPI;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ class PunishAPIShutdownTests {
         PunishAPI api = new PunishAPI();
         api.startup();
         api.shutdown();
-        Assertions.assertFalse(api.isReady());
+        Assertions.assertFalse(api.status()== SystemStatus.READY);
     }
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})

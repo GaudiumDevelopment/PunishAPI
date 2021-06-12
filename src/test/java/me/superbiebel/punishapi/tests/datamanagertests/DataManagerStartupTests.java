@@ -1,5 +1,6 @@
 package me.superbiebel.punishapi.tests.datamanagertests;
 
+import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.api.PunishAPI;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ class DataManagerStartupTests {
     void readyBooleanSartupTest() {
         PunishAPI api = new PunishAPI();
         api.startup();
-        Assertions.assertTrue(api.isReady());
+        Assertions.assertSame(api.status(), SystemStatus.READY);
     }
     
     // test if the api is started up twice, it should throw an exception.

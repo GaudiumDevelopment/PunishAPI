@@ -10,27 +10,25 @@ public abstract class System {
     private final Lock startupShutdownLock = new ReentrantLock(true);
     
     @Getter
-    private boolean ready = false;
-    @Getter
-    private boolean killed = false;
-    @Getter
-    private boolean forcedStartup = false;
+    private SystemStatus status = SystemStatus.DOWN;
+    
     //locked so threadsafe
     public void startup(boolean force) {
         try {
             startupShutdownLock.lock();
-            if (ready || force) {
-                if (force) {
-                    forcedStartup = true;
-                } else {
+            if (status == SystemStatus.STARTING_UP) {
+                throw new IllegalStateException("Cannot start up while already starting up!");
+            }
+            if ((status == SystemStatus.READY || status == SystemStatus.FORCED_READY)&&!force) {
                     throw new IllegalStateException("System already started up!");
-                }
             }
-            if (force) {
-                forcedStartup = true;
-            }
+            status = SystemStatus.STARTING_UP;
             onStartup(force);
-            ready = true;
+            if (force) {
+                status = SystemStatus.FORCED_READY;
+            } else {
+                status = SystemStatus.READY;
+            }
         } finally {
             startupShutdownLock.unlock();
         }
@@ -43,11 +41,11 @@ public abstract class System {
     public void shutdown() {
         try {
             startupShutdownLock.lock();
-            if (!ready) {
+            if (status==SystemStatus.DOWN || status==SystemStatus.KILLED) {
                 throw new IllegalStateException("System already shut down!");
             }
             onShutdown();
-            ready = false;
+            status = SystemStatus.DOWN;
         } finally {
             startupShutdownLock.unlock();
         }
@@ -56,19 +54,22 @@ public abstract class System {
     public void kill() {
         try {
             startupShutdownLock.lock();
-            if (killed) {
+            if (status==SystemStatus.KILLED) {
                 throw new IllegalStateException("System already killed!");
-            } else if (!ready) {
+            } else if (status==SystemStatus.DOWN) {
                 throw new IllegalStateException("System already shut down!");
             } else {
-                killed = true;
-                ready = false;
-                onShutdown();
+                onKill();
+                status = SystemStatus.KILLED;
             }
         
         } finally {
             startupShutdownLock.unlock();
         }
+    }
+    
+    public SystemStatus status() {
+        return status;
     }
     
     

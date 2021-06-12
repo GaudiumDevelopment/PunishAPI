@@ -1,5 +1,6 @@
 package me.superbiebel.punishapi.tests.datamanagertests;
 
+import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.data.Datamanager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ class DataManagerShutdownTests {
         Datamanager datamanager = new Datamanager();
         datamanager.startup();
         datamanager.shutdown();
-        Assertions.assertFalse(datamanager.isReady());
+        Assertions.assertSame(SystemStatus.DOWN, datamanager.status());
     }
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
@@ -29,6 +30,15 @@ class DataManagerShutdownTests {
             Assertions.assertThrows(IllegalStateException.class, datamanager::shutdown);
         }
     }
+    
+    @Test
+    @Execution(ExecutionMode.CONCURRENT)
+    void killTest() {
+        Datamanager datamanager = new Datamanager();
+        datamanager.startup();
+        datamanager.kill();
+    }
+    
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
@@ -38,6 +48,7 @@ class DataManagerShutdownTests {
         datamanager.kill();
         for (int i = 1; i<=times;i++) {
             Assertions.assertThrows(IllegalStateException.class, datamanager::kill);
+            Assertions.assertSame(SystemStatus.KILLED,datamanager.status());
         }
     }
 }
