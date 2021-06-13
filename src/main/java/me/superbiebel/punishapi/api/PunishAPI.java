@@ -21,7 +21,11 @@ public class PunishAPI extends System {
         dataAPI = new DataAPI(this);
     }
     public void onShutdown() {
+        LogManager.getLogger().debug("Shutting down PunishAPI");
+        datamanager.shutdown();
     }
     public void onKill() {
+        LogManager.getLogger().debug("Killing PunishAPI");
+        datamanager.kill();
     }
 }
