@@ -37,6 +37,7 @@ class DataManagerShutdownTests {
         Datamanager datamanager = new Datamanager();
         datamanager.startup();
         datamanager.kill();
+        Assertions.assertSame(SystemStatus.KILLED,datamanager.status());
     }
     
     @ParameterizedTest
