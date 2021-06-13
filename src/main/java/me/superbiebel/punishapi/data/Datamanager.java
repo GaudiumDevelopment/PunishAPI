@@ -23,7 +23,7 @@ public class Datamanager extends System {
             try {
                 removeService(serviceType, false);
             } catch (Exception e) {
-                LogManager.getLogger().error("Could not unregister and shutdown servicetype: " + serviceType, e);
+                LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", serviceType, e);
             }
         });
     }
@@ -34,7 +34,7 @@ public class Datamanager extends System {
             try {
                 removeService(serviceType, true);
             } catch (Exception e) {
-                LogManager.getLogger().error("Could not unregister and shutdown servicetype: " + serviceType, e);
+                LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}" + serviceType, e);
             }
         });
     }
