@@ -34,7 +34,7 @@ public class Datamanager extends System {
             try {
                 removeService(serviceType, true);
             } catch (Exception e) {
-                LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}" + serviceType, e);
+                LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", serviceType, e);
             }
         });
     }
@@ -52,7 +52,11 @@ public class Datamanager extends System {
         if (service == null) {
             throw new IllegalArgumentException("Servicetype not found");
         }
-        service.shutdown();
+        if (kill) {
+            service.kill();
+        } else {
+            service.shutdown();
+        }
     }
     //thread safe becuz of specialised datatype
     public Service getService(DataAPI.ServiceType serviceType) {
