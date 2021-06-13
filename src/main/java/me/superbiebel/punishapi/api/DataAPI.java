@@ -2,11 +2,8 @@ package me.superbiebel.punishapi.api;
 
 import me.superbiebel.punishapi.data.services.Service;
 
-import java.util.concurrent.ConcurrentHashMap;
-
 public class DataAPI {
     
-    private ConcurrentHashMap<ServiceType, Service> serviceRegistry;
     private final PunishAPI punishAPI;
     
     public DataAPI(PunishAPI punishAPI) {
