@@ -17,7 +17,7 @@ class DataManagerStartupTests {
     void readyBooleanSartupTest() {
         PunishAPI api = new PunishAPI();
         api.startup();
-        Assertions.assertSame(api.status(), SystemStatus.READY);
+        Assertions.assertSame(SystemStatus.READY, api.status());
     }
     
     // test if the api is started up twice, it should throw an exception.
