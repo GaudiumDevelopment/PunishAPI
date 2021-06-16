@@ -13,8 +13,8 @@ C fills out a form of some sort (this is entirely customizable). As A has used v
 As it is the 10th offense of A in this week alone, A may be punished more harshly. The moderator submits this report and the system reviews it. 
 The settings which you defined, or even a script, will process this offense. 
 It takes some external parameters like the age of A which it can fetch from an external source into account and gives back punishments to PunishAPI. For example: 
-- A will serve a prison sentence of 3 months (punishment nr1)
-- A may not come near B (punishment nr2)
+-  A will serve a prison sentence of 3 months (punishment nr1)
+-  A may not come near B (punishment nr2)
 
 PunishAPI registers and stores the whole thing and everyone goes on with their lives. There may be an automated system (system D) in place which can detect if A comes close to B. 
 System D will ask PunishAPI if A can come in the vicinity of B. If punishAPI says no then D will trigger an offense.
