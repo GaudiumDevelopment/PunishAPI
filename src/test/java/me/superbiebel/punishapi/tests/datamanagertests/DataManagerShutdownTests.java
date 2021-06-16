@@ -3,7 +3,6 @@ package me.superbiebel.punishapi.tests.datamanagertests;
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
-
 import me.superbiebel.punishapi.exceptions.StartupException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
