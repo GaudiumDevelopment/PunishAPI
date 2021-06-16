@@ -1,17 +1,15 @@
 package me.superbiebel.punishapi.tests.punishapitests;
 
-import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.PunishCore;
+import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.exceptions.StartupException;
-import  org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PunishCoreStartupTests {
     
@@ -21,7 +19,7 @@ class PunishCoreStartupTests {
     void readyBooleanStartupTest() throws StartupException {
         PunishCore api = new PunishCore();
         api.startup();
-        Assertions.assertSame(SystemStatus.READY,api.status());
+        assertSame(SystemStatus.READY,api.status());
     }
     
     // test if the api is started up twice, it should throw an exception.
