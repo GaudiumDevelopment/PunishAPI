@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.tests.punishapitests;
+package me.superbiebel.punishapi.tests.punishcoretests;
 
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.SystemStatus;

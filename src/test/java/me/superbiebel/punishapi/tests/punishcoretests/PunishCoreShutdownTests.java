@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.tests.punishapitests;
+package me.superbiebel.punishapi.tests.punishcoretests;
 
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.api.PunishAPI;
@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PunishAPIShutdownTests {
+class PunishCoreShutdownTests {
     
     @Test
     @Execution(ExecutionMode.CONCURRENT)
