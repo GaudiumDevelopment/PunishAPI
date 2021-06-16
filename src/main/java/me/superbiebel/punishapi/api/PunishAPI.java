@@ -25,11 +25,7 @@ public class PunishAPI {
         core.shutdown();
     }
     public void kill() throws ShutDownException {
-        try {
-            core.kill();
-        } catch (Exception e) {
-            throw new ShutDownException(e);
-        }
+        core.kill();
     }
     public void addService(PunishAPI.ServiceType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         core.getDatamanager().addService(serviceType, service);

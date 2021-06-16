@@ -53,7 +53,7 @@ class DataManagerShutdownTests {
         datamanager.startup();
         datamanager.kill();
         for (int i = 1; i<=times;i++) {
-            assertThrows(IllegalStateException.class, datamanager::kill);
+            assertThrows(ShutDownException.class, datamanager::kill);
             assertSame(SystemStatus.KILLED,datamanager.status());
         }
     }
