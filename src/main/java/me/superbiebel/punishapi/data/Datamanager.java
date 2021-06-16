@@ -2,15 +2,18 @@ package me.superbiebel.punishapi.data;
 
 
 import me.superbiebel.punishapi.System;
-import me.superbiebel.punishapi.api.DataAPI;
+import me.superbiebel.punishapi.api.PunishAPI;
 import me.superbiebel.punishapi.data.services.Service;
+import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
+import me.superbiebel.punishapi.exceptions.ShutDownException;
+import me.superbiebel.punishapi.exceptions.StartupException;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Datamanager extends System {
     
-    private ConcurrentHashMap<DataAPI.ServiceType, Service> serviceRegistry;
+    private ConcurrentHashMap<PunishAPI.ServiceType, Service> serviceRegistry;
     //locked so threadsafe
     @Override
     public void onStartup(boolean force) {
@@ -39,18 +42,18 @@ public class Datamanager extends System {
         });
     }
     //thread safe becuz of specialised datatype
-    public void addService(DataAPI.ServiceType serviceType, Service service) throws Exception {
+    public void addService(PunishAPI.ServiceType serviceType, Service service) throws IllegalStateException, StartupException, ServiceAlreadyRegisteredException {
         if(serviceRegistry.containsKey(serviceType)) {
-            throw new IllegalStateException("Service was already registered");
+            throw new ServiceAlreadyRegisteredException("Service was already registered");
         }
         serviceRegistry.put(serviceType,service);
-            service.startup(false);
+        service.startup(false);
     }
     //thread safe becuz of specialised datatype
-    public void removeService(DataAPI.ServiceType serviceType, boolean kill) throws Exception {
+    public void removeService(PunishAPI.ServiceType serviceType, boolean kill) throws NullPointerException, ShutDownException {
         Service service = serviceRegistry.remove(serviceType);
         if (service == null) {
-            throw new IllegalArgumentException("Servicetype not found");
+            throw new NullPointerException("Servicetype not found");
         }
         if (kill) {
             service.kill();
@@ -59,7 +62,7 @@ public class Datamanager extends System {
         }
     }
     //thread safe becuz of specialised datatype
-    public Service getService(DataAPI.ServiceType serviceType) {
+    public Service getService(PunishAPI.ServiceType serviceType) {
         Service service = serviceRegistry.get(serviceType);
         if (service == null) {
             throw new IllegalArgumentException("Servicetype not found");

@@ -2,54 +2,59 @@ package me.superbiebel.punishapi.tests.datamanagertests;
 
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.data.Datamanager;
-import org.junit.jupiter.api.Assertions;
+import me.superbiebel.punishapi.exceptions.ShutDownException;
+
+import me.superbiebel.punishapi.exceptions.StartupException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class DataManagerShutdownTests {
     
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    void readyBooleanShutdownTestTest() {
+    void readyBooleanShutdownTestTest() throws ShutDownException, StartupException {
         Datamanager datamanager = new Datamanager();
         datamanager.startup();
         datamanager.shutdown();
-        Assertions.assertSame(SystemStatus.DOWN, datamanager.status());
+        assertSame(SystemStatus.DOWN, datamanager.status());
     }
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
-    void multipleShutdownTest(int times) {
+    void multipleShutdownTest(int times) throws ShutDownException, StartupException {
         Datamanager datamanager = new Datamanager();
         datamanager.startup();
         datamanager.shutdown();
         for (int i = 1; i<=times;i++) {
-            Assertions.assertThrows(IllegalStateException.class, datamanager::shutdown);
+            assertThrows(IllegalStateException.class, datamanager::shutdown);
         }
     }
     
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    void killTest() {
+    void killTest() throws StartupException {
         Datamanager datamanager = new Datamanager();
         datamanager.startup();
         datamanager.kill();
-        Assertions.assertSame(SystemStatus.KILLED,datamanager.status());
+        assertSame(SystemStatus.KILLED,datamanager.status());
     }
     
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
-    void multipleKilledShutdownTest(int times) {
+    void multipleKilledShutdownTest(int times) throws StartupException {
         Datamanager datamanager = new Datamanager();
         datamanager.startup();
         datamanager.kill();
         for (int i = 1; i<=times;i++) {
-            Assertions.assertThrows(IllegalStateException.class, datamanager::kill);
-            Assertions.assertSame(SystemStatus.KILLED,datamanager.status());
+            assertThrows(IllegalStateException.class, datamanager::kill);
+            assertSame(SystemStatus.KILLED,datamanager.status());
         }
     }
 }

@@ -1,6 +1,8 @@
 package me.superbiebel.punishapi;
 
 import lombok.Getter;
+import me.superbiebel.punishapi.exceptions.ShutDownException;
+import me.superbiebel.punishapi.exceptions.StartupException;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -13,7 +15,7 @@ public abstract class System {
     private SystemStatus status = SystemStatus.DOWN;
     
     //locked so threadsafe
-    public void startup(boolean force) {
+    public void startup(boolean force) throws StartupException{
         try {
             startupShutdownLock.lock();
             if (status == SystemStatus.STARTING_UP) {
@@ -29,23 +31,31 @@ public abstract class System {
             } else {
                 status = SystemStatus.READY;
             }
+        } catch (StartupException e) {
+            throw e;
+        } catch(Exception e) {
+            throw new StartupException(e);
         } finally {
             startupShutdownLock.unlock();
         }
     }
     //locked so threadsafe
-    public void startup() {
+    public void startup() throws StartupException{
         startup(false);
     }
     //locked so threadsafe
-    public void shutdown() {
+    public void shutdown() throws ShutDownException {
         try {
             startupShutdownLock.lock();
-            if (status==SystemStatus.DOWN || status==SystemStatus.KILLED) {
+            if (status == SystemStatus.DOWN || status == SystemStatus.KILLED) {
                 throw new IllegalStateException("System already shut down!");
             }
             onShutdown();
             status = SystemStatus.DOWN;
+        } catch (ShutDownException e) {
+            throw e;
+        } catch(Exception e) {
+            throw new ShutDownException(e);
         } finally {
             startupShutdownLock.unlock();
         }
@@ -73,7 +83,7 @@ public abstract class System {
     }
     
     
-    protected abstract void onStartup(boolean force);
-    protected abstract void onShutdown();
+    protected abstract void onStartup(boolean force) throws StartupException;
+    protected abstract void onShutdown() throws ShutDownException;
     protected abstract void onKill();
 }

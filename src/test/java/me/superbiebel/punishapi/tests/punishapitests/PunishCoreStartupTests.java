@@ -2,6 +2,7 @@ package me.superbiebel.punishapi.tests.punishapitests;
 
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.PunishCore;
+import me.superbiebel.punishapi.exceptions.StartupException;
 import  org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
@@ -14,7 +15,7 @@ class PunishCoreStartupTests {
     //test if the boolean is
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    void readyBooleanSartupTest() {
+    void readyBooleanSartupTest() throws StartupException {
         PunishCore api = new PunishCore();
         api.startup();
         Assertions.assertSame(SystemStatus.READY,api.status());
@@ -24,7 +25,7 @@ class PunishCoreStartupTests {
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
-    void multipleStartupTest(int times) {
+    void multipleStartupTest(int times) throws StartupException {
         PunishCore api = new PunishCore();
         api.startup();
         for (int i = 1; i<=times;i++) {
