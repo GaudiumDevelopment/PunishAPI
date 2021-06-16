@@ -1,4 +1,7 @@
 # PunishAPI
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/16fdc0ddfc364c73885cec00a54ec4fc)](https://app.codacy.com/gh/GaudiumDevelopment/PunishAPI?utm_source=github.com&utm_medium=referral&utm_content=GaudiumDevelopment/PunishAPI&utm_campaign=Badge_Grade_Settings)
+
 A framework that will help you issue, maintain and store punishments as well as taking away the bad human aspect in punishing people.
 ## See and report
 This is the concept behind the framework, a moderator only sees and reports the actions of the "criminal".
