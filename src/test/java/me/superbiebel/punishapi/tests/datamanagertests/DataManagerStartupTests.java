@@ -16,7 +16,7 @@ class DataManagerStartupTests {
     //test if the boolean is
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    void readyBooleanSartupTest() throws StartupException {
+    void readyBooleanStartupTest() throws StartupException {
         PunishCore api = new PunishCore();
         api.startup();
         assertSame(SystemStatus.READY, api.status());
