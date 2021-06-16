@@ -27,18 +27,18 @@ public class PunishAPI {
     public void kill() throws ShutDownException {
         core.kill();
     }
-    public void addService(PunishAPI.ServiceType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
-        core.getDatamanager().addService(serviceType, service);
+    public void addService(DataServiceType dataServiceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+        core.getDatamanager().addService(dataServiceType, service);
     }
     //thread safe
-    public void removeService(ServiceType serviceType,boolean kill) throws ShutDownException, ServiceNotFoundException {
-        core.getDatamanager().removeService(serviceType,kill);
+    public void removeService(DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+        core.getDatamanager().removeService(dataServiceType,kill);
     }
     public SystemStatus status() {
         return status;
     }
     
-    public enum ServiceType {
+    public enum DataServiceType {
         TEST
     }
 }

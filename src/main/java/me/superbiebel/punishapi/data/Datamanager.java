@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Datamanager extends System {
     
-    private ConcurrentHashMap<PunishAPI.ServiceType, Service> serviceRegistry;
+    private ConcurrentHashMap<PunishAPI.DataServiceType, Service> serviceRegistry;
     //locked so threadsafe
     @Override
     public void onStartup(boolean force) {
@@ -26,36 +26,36 @@ public class Datamanager extends System {
     //locked so threadsafe
     @Override
     public void onShutdown() {
-        serviceRegistry.keys().asIterator().forEachRemaining(serviceType -> {
+        serviceRegistry.keys().asIterator().forEachRemaining(dataServiceType -> {
             try {
-                removeService(serviceType, false);
+                removeService(dataServiceType, false);
             } catch (Exception e) {
-                LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", serviceType, e);
+                LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", dataServiceType, e);
             }
         });
     }
     //locked so threadsafe
     @Override
     public void onKill() {
-        serviceRegistry.keys().asIterator().forEachRemaining(serviceType -> {
+        serviceRegistry.keys().asIterator().forEachRemaining(dataServiceType -> {
             try {
-                removeService(serviceType, true);
+                removeService(dataServiceType, true);
             } catch (Exception e) {
-                LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", serviceType, e);
+                LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", dataServiceType, e);
             }
         });
     }
     //thread safe becuz of specialised datatype
-    public void addService(PunishAPI.ServiceType serviceType, Service service) throws IllegalStateException, StartupException, ServiceAlreadyRegisteredException {
-        if(serviceRegistry.containsKey(serviceType)) {
+    public void addService(PunishAPI.DataServiceType dataServiceType, Service service) throws IllegalStateException, StartupException, ServiceAlreadyRegisteredException {
+        if(serviceRegistry.containsKey(dataServiceType)) {
             throw new ServiceAlreadyRegisteredException("Service was already registered");
         }
-        serviceRegistry.put(serviceType,service);
+        serviceRegistry.put(dataServiceType,service);
         service.startup(false);
     }
     //thread safe becuz of specialised datatype
-    public void removeService(PunishAPI.ServiceType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        Service service = serviceRegistry.remove(serviceType);
+    public void removeService(PunishAPI.DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+        Service service = serviceRegistry.remove(dataServiceType);
         if (service == null) {
             throw new ServiceNotFoundException("Servicetype not found");
         }
@@ -66,8 +66,8 @@ public class Datamanager extends System {
         }
     }
     //thread safe becuz of specialised datatype
-    public Service getService(PunishAPI.ServiceType serviceType) {
-        Service service = serviceRegistry.get(serviceType);
+    public Service getService(PunishAPI.DataServiceType dataServiceType) {
+        Service service = serviceRegistry.get(dataServiceType);
         if (service == null) {
             throw new IllegalArgumentException("Servicetype not found");
         }
