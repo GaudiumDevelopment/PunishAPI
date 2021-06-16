@@ -37,7 +37,7 @@ class PunishCoreShutdownTests {
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
-    void multipleKilledShutdownTest(int times) throws StartupException {
+    void multipleKilledShutdownTest(int times) throws StartupException, ShutDownException {
         PunishCore core = new PunishCore();
         core.startup();
         core.kill();

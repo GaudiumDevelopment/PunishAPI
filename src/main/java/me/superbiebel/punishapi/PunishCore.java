@@ -12,17 +12,19 @@ public class PunishCore extends System {
     
     @Getter
     private Datamanager datamanager;
-    
+    @Override
     protected void onStartup(boolean forcedInit) throws StartupException {
         LogManager.getLogger().debug("Starting up PunishAPI");
         datamanager = new Datamanager();
         datamanager.startup();
     }
+    @Override
     protected void onShutdown() throws ShutDownException {
         LogManager.getLogger().debug("Shutting down PunishAPI");
         datamanager.shutdown();
     }
-    protected void onKill() {
+    @Override
+    protected void onKill() throws ShutDownException {
         LogManager.getLogger().debug("Killing PunishAPI");
         datamanager.kill();
     }

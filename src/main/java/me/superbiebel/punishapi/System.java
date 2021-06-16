@@ -61,17 +61,19 @@ public abstract class System {
         }
     }
     //locked so threadsafe
-    public void kill(){
+    public void kill() throws ShutDownException {
         try {
             startupShutdownLock.lock();
-            if (status==SystemStatus.KILLED) {
+            if (status == SystemStatus.KILLED) {
                 throw new IllegalStateException("System already killed!");
-            } else if (status==SystemStatus.DOWN) {
+            } else if (status == SystemStatus.DOWN) {
                 throw new IllegalStateException("System already shut down!");
             } else {
                 onKill();
                 status = SystemStatus.KILLED;
             }
+        } catch (Exception e) {
+            throw new ShutDownException(e);
         } finally {
             startupShutdownLock.unlock();
         }
@@ -84,5 +86,5 @@ public abstract class System {
     
     protected abstract void onStartup(boolean force) throws StartupException;
     protected abstract void onShutdown() throws ShutDownException;
-    protected abstract void onKill();
+    protected abstract void onKill() throws ShutDownException;
 }

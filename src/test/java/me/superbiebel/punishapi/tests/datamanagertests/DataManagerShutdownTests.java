@@ -38,7 +38,7 @@ class DataManagerShutdownTests {
     
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    void killTest() throws StartupException {
+    void killTest() throws StartupException, ShutDownException {
         Datamanager datamanager = new Datamanager();
         datamanager.startup();
         datamanager.kill();
@@ -48,7 +48,7 @@ class DataManagerShutdownTests {
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
-    void multipleKilledShutdownTest(int times) throws StartupException {
+    void multipleKilledShutdownTest(int times) throws StartupException, ShutDownException {
         Datamanager datamanager = new Datamanager();
         datamanager.startup();
         datamanager.kill();
