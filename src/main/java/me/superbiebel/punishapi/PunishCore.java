@@ -2,7 +2,6 @@ package me.superbiebel.punishapi;
 
 
 import lombok.Getter;
-import me.superbiebel.punishapi.api.PunishAPI;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
@@ -11,8 +10,6 @@ import org.apache.logging.log4j.LogManager;
 //multiple instances of this class can be created!
 public class PunishCore extends System {
     
-    @Getter
-    private PunishAPI punishAPI;
     @Getter
     private Datamanager datamanager;
     
