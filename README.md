@@ -1,3 +1,4 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/38ef6809463b46438854cbb43c176360)](https://www.codacy.com/gh/GaudiumDevelopment/PunishAPI/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=GaudiumDevelopment/PunishAPI&amp;utm_campaign=Badge_Grade)
 # PunishAPI
 A framework that will help you issue, maintain and store punishments as well as taking away the bad human aspect in punishing people.
 ## See and report
