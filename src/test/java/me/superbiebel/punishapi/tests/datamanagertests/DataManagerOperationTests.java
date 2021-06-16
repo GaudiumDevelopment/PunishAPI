@@ -17,6 +17,5 @@ class DataManagerOperationTests {
         punishAPI.getDatamanager().addService(DataAPI.ServiceType.TEST, service);
         Assertions.assertSame(service, punishAPI.getDatamanager().getService(DataAPI.ServiceType.TEST));
         TestServiceImpl serviceFromApi = (TestServiceImpl) punishAPI.getDatamanager().getService(DataAPI.ServiceType.TEST);
-        
     }
 }
