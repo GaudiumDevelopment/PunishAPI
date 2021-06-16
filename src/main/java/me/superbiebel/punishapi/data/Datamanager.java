@@ -12,6 +12,9 @@ import org.apache.logging.log4j.LogManager;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * FOR INTERNAL USE ONLY!!!!
+ */
 public class Datamanager extends System {
     
     private ConcurrentHashMap<PunishAPI.ServiceType, Service> serviceRegistry;
