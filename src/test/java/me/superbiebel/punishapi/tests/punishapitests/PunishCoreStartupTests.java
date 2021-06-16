@@ -10,6 +10,9 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class PunishCoreStartupTests {
     
     //test if the boolean is
@@ -29,7 +32,8 @@ class PunishCoreStartupTests {
         PunishCore api = new PunishCore();
         api.startup();
         for (int i = 1; i<=times;i++) {
-            Assertions.assertThrows(IllegalStateException.class, api::startup);
+            Throwable thrown = assertThrows(StartupException.class, api::startup);
+            assertEquals(IllegalStateException.class, thrown.getCause().getClass());
         }
     }
     

@@ -11,8 +11,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DataManagerShutdownTests {
     
@@ -32,7 +31,8 @@ class DataManagerShutdownTests {
         datamanager.startup();
         datamanager.shutdown();
         for (int i = 1; i<=times;i++) {
-            assertThrows(IllegalStateException.class, datamanager::shutdown);
+            Throwable thrown = assertThrows(ShutDownException.class, datamanager::shutdown);
+            assertEquals(IllegalStateException.class, thrown.getCause().getClass());
         }
     }
     

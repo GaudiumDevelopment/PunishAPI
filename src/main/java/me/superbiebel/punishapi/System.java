@@ -61,7 +61,7 @@ public abstract class System {
         }
     }
     //locked so threadsafe
-    public void kill() {
+    public void kill(){
         try {
             startupShutdownLock.lock();
             if (status==SystemStatus.KILLED) {
@@ -72,7 +72,6 @@ public abstract class System {
                 onKill();
                 status = SystemStatus.KILLED;
             }
-        
         } finally {
             startupShutdownLock.unlock();
         }

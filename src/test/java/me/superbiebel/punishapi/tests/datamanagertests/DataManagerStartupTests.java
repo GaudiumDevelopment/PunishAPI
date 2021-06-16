@@ -1,8 +1,7 @@
 package me.superbiebel.punishapi.tests.datamanagertests;
 
-import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.PunishCore;
-
+import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
@@ -10,8 +9,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DataManagerStartupTests {
     
@@ -32,7 +30,8 @@ class DataManagerStartupTests {
         PunishCore api = new PunishCore();
         api.startup();
         for (int i = 1; i<=times;i++) {
-            assertThrows(IllegalStateException.class, api::startup);
+            Throwable thrown = assertThrows(StartupException.class, api::startup);
+            assertEquals(IllegalStateException.class, thrown.getCause().getClass());
         }
     }
     

@@ -3,6 +3,7 @@ package me.superbiebel.punishapi.api;
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.data.services.Service;
+import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 
@@ -22,14 +23,18 @@ public class PunishAPI {
     public void shutdown() throws ShutDownException {
         core.shutdown();
     }
-    public void kill() {
-        core.kill();
+    public void kill() throws ShutDownException {
+        try {
+            core.kill();
+        } catch (Exception e) {
+            throw new ShutDownException(e);
+        }
     }
-    public void addService(PunishAPI.ServiceType serviceType, Service service) throws Exception {
+    public void addService(PunishAPI.ServiceType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         core.getDatamanager().addService(serviceType, service);
     }
     //thread safe
-    public void removeService(ServiceType serviceType,boolean kill) throws Exception {
+    public void removeService(ServiceType serviceType,boolean kill) throws ShutDownException {
         core.getDatamanager().removeService(serviceType,kill);
     }
     public SystemStatus status() {
