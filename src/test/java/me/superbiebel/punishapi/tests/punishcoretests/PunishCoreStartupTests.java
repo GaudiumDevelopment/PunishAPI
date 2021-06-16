@@ -17,9 +17,9 @@ class PunishCoreStartupTests {
     @Test
     @Execution(ExecutionMode.CONCURRENT)
     void readyBooleanStartupTest() throws StartupException {
-        PunishCore api = new PunishCore();
-        api.startup();
-        assertSame(SystemStatus.READY,api.status());
+        PunishCore core = new PunishCore();
+        core.startup();
+        assertSame(SystemStatus.READY, core.status());
     }
     
     // test if the api is started up twice, it should throw an exception.
@@ -27,10 +27,10 @@ class PunishCoreStartupTests {
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
     void multipleStartupTest(int times) throws StartupException {
-        PunishCore api = new PunishCore();
-        api.startup();
+        PunishCore core = new PunishCore();
+        core.startup();
         for (int i = 1; i<=times;i++) {
-            Throwable thrown = assertThrows(StartupException.class, api::startup);
+            Throwable thrown = assertThrows(StartupException.class, core::startup);
             assertEquals(IllegalStateException.class, thrown.getCause().getClass());
         }
     }
