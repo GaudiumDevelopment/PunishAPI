@@ -1,7 +1,7 @@
 package me.superbiebel.punishapi.tests.punishapitests;
 
 import me.superbiebel.punishapi.SystemStatus;
-import me.superbiebel.punishapi.api.PunishAPI;
+import me.superbiebel.punishapi.PunishCore;
 import  org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
@@ -9,13 +9,13 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class PunishAPIStartupTests {
+class PunishCoreStartupTests {
     
     //test if the boolean is
     @Test
     @Execution(ExecutionMode.CONCURRENT)
     void readyBooleanSartupTest() {
-        PunishAPI api = new PunishAPI();
+        PunishCore api = new PunishCore();
         api.startup();
         Assertions.assertSame(SystemStatus.READY,api.status());
     }
@@ -25,7 +25,7 @@ class PunishAPIStartupTests {
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
     void multipleStartupTest(int times) {
-        PunishAPI api = new PunishAPI();
+        PunishCore api = new PunishCore();
         api.startup();
         for (int i = 1; i<=times;i++) {
             Assertions.assertThrows(IllegalStateException.class, api::startup);

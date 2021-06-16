@@ -1,31 +1,16 @@
 package me.superbiebel.punishapi.api;
 
+import me.superbiebel.punishapi.PunishCore;
 
-import lombok.Getter;
-import me.superbiebel.punishapi.System;
-import me.superbiebel.punishapi.data.Datamanager;
-import org.apache.logging.log4j.LogManager;
-
-//multiple instances of this class can be created!
-public class PunishAPI extends System {
+public class PunishAPI {
     
-    @Getter
-    private DataAPI dataAPI;
-    @Getter
-    private Datamanager datamanager;
+    private PunishCore core;
     
-    public void onStartup(boolean forcedInit) {
-        LogManager.getLogger().debug("Starting up PunishAPI");
-        datamanager = new Datamanager();
-        datamanager.startup();
-        dataAPI = new DataAPI(this);
+    public void start() {
+        core = new PunishCore();
+        core.startup();
     }
-    public void onShutdown() {
-        LogManager.getLogger().debug("Shutting down PunishAPI");
-        datamanager.shutdown();
-    }
-    public void onKill() {
-        LogManager.getLogger().debug("Killing PunishAPI");
-        datamanager.kill();
+    public void shutdown() {
+        core.shutdown();
     }
 }

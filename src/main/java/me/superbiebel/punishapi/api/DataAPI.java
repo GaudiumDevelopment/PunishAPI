@@ -1,21 +1,22 @@
 package me.superbiebel.punishapi.api;
 
+import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.data.services.Service;
 
 public class DataAPI {
     
-    private final PunishAPI punishAPI;
+    private final PunishCore punishCore;
     
-    public DataAPI(PunishAPI punishAPI) {
-        this.punishAPI = punishAPI;
+    public DataAPI(PunishCore punishCore) {
+        this.punishCore = punishCore;
     }
     //thread safe
     public void addService(ServiceType serviceType, Service service) throws Exception {
-        punishAPI.getDatamanager().addService(serviceType, service);
+        punishCore.getDatamanager().addService(serviceType, service);
     }
     //thread safe
     public void removeService(ServiceType serviceType,boolean kill) throws Exception {
-        punishAPI.getDatamanager().removeService(serviceType,kill);
+        punishCore.getDatamanager().removeService(serviceType,kill);
     }
     
     
