@@ -18,7 +18,7 @@ class PunishAPIShutdownTests {
         PunishAPI api = new PunishAPI();
         api.startup();
         api.shutdown();
-        Assertions.assertNotSame(SystemStatus.READY, api.status());
+        Assertions.assertSame(SystemStatus.DOWN, api.status());
     }
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
