@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.tests.testObjects;
+package me.superbiebel.punishapi.tests.testobjects;
 
 import lombok.Getter;
 import me.superbiebel.punishapi.SystemStatus;

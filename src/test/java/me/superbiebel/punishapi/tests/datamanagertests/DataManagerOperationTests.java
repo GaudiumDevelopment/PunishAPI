@@ -3,7 +3,7 @@ package me.superbiebel.punishapi.tests.datamanagertests;
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.api.PunishAPI;
-import me.superbiebel.punishapi.tests.testObjects.TestServiceImpl;
+import me.superbiebel.punishapi.tests.testobjects.TestServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
