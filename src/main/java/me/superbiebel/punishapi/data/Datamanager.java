@@ -5,6 +5,7 @@ import me.superbiebel.punishapi.System;
 import me.superbiebel.punishapi.api.PunishAPI;
 import me.superbiebel.punishapi.data.services.Service;
 import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
+import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import org.apache.logging.log4j.LogManager;
@@ -50,10 +51,10 @@ public class Datamanager extends System {
         service.startup(false);
     }
     //thread safe becuz of specialised datatype
-    public void removeService(PunishAPI.ServiceType serviceType, boolean kill) throws NullPointerException, ShutDownException {
+    public void removeService(PunishAPI.ServiceType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         Service service = serviceRegistry.remove(serviceType);
         if (service == null) {
-            throw new NullPointerException("Servicetype not found");
+            throw new ServiceNotFoundException("Servicetype not found");
         }
         if (kill) {
             service.kill();

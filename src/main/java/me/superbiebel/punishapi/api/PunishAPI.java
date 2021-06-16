@@ -4,6 +4,7 @@ import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.data.services.Service;
 import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
+import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 
@@ -34,7 +35,7 @@ public class PunishAPI {
         core.getDatamanager().addService(serviceType, service);
     }
     //thread safe
-    public void removeService(ServiceType serviceType,boolean kill) throws ShutDownException {
+    public void removeService(ServiceType serviceType,boolean kill) throws ShutDownException, ServiceNotFoundException {
         core.getDatamanager().removeService(serviceType,kill);
     }
     public SystemStatus status() {
