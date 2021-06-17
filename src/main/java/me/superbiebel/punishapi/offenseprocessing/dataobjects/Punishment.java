@@ -8,11 +8,11 @@ import java.util.UUID;
 
 @Getter
 public class Punishment {
-    UUID uuid;
-    Map<String,String> attributes;
-    long startTime;
-    long originalDuration;
-    long duration;
-    boolean activated;
-    List<String> scopes;
+    private UUID uuid;
+    private Map<String,String> attributes;
+    private long startTime;
+    private long originalDuration;
+    private long duration;
+    private boolean activated;
+    private List<String> scopes;
 }
