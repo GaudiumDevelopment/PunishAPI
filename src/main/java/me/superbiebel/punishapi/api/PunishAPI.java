@@ -30,11 +30,11 @@ public class PunishAPI {
         core.kill();
     }
     public void addService(DataServiceType dataServiceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
-        core.getDatamanager().addService(dataServiceType, service);
+        core.getDatamanager().addDataService(dataServiceType, service);
     }
     //thread safe
     public void removeService(DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        core.getDatamanager().removeService(dataServiceType,kill);
+        core.getDatamanager().removeDataService(dataServiceType,kill);
     }
     public SystemStatus status() {
         return core.status();

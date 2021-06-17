@@ -17,9 +17,9 @@ class DataManagerOperationTests {
         TestServiceImpl service = new TestServiceImpl();
         PunishCore punishCore = new PunishCore();
         punishCore.startup();
-        punishCore.getDatamanager().addService(PunishAPI.DataServiceType.TEST, service);
-        assertSame(service, punishCore.getDatamanager().getService(PunishAPI.DataServiceType.TEST));
-        TestServiceImpl serviceFromApi = (TestServiceImpl) punishCore.getDatamanager().getService(PunishAPI.DataServiceType.TEST);
+        punishCore.getDatamanager().addDataService(PunishAPI.DataServiceType.TEST, service);
+        assertSame(service, punishCore.getDatamanager().getDataService(PunishAPI.DataServiceType.TEST));
+        TestServiceImpl serviceFromApi = (TestServiceImpl) punishCore.getDatamanager().getDataService(PunishAPI.DataServiceType.TEST);
         assertSame(SystemStatus.READY, serviceFromApi.status());
     }
 }

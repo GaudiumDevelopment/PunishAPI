@@ -1,6 +1,7 @@
 package me.superbiebel.punishapi.data;
 
 
+import lombok.Getter;
 import me.superbiebel.punishapi.System;
 import me.superbiebel.punishapi.api.PunishAPI;
 import me.superbiebel.punishapi.services.Service;
@@ -18,6 +19,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Datamanager extends System {
     
     private ConcurrentHashMap<PunishAPI.DataServiceType, Service> serviceRegistry;
+    @Getter
+    private static final int MAXSERVICECOUNT = 1;
+    
     //locked so threadsafe
     @Override
     public void onStartup(boolean force) {
@@ -28,7 +32,7 @@ public class Datamanager extends System {
     public void onShutdown() {
         serviceRegistry.keys().asIterator().forEachRemaining(dataServiceType -> {
             try {
-                removeService(dataServiceType, false);
+                removeDataService(dataServiceType, false);
             } catch (Exception e) {
                 LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", dataServiceType, e);
             }
@@ -39,14 +43,14 @@ public class Datamanager extends System {
     public void onKill() {
         serviceRegistry.keys().asIterator().forEachRemaining(dataServiceType -> {
             try {
-                removeService(dataServiceType, true);
+                removeDataService(dataServiceType, true);
             } catch (Exception e) {
                 LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", dataServiceType, e);
             }
         });
     }
     //thread safe becuz of specialised datatype
-    public void addService(PunishAPI.DataServiceType dataServiceType, Service service) throws IllegalStateException, StartupException, ServiceAlreadyRegisteredException {
+    public void addDataService(PunishAPI.DataServiceType dataServiceType, Service service) throws IllegalStateException, StartupException, ServiceAlreadyRegisteredException {
         if(serviceRegistry.containsKey(dataServiceType)) {
             throw new ServiceAlreadyRegisteredException("Service was already registered");
         }
@@ -54,7 +58,7 @@ public class Datamanager extends System {
         service.startup(false);
     }
     //thread safe becuz of specialised datatype
-    public void removeService(PunishAPI.DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+    public void removeDataService(PunishAPI.DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         Service service = serviceRegistry.remove(dataServiceType);
         if (service == null) {
             throw new ServiceNotFoundException("Servicetype not found");
@@ -66,11 +70,14 @@ public class Datamanager extends System {
         }
     }
     //thread safe becuz of specialised datatype
-    public Service getService(PunishAPI.DataServiceType dataServiceType) {
+    public Service getDataService(PunishAPI.DataServiceType dataServiceType) {
         Service service = serviceRegistry.get(dataServiceType);
         if (service == null) {
             throw new IllegalArgumentException("Servicetype not found");
         }
         return service;
+    }
+    public int serviceCount() {
+        return serviceRegistry.size();
     }
 }
