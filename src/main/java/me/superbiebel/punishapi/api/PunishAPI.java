@@ -16,8 +16,11 @@ public class PunishAPI {
     
     private PunishCore core;
     
-    public void startup() throws StartupException {
+    public PunishAPI() {
         core = new PunishCore();
+    }
+    
+    public void startup() throws StartupException {
         core.startup();
     }
     public void shutdown() throws ShutDownException {

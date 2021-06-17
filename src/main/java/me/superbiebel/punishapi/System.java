@@ -3,6 +3,7 @@ package me.superbiebel.punishapi;
 import lombok.Getter;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -17,11 +18,13 @@ public abstract class System {
     //locked so threadsafe
     public void startup(boolean force) throws StartupException{
         try {
+            LogManager.getLogger().debug("starting up system");
             startupShutdownLock.lock();
             if (status == SystemStatus.STARTING_UP) {
                 throw new IllegalStateException("Cannot start up while already starting up!");
             }
             if ((status == SystemStatus.READY || status == SystemStatus.FORCED_READY)&&!force) {
+                LogManager.getLogger().debug("System already ready, aborting...");
                     throw new IllegalStateException("System already started up!");
             }
             status = SystemStatus.STARTING_UP;
