@@ -14,7 +14,7 @@ import me.superbiebel.punishapi.exceptions.StartupException;
 
 public class PunishAPI {
     
-    private PunishCore core;
+    private final PunishCore core;
     
     public PunishAPI() {
         core = new PunishCore();
