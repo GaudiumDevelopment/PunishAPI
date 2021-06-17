@@ -20,6 +20,7 @@ public class PunishCore extends System {
         LogManager.getLogger().debug("Starting up PunishAPI");
         datamanager = new Datamanager();
         datamanager.startup();
+        offenseManager = new OffenseManager();
         offenseManager.startup();
     }
     @Override
