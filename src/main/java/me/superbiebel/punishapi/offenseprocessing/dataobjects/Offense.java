@@ -12,4 +12,11 @@ public class Offense {
     protected long timeregistered;
     protected Map<String,String> attributes;
     protected List<Punishment> linkedPunishments;
+    
+    public Offense(UUID uuid, long timeregistered, Map<String, String> attributes, List<Punishment> linkedPunishments) {
+        this.uuid = uuid;
+        this.timeregistered = timeregistered;
+        this.attributes = attributes;
+        this.linkedPunishments = linkedPunishments;
+    }
 }

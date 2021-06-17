@@ -8,6 +8,19 @@ import java.util.UUID;
 
 @Getter
 public class Punishment {
+    
+    public Punishment(UUID uuid, UUID offenseUUID, Map<String, String> attributes, long startTime, long originalDuration, long duration, boolean activated, List<String> scopes, List<PunishmentReduction> punishmentReductions) {
+        this.uuid = uuid;
+        this.offenseUUID = offenseUUID;
+        this.attributes = attributes;
+        this.startTime = startTime;
+        this.originalDuration = originalDuration;
+        this.duration = duration;
+        this.activated = activated;
+        this.scopes = scopes;
+        this.punishmentReductions = punishmentReductions;
+    }
+    
     protected UUID uuid;
     protected UUID offenseUUID;
     protected Map<String,String> attributes;
@@ -20,4 +33,6 @@ public class Punishment {
     
     
     protected List<PunishmentReduction> punishmentReductions;
+    
+    
 }

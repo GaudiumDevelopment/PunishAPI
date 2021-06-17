@@ -5,6 +5,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class EditablePunishment extends Punishment {
+    public EditablePunishment(UUID uuid, UUID offenseUUID, Map<String, String> attributes, long startTime, long originalDuration, long duration, boolean activated, List<String> scopes, List<PunishmentReduction> punishmentReductions) {
+        super(uuid, offenseUUID, attributes, startTime, originalDuration, duration, activated, scopes, punishmentReductions);
+    }
+    
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
