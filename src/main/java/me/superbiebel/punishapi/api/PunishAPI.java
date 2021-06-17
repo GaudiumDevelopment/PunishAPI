@@ -15,7 +15,6 @@ import me.superbiebel.punishapi.exceptions.StartupException;
 public class PunishAPI {
     
     private PunishCore core;
-    private SystemStatus status = SystemStatus.DOWN;
     
     public void startup() throws StartupException {
         core = new PunishCore();
@@ -35,7 +34,7 @@ public class PunishAPI {
         core.getDatamanager().removeService(dataServiceType,kill);
     }
     public SystemStatus status() {
-        return status;
+        return core.status();
     }
     
     public enum DataServiceType {
