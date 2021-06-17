@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.services.data;
+package me.superbiebel.punishapi.data.services;
 
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
 import me.superbiebel.punishapi.services.Service;

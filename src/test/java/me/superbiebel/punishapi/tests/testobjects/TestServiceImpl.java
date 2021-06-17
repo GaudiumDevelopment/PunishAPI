@@ -2,7 +2,7 @@ package me.superbiebel.punishapi.tests.testobjects;
 
 import lombok.Getter;
 import me.superbiebel.punishapi.SystemStatus;
-import me.superbiebel.punishapi.services.data.TestService;
+import me.superbiebel.punishapi.data.services.TestService;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
