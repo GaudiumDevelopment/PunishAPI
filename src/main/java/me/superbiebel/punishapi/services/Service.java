@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.data.services;
+package me.superbiebel.punishapi.services;
 
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
