@@ -15,10 +15,10 @@ public class DataAPI {
         this.core = core;
     }
     public void addService(Datamanager.DataServiceType dataServiceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
-        core.getDatamanager().addDataService(dataServiceType, service);
+        core.getDatamanager().addService(dataServiceType, service);
     }
     //thread safe
     public void removeService(Datamanager.DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        core.getDatamanager().removeDataService(dataServiceType,kill);
+        core.getDatamanager().removeService(dataServiceType,kill);
     }
 }

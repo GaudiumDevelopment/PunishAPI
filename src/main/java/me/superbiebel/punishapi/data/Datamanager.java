@@ -2,7 +2,7 @@ package me.superbiebel.punishapi.data;
 
 
 import lombok.Getter;
-import me.superbiebel.punishapi.System;
+import me.superbiebel.punishapi.abstractions.ServiceRegistry;
 import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * FOR INTERNAL USE ONLY!!!!
  */
-public class Datamanager extends System {
+public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     
     private ConcurrentHashMap<Datamanager.DataServiceType, Service> serviceRegistry;
     @Getter
@@ -31,7 +31,7 @@ public class Datamanager extends System {
     public void onShutdown() {
         serviceRegistry.keys().asIterator().forEachRemaining(dataServiceType -> {
             try {
-                removeDataService(dataServiceType, false);
+                this.removeService(dataServiceType, false);
             } catch (Exception e) {
                 LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", dataServiceType, e);
             }
@@ -42,31 +42,11 @@ public class Datamanager extends System {
     public void onKill() {
         serviceRegistry.keys().asIterator().forEachRemaining(dataServiceType -> {
             try {
-                removeDataService(dataServiceType, true);
+                this.removeService(dataServiceType, true);
             } catch (Exception e) {
                 LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", dataServiceType, e);
             }
         });
-    }
-    //thread safe becuz of specialised datatype
-    public void addDataService(Datamanager.DataServiceType dataServiceType, Service service) throws IllegalStateException, StartupException, ServiceAlreadyRegisteredException {
-        if(serviceRegistry.containsKey(dataServiceType)) {
-            throw new ServiceAlreadyRegisteredException("Service was already registered");
-        }
-        serviceRegistry.put(dataServiceType,service);
-        service.startup(false);
-    }
-    //thread safe becuz of specialised datatype
-    public void removeDataService(Datamanager.DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        Service service = serviceRegistry.remove(dataServiceType);
-        if (service == null) {
-            throw new ServiceNotFoundException("Servicetype not found");
-        }
-        if (kill) {
-            service.kill();
-        } else {
-            service.shutdown();
-        }
     }
     //thread safe becuz of specialised datatype
     public Service getDataService(Datamanager.DataServiceType dataServiceType) {
@@ -79,6 +59,37 @@ public class Datamanager extends System {
     public int serviceCount() {
         return serviceRegistry.size();
     }
+    
+    @Override
+    protected void onServiceAddedBegin(DataServiceType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+        //to be implemented if needed
+    }
+    
+    @Override
+    protected void onServiceAddedEnd(DataServiceType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+        //to be implemented if needed
+    }
+    
+    @Override
+    protected void onServiceRemovedBegin(DataServiceType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+        //to be implemented if needed
+    }
+    
+    @Override
+    protected void onServiceRemovedEnd(DataServiceType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+        //to be implemented if needed
+    }
+    
+    @Override
+    protected void onServiceRegistryEmptyingBegin(boolean kill) throws ShutDownException, ServiceNotFoundException {
+        //to be implemented if needed
+    }
+    
+    @Override
+    protected void onServiceRegistryEmptyingEnd(boolean kill) throws ShutDownException, ServiceNotFoundException {
+        //to be implemented if needed
+    }
+    
     public enum DataServiceType {
         TEST
     }

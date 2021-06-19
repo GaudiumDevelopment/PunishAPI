@@ -1,6 +1,7 @@
-package me.superbiebel.punishapi;
+package me.superbiebel.punishapi.abstractions;
 
 import lombok.Getter;
+import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import org.apache.logging.log4j.LogManager;

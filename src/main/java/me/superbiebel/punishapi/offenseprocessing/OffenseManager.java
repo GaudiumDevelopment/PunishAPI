@@ -1,6 +1,6 @@
 package me.superbiebel.punishapi.offenseprocessing;
 
-import me.superbiebel.punishapi.System;
+import me.superbiebel.punishapi.abstractions.System;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 

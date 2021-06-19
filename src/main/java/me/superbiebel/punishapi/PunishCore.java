@@ -2,6 +2,7 @@ package me.superbiebel.punishapi;
 
 
 import lombok.Getter;
+import me.superbiebel.punishapi.abstractions.System;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
