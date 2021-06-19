@@ -19,6 +19,6 @@ public class DataAPI {
     }
     //thread safe
     public void removeService(Datamanager.DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        core.getDatamanager().removeDataService(dataServiceType,kill);
+        core.getDatamanager().removeDataService(    dataServiceType,kill);
     }
 }
