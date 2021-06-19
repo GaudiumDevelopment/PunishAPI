@@ -10,38 +10,38 @@ public class EditablePunishment extends Punishment {
     }
     
     public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+        super.uuid = uuid;
     }
     
     public void setOffenseUUID(UUID offenseUUID) {
-        this.offenseUUID = offenseUUID;
+        super.offenseUUID = offenseUUID;
     }
     
     public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
+        super.attributes = attributes;
     }
     
     public void setStartTime(long startTime) {
-        this.startTime = startTime;
+        super.startTime = startTime;
     }
     
     public void setOriginalDuration(long originalDuration) {
-        this.originalDuration = originalDuration;
+        super.originalDuration = originalDuration;
     }
     
     public void setDuration(long duration) {
-        this.duration = duration;
+        super.duration = duration;
     }
     
     public void setActivated(boolean activated) {
-        this.activated = activated;
+        super.activated = activated;
     }
     
     public void setScopes(List<String> scopes) {
-        this.scopes = scopes;
+        super.scopes = scopes;
     }
     
     public void setPunishmentReductions(List<PunishmentReduction> punishmentReductions) {
-        this.punishmentReductions = punishmentReductions;
+        super.punishmentReductions = punishmentReductions;
     }
 }
