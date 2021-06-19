@@ -2,9 +2,6 @@ package me.superbiebel.punishapi.api;
 
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.SystemStatus;
-import me.superbiebel.punishapi.services.Service;
-import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
-import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 
@@ -29,18 +26,10 @@ public class PunishAPI {
     public void kill() throws ShutDownException {
         core.kill();
     }
-    public void addService(DataServiceType dataServiceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
-        core.getDatamanager().addDataService(dataServiceType, service);
-    }
-    //thread safe
-    public void removeService(DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        core.getDatamanager().removeDataService(dataServiceType,kill);
-    }
+    
     public SystemStatus status() {
         return core.status();
     }
     
-    public enum DataServiceType {
-        TEST
-    }
+    
 }
