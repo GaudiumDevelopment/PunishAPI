@@ -41,6 +41,13 @@ public abstract class ServiceRegistry<T extends Enum<T>> extends System {
         serviceRegistryMap.put(serviceType,service);
         service.startup(false);
     }
+    public Service getService(T serviceType) throws ServiceNotFoundException {
+        Service service = serviceRegistryMap.get(serviceType);
+        if (service == null) {
+            throw new ServiceNotFoundException("Servicetype not found");
+        }
+        return service;
+    }
     public void removeService(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         Service service = serviceRegistryMap.remove(serviceType);
         if (service == null) {
@@ -55,7 +62,7 @@ public abstract class ServiceRegistry<T extends Enum<T>> extends System {
     public void emptyServiceRegistry(boolean kill) throws ShutDownException, ServiceNotFoundException {
         serviceRegistryMap.keys().asIterator().forEachRemaining(dataServiceType -> {
             try {
-                this.removeService(dataServiceType, true);
+                this.removeService(dataServiceType, kill);
             } catch (Exception e) {
                 LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", dataServiceType, e);
             }

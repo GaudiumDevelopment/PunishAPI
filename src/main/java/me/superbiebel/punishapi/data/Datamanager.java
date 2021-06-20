@@ -24,12 +24,10 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
         super(new ConcurrentHashMap<>());
     }
     
-    //locked so threadsafe
     @Override
     public void onServiceRegistryStartup(boolean force) {
         //to be implemented if needed
     }
-    //locked so threadsafe
     @Override
     public void onServiceRegistryShutdown() {
         serviceRegistryMap.keys().asIterator().forEachRemaining(dataServiceType -> {
@@ -40,18 +38,10 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
             }
         });
     }
-    //locked so threadsafe
     @Override
     public void onServiceRegistryKill() {
-        serviceRegistryMap.keys().asIterator().forEachRemaining(dataServiceType -> {
-            try {
-                this.removeService(dataServiceType, true);
-            } catch (Exception e) {
-                LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", dataServiceType, e);
-            }
-        });
+    
     }
-    //thread safe becuz of specialised datatype
     public Service getDataService(Datamanager.DataServiceType dataServiceType) {
         Service service = serviceRegistryMap.get(dataServiceType);
         if (service == null) {
