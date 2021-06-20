@@ -18,7 +18,7 @@ It takes some external parameters like the age of A which it can fetch from an e
 -  A may not come near B (punishment nr2)
 
 PunishAPI registers and stores the whole thing and everyone goes on with their lives. There may be an automated system (system D) in place which can detect if A comes close to B. 
-System D will ask PunishAPI if A can come in the vicinity of B. If punishAPI says no then D will trigger an offense.
+System D will ask PunishAPI if A can come in the vicinity of B. If punishAPI says no then D will trigger an offense. (System D is NOT included in PunishAPI)
 
 In this example, moderator C may be as agitated as possible on A, the punishment will be chosen by your settings/script, not by the mood of C. 
 Errors are not possible as PunishAPi will follow your settings/script to the letter. 
