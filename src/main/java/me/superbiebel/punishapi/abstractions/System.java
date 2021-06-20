@@ -86,6 +86,9 @@ public abstract class System {
     public SystemStatus status() {
         return status;
     }
+    public boolean canInteract() {
+        return status.equals(SystemStatus.READY) || status.equals(SystemStatus.FORCED_READY);
+    }
     
     
     protected abstract void onStartup(boolean force) throws StartupException;
