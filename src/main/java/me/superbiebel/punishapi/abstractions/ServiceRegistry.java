@@ -11,7 +11,28 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class ServiceRegistry<T extends Enum<T>> extends System {
     
-    private ConcurrentHashMap<T, Service> serviceRegistryMap;
+    protected final ConcurrentHashMap<T, Service> serviceRegistryMap;
+    
+    protected ServiceRegistry(ConcurrentHashMap<T, Service> serviceRegistryMap) {
+        this.serviceRegistryMap = serviceRegistryMap;
+    }
+    @Override
+    protected void onStartup(boolean force) throws StartupException {
+    
+    }
+    
+    @Override
+    protected void onShutdown() throws ShutDownException {
+    
+    }
+    
+    @Override
+    protected void onKill() throws ShutDownException {
+    
+    }
+    public abstract void onServiceRegistryStartup(boolean force) throws StartupException;
+    public abstract void onServiceRegistryShutdown() throws ShutDownException;
+    public abstract void onServiceRegistryKill() throws ShutDownException;
     
     public void addService(T serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         if(serviceRegistryMap.containsKey(serviceType)) {
@@ -40,12 +61,18 @@ public abstract class ServiceRegistry<T extends Enum<T>> extends System {
             }
         });
     }
+    
+    /**
+     * Begin = before the service is started up/shutdown/killed
+     * End = after the service is started up/shutdown/killed
+     */
+    
+    
+    
     protected abstract void onServiceAddedBegin(T serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException;
     protected abstract void onServiceAddedEnd(T serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException;
     protected abstract void onServiceRemovedBegin(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException;
     protected abstract void onServiceRemovedEnd(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException;
     protected abstract void onServiceRegistryEmptyingBegin(boolean kill) throws ShutDownException, ServiceNotFoundException;
     protected abstract void onServiceRegistryEmptyingEnd(boolean kill) throws ShutDownException, ServiceNotFoundException;
-    
-    
 }
