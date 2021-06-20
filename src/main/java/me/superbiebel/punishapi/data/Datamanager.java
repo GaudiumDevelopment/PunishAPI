@@ -40,7 +40,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     }
     @Override
     public void onServiceRegistryKill() {
-    
+        //to be implemented if needed
     }
     public Service getDataService(Datamanager.DataServiceType dataServiceType) {
         Service service = serviceRegistryMap.get(dataServiceType);

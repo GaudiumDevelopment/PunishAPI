@@ -59,7 +59,7 @@ public abstract class ServiceRegistry<T extends Enum<T>> extends System {
             service.shutdown();
         }
     }
-    public void emptyServiceRegistry(boolean kill) throws ShutDownException, ServiceNotFoundException {
+    public void emptyServiceRegistry(boolean kill) {
         serviceRegistryMap.keys().asIterator().forEachRemaining(dataServiceType -> {
             try {
                 this.removeService(dataServiceType, kill);
