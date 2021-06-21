@@ -18,17 +18,17 @@ public abstract class ServiceRegistry<T extends Enum<T>> extends System {
     }
     @Override
     protected void onStartup(boolean force) throws StartupException {
-    
+        onServiceRegistryStartup(force);
     }
     
     @Override
     protected void onShutdown() throws ShutDownException {
-    
+        onServiceRegistryShutdown();
     }
     
     @Override
     protected void onKill() throws ShutDownException {
-    
+        onServiceRegistryKill();
     }
     public abstract void onServiceRegistryStartup(boolean force) throws StartupException;
     public abstract void onServiceRegistryShutdown() throws ShutDownException;
@@ -38,8 +38,11 @@ public abstract class ServiceRegistry<T extends Enum<T>> extends System {
         if(serviceRegistryMap.containsKey(serviceType)) {
             throw new ServiceAlreadyRegisteredException("Service was already registered");
         }
+        onServiceAddedBegin(serviceType, service);
         serviceRegistryMap.put(serviceType,service);
+        onServiceAddedMiddle(serviceType, service);
         service.startup(false);
+        onServiceAddedEnd(serviceType,service);
     }
     public Service getService(T serviceType) throws ServiceNotFoundException {
         Service service = serviceRegistryMap.get(serviceType);
@@ -49,14 +52,18 @@ public abstract class ServiceRegistry<T extends Enum<T>> extends System {
         return service;
     }
     public void removeService(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        Service service = serviceRegistryMap.remove(serviceType);
-        if (service == null) {
+        if (serviceRegistryMap.containsKey(serviceType)) {
             throw new ServiceNotFoundException("Servicetype not found");
         }
+        onServiceRemovedBegin(serviceType, kill);
+        Service service = serviceRegistryMap.remove(serviceType);
+        onServiceRemovedMiddle(serviceType, kill);
         if (kill) {
             service.kill();
+            onServiceRemovedEnd(serviceType,kill);
         } else {
             service.shutdown();
+            onServiceRemovedEnd(serviceType,kill);
         }
     }
     public void emptyServiceRegistry(boolean kill) {
@@ -70,15 +77,16 @@ public abstract class ServiceRegistry<T extends Enum<T>> extends System {
     }
     
     /**
-     * Begin = before the service is started up/shutdown/killed
+     * Begin = before the service is started up/shutdown/killed and before put into Map
+     * middle = before the service is started up/shutdown/killed but after put/removed into/from Map
      * End = after the service is started up/shutdown/killed
      */
-    
-    
-    
     protected abstract void onServiceAddedBegin(T serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException;
+    protected abstract void onServiceAddedMiddle(T serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException;
+    
     protected abstract void onServiceAddedEnd(T serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException;
     protected abstract void onServiceRemovedBegin(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException;
+    protected abstract void onServiceRemovedMiddle(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException;
     protected abstract void onServiceRemovedEnd(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException;
     protected abstract void onServiceRegistryEmptyingBegin(boolean kill) throws ShutDownException, ServiceNotFoundException;
     protected abstract void onServiceRegistryEmptyingEnd(boolean kill) throws ShutDownException, ServiceNotFoundException;

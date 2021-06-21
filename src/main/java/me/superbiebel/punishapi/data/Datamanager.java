@@ -59,12 +59,22 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     }
     
     @Override
+    protected void onServiceAddedMiddle(DataServiceType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+        //to be implemented if needed
+    }
+    
+    @Override
     protected void onServiceAddedEnd(DataServiceType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         //to be implemented if needed
     }
     
     @Override
     protected void onServiceRemovedBegin(DataServiceType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+        //to be implemented if needed
+    }
+    
+    @Override
+    protected void onServiceRemovedMiddle(DataServiceType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         //to be implemented if needed
     }
     
