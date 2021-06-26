@@ -17,19 +17,20 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     
-    private ConcurrentHashMap<Datamanager.DataServiceType, Service> serviceRegistry;
     @Getter
     private static final int MAXSERVICECOUNT = 1;
     
-    //locked so threadsafe
-    @Override
-    public void onStartup(boolean force) {
-        serviceRegistry = new ConcurrentHashMap<>();
+    public Datamanager() {
+        super(new ConcurrentHashMap<>());
     }
-    //locked so threadsafe
+    
     @Override
-    public void onShutdown() {
-        serviceRegistry.keys().asIterator().forEachRemaining(dataServiceType -> {
+    public void onServiceRegistryStartup(boolean force) {
+        //to be implemented if needed
+    }
+    @Override
+    public void onServiceRegistryShutdown() {
+        serviceRegistryMap.keys().asIterator().forEachRemaining(dataServiceType -> {
             try {
                 this.removeService(dataServiceType, false);
             } catch (Exception e) {
@@ -37,31 +38,28 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
             }
         });
     }
-    //locked so threadsafe
     @Override
-    public void onKill() {
-        serviceRegistry.keys().asIterator().forEachRemaining(dataServiceType -> {
-            try {
-                this.removeService(dataServiceType, true);
-            } catch (Exception e) {
-                LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", dataServiceType, e);
-            }
-        });
+    public void onServiceRegistryKill() {
+        //to be implemented if needed
     }
-    //thread safe becuz of specialised datatype
     public Service getDataService(Datamanager.DataServiceType dataServiceType) {
-        Service service = serviceRegistry.get(dataServiceType);
+        Service service = serviceRegistryMap.get(dataServiceType);
         if (service == null) {
             throw new IllegalArgumentException("Servicetype not found");
         }
         return service;
     }
     public int serviceCount() {
-        return serviceRegistry.size();
+        return serviceRegistryMap.size();
     }
     
     @Override
     protected void onServiceAddedBegin(DataServiceType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+        //to be implemented if needed
+    }
+    
+    @Override
+    protected void onServiceAddedMiddle(DataServiceType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         //to be implemented if needed
     }
     
@@ -72,6 +70,11 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     
     @Override
     protected void onServiceRemovedBegin(DataServiceType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+        //to be implemented if needed
+    }
+    
+    @Override
+    protected void onServiceRemovedMiddle(DataServiceType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         //to be implemented if needed
     }
     

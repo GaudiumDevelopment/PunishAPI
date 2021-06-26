@@ -6,6 +6,7 @@ import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import org.apache.logging.log4j.LogManager;
 
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -14,26 +15,26 @@ public abstract class System {
     private final Lock startupShutdownLock = new ReentrantLock(true);
     
     @Getter
-    private SystemStatus status = SystemStatus.DOWN;
+    private AtomicReference<SystemStatus> atomicstatus = new AtomicReference<>();
     
     //locked so threadsafe
     public void startup(boolean force) throws StartupException{
         try {
             LogManager.getLogger().debug("starting up system");
             startupShutdownLock.lock();
-            if (status == SystemStatus.STARTING_UP) {
+            if (atomicstatus.get() == SystemStatus.STARTING_UP) {
                 throw new IllegalStateException("Cannot start up while already starting up!");
             }
-            if ((status == SystemStatus.READY || status == SystemStatus.FORCED_READY)&&!force) {
+            if ((atomicstatus.get() == SystemStatus.READY || atomicstatus.get() == SystemStatus.FORCED_READY)&&!force) {
                 LogManager.getLogger().debug("System already ready, aborting...");
                     throw new IllegalStateException("System already started up!");
             }
-            status = SystemStatus.STARTING_UP;
+           atomicstatus.set(SystemStatus.STARTING_UP);
             onStartup(force);
             if (force) {
-                status = SystemStatus.FORCED_READY;
+               atomicstatus.set(SystemStatus.FORCED_READY);
             } else {
-                status = SystemStatus.READY;
+               atomicstatus.set(SystemStatus.READY);
             }
         } catch (StartupException e) {
             throw e;
@@ -51,11 +52,11 @@ public abstract class System {
     public void shutdown() throws ShutDownException {
         try {
             startupShutdownLock.lock();
-            if (status == SystemStatus.DOWN || status == SystemStatus.KILLED) {
+            if (atomicstatus.get() == SystemStatus.DOWN || atomicstatus.get() == SystemStatus.KILLED) {
                 throw new IllegalStateException("System already shut down!");
             }
             onShutdown();
-            status = SystemStatus.DOWN;
+           atomicstatus.set(SystemStatus.DOWN);
         } catch (ShutDownException e) {
             throw e;
         } catch(Exception e) {
@@ -68,13 +69,13 @@ public abstract class System {
     public void kill() throws ShutDownException {
         try {
             startupShutdownLock.lock();
-            if (status == SystemStatus.KILLED) {
+            if (atomicstatus.get() == SystemStatus.KILLED) {
                 throw new IllegalStateException("System already killed!");
-            } else if (status == SystemStatus.DOWN) {
+            } else if (atomicstatus.get() == SystemStatus.DOWN) {
                 throw new IllegalStateException("System already shut down!");
             } else {
                 onKill();
-                status = SystemStatus.KILLED;
+               atomicstatus.set(SystemStatus.KILLED);
             }
         } catch (Exception e) {
             throw new ShutDownException(e);
@@ -84,7 +85,10 @@ public abstract class System {
     }
     
     public SystemStatus status() {
-        return status;
+        return atomicstatus.get();
+    }
+    public boolean canInteract() {
+        return atomicstatus.get().equals(SystemStatus.READY) || atomicstatus.get().equals(SystemStatus.FORCED_READY);
     }
     
     
