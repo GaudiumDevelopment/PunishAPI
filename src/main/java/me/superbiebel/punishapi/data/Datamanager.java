@@ -42,13 +42,6 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     public void onServiceRegistryKill() {
         //to be implemented if needed
     }
-    public Service getDataService(Datamanager.DataServiceType dataServiceType) {
-        Service service = serviceRegistryMap.get(dataServiceType);
-        if (service == null) {
-            throw new IllegalArgumentException("Servicetype not found");
-        }
-        return service;
-    }
     public int serviceCount() {
         return serviceRegistryMap.size();
     }
