@@ -45,8 +45,16 @@ public abstract class ServiceRegistry<T extends Enum<T>> extends System {
         onServiceAddedEnd(serviceType,service);
     }
     
+    public Service getService(T serviceType) throws ServiceNotFoundException {
+        Service returnedService = serviceRegistryMap.get(serviceType);
+        if (returnedService == null) {
+            throw new ServiceNotFoundException();
+        }
+        return returnedService;
+    }
+    
     public Service removeService(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        if (serviceRegistryMap.containsKey(serviceType)) {
+        if (!serviceRegistryMap.containsKey(serviceType)) {
             throw new ServiceNotFoundException("Servicetype not found");
         }
         onServiceRemovedBegin(serviceType, kill);
