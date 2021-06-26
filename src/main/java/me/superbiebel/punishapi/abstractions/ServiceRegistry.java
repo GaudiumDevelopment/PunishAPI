@@ -5,8 +5,8 @@ import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import me.superbiebel.punishapi.services.Service;
-import org.apache.logging.log4j.LogManager;
 
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class ServiceRegistry<T extends Enum<T>> extends System {
@@ -20,7 +20,7 @@ public abstract class ServiceRegistry<T extends Enum<T>> extends System {
         serviceRegistryMap.put(serviceType,service);
         service.startup(false);
     }
-    public void removeService(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+    public Service removeService(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         Service service = serviceRegistryMap.remove(serviceType);
         if (service == null) {
             throw new ServiceNotFoundException("Servicetype not found");
@@ -30,15 +30,13 @@ public abstract class ServiceRegistry<T extends Enum<T>> extends System {
         } else {
             service.shutdown();
         }
+        return service;
     }
     public void emptyServiceRegistry(boolean kill) throws ShutDownException, ServiceNotFoundException {
-        serviceRegistryMap.keys().asIterator().forEachRemaining(dataServiceType -> {
-            try {
-                this.removeService(dataServiceType, true);
-            } catch (Exception e) {
-                LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", dataServiceType, e);
-            }
-        });
+        for (Iterator<T> it = serviceRegistryMap.keys().asIterator(); it.hasNext(); ) {
+            T serviceType = it.next();
+            this.removeService(serviceType, kill);
+        }
     }
     protected abstract void onServiceAddedBegin(T serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException;
     protected abstract void onServiceAddedEnd(T serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException;
