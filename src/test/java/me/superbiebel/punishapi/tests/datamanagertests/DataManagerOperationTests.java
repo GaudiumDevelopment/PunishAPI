@@ -38,4 +38,13 @@ class DataManagerOperationTests {
         TestServiceImpl removedService = (TestServiceImpl) punishCore.getDatamanager().removeService(Datamanager.DataServiceType.TEST, kill);
         assertEquals(removedService.getStatus().get(), kill ? SystemStatus.KILLED : SystemStatus.DOWN);
     }
+    @Test
+    void getService() throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException {
+        TestServiceImpl service = new TestServiceImpl();
+        PunishCore punishCore = new PunishCore();
+        punishCore.startup();
+        punishCore.getDatamanager().addService(Datamanager.DataServiceType.TEST, service);
+        punishCore.getDatamanager().getService(Datamanager.DataServiceType.TEST);
+        assertSame(service, punishCore.getDatamanager().getService(Datamanager.DataServiceType.TEST));
+    }
 }
