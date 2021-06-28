@@ -10,14 +10,18 @@ import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import me.superbiebel.punishapi.tests.testobjects.TestServiceImpl;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DataAPIOperationTests {
     
     @Test
+    @Execution(ExecutionMode.CONCURRENT)
     void addServiceTest() throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException {
         
         PunishCore core = new PunishCore();
@@ -33,6 +37,7 @@ class DataAPIOperationTests {
     }
     @ParameterizedTest
     @ValueSource(ints = {2,3,4,5})
+    @Execution(ExecutionMode.CONCURRENT)
     void addMultipleServiceTest(int times) throws StartupException, ServiceNotFoundException, ServiceAlreadyRegisteredException {
         
         PunishCore core = new PunishCore();
@@ -50,6 +55,7 @@ class DataAPIOperationTests {
         assertSame(SystemStatus.READY,core.getDatamanager().getService(Datamanager.DataServiceType.TEST).status());
     }
     @Test
+    @Execution(ExecutionMode.CONCURRENT)
     void getServiceTest() throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException {
         PunishCore core = new PunishCore();
     
@@ -63,6 +69,7 @@ class DataAPIOperationTests {
     }
     @ParameterizedTest
     @ValueSource(booleans = {false, true})
+    @Execution(ExecutionMode.CONCURRENT)
     void removeServiceTest(boolean kill) throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException, ShutDownException {
         PunishCore core = new PunishCore();
     
@@ -76,6 +83,7 @@ class DataAPIOperationTests {
     }
     @ParameterizedTest
     @ValueSource(ints = {2,3,4,5})
+    @Execution(ExecutionMode.CONCURRENT)
     void removeMultipleServiceTest(int times) throws StartupException, ServiceNotFoundException, ServiceAlreadyRegisteredException, ShutDownException {
         
         PunishCore core = new PunishCore();
