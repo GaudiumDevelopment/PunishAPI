@@ -1,5 +1,6 @@
 package me.superbiebel.punishapi.api;
 
+import lombok.Getter;
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
@@ -12,9 +13,17 @@ import me.superbiebel.punishapi.exceptions.StartupException;
 public class PunishAPI {
     
     private final PunishCore core;
+    @Getter
+    private final DataAPI dataAPI;
     
     public PunishAPI() {
         core = new PunishCore();
+        dataAPI = new DataAPI(core);
+    }
+    
+    public PunishAPI(PunishCore core) {
+        this.core = core;
+        dataAPI = new DataAPI(core);
     }
     
     public void startup() throws StartupException {

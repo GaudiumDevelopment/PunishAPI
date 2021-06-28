@@ -7,6 +7,7 @@ import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import me.superbiebel.punishapi.services.Service;
+import org.jetbrains.annotations.Nullable;
 
 public class DataAPI {
     private final PunishCore core;
@@ -17,8 +18,11 @@ public class DataAPI {
     public void addService(Datamanager.DataServiceType dataServiceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         core.getDatamanager().addService(dataServiceType, service);
     }
-    //thread safe
-    public void removeService(Datamanager.DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        core.getDatamanager().removeService(dataServiceType,kill);
+    @Nullable
+    public Service removeService(Datamanager.DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+        return core.getDatamanager().removeService(dataServiceType,kill);
+    }
+    public Service getService(Datamanager.DataServiceType dataServiceType) throws ServiceNotFoundException {
+        return core.getDatamanager().getService(dataServiceType);
     }
 }

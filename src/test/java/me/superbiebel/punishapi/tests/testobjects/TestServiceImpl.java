@@ -6,6 +6,7 @@ import me.superbiebel.punishapi.data.services.TestService;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
@@ -91,7 +92,7 @@ public class TestServiceImpl implements TestService {
     }
     
     @Override
-    public SystemStatus status() {
+    public @NotNull SystemStatus status() {
         return status.get();
     }
     
