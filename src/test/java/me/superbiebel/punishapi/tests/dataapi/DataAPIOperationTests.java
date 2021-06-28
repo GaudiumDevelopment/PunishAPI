@@ -74,4 +74,21 @@ class DataAPIOperationTests {
         
         assertSame(kill ? SystemStatus.KILLED : SystemStatus.DOWN, api.getDataAPI().removeService(Datamanager.DataServiceType.TEST,kill).status());
     }
+    @ParameterizedTest
+    @ValueSource(ints = {2,3,4,5})
+    void removeMultipleServiceTest(int times) throws StartupException, ServiceNotFoundException, ServiceAlreadyRegisteredException, ShutDownException {
+        
+        PunishCore core = new PunishCore();
+        
+        PunishAPI api = new PunishAPI(core);
+        api.startup();
+        
+        TestServiceImpl testService = new TestServiceImpl();
+        api.getDataAPI().addService(Datamanager.DataServiceType.TEST,testService);
+        api.getDataAPI().removeService(Datamanager.DataServiceType.TEST,false);
+        
+        for (int i = 1; i<=times;i++) {
+            assertThrows(ServiceNotFoundException.class, ()->api.getDataAPI().removeService(Datamanager.DataServiceType.TEST,false));
+        }
+    }
 }
