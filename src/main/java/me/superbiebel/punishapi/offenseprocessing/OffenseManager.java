@@ -9,7 +9,7 @@ import me.superbiebel.punishapi.services.Service;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class OffenseManager extends ServiceRegistry<OffenseManager.offenseProcessorType> {
+public class OffenseManager extends ServiceRegistry<OffenseManager.OffenseProcessorType> {
     public OffenseManager() {
         super(new ConcurrentHashMap<>());
     }
@@ -40,36 +40,36 @@ public class OffenseManager extends ServiceRegistry<OffenseManager.offenseProces
     }
     
     @Override
-    protected void onServiceRemovedEnd(offenseProcessorType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+    protected void onServiceRemovedEnd(OffenseProcessorType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         //implement if needed
     }
     
     @Override
-    protected void onServiceRemovedMiddle(offenseProcessorType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+    protected void onServiceRemovedMiddle(OffenseProcessorType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         //implement if needed
     }
     
     @Override
-    protected void onServiceRemovedBegin(offenseProcessorType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+    protected void onServiceRemovedBegin(OffenseProcessorType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         //implement if needed
     }
     
     @Override
-    protected void onServiceAddedEnd(offenseProcessorType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+    protected void onServiceAddedEnd(OffenseProcessorType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         //implement if needed
     }
     
     @Override
-    protected void onServiceAddedMiddle(offenseProcessorType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+    protected void onServiceAddedMiddle(OffenseProcessorType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         //implement if needed
     }
     
     @Override
-    protected void onServiceAddedBegin(offenseProcessorType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+    protected void onServiceAddedBegin(OffenseProcessorType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         //implement if needed
     }
     
-    public enum offenseProcessorType {
+    public enum OffenseProcessorType {
         TEST, COMMAND
     }
 }

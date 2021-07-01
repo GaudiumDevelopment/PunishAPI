@@ -15,10 +15,10 @@ public class OffenseAPI {
         this.core = core;
     }
     
-    public void addService(OffenseManager.offenseProcessorType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+    public void addService(OffenseManager.OffenseProcessorType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         core.getOffenseManager().addService(serviceType, service);
     }
-    public void removeService(OffenseManager.offenseProcessorType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+    public void removeService(OffenseManager.OffenseProcessorType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         core.getOffenseManager().removeService(serviceType,kill);
     }
     public void createOffense(int offenseId) {
