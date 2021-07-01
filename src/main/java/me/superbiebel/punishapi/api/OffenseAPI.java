@@ -21,4 +21,10 @@ public class OffenseAPI {
     public void removeService(OffenseManager.offenseProcessorType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         core.getOffenseManager().removeService(serviceType,kill);
     }
+    public void createOffense(int offenseId) {
+        throw new UnsupportedOperationException("Coming soon!");
+    }
+    public void deleteOffense(int offenseID) {
+        throw new UnsupportedOperationException("Coming soon!");
+    }
 }

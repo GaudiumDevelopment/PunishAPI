@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     
     @Getter
-    private static final int MAXSERVICECOUNT = 1;
+    private static final int MAXSERVICECOUNT = 2;
     
     public Datamanager() {
         super(new ConcurrentHashMap<>());
