@@ -1,23 +1,27 @@
 package me.superbiebel.punishapi.offenseprocessing;
 
 import me.superbiebel.punishapi.abstractions.ServiceRegistry;
-import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
-import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
-import me.superbiebel.punishapi.exceptions.ShutDownException;
-import me.superbiebel.punishapi.exceptions.StartupException;
+import me.superbiebel.punishapi.exceptions.*;
+import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.services.Service;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class OffenseManager extends ServiceRegistry<OffenseManager.OffenseProcessorType> {
+public class OffenseManager extends ServiceRegistry<String> {
     public OffenseManager() {
         super(new ConcurrentHashMap<>());
     }
     
     
-    public enum OffenseProcessorType {
-        TEST, COMMAND
+    public void submitOffense(OffenseProcessingRequest offenseProcessingRequest) throws FailedServiceOperationException {
+        throw new UnsupportedOperationException("Coming soon!");
     }
+    public void submitOffense(OffenseProcessingRequest[] offenseProcessingRequest) throws FailedServiceOperationException {
+        throw new UnsupportedOperationException("Coming soon!");
+    }
+    
+    
+    
     
     @Override
     public void onServiceRegistryStartup(boolean force) throws StartupException {
@@ -35,42 +39,42 @@ public class OffenseManager extends ServiceRegistry<OffenseManager.OffenseProces
     }
     
     @Override
+    protected void onServiceAddedBegin(String serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+        //implement if needed
+    }
+    
+    @Override
+    protected void onServiceAddedMiddle(String serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+        //implement if needed
+    }
+    
+    @Override
+    protected void onServiceAddedEnd(String serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+        //implement if needed
+    }
+    
+    @Override
+    protected void onServiceRemovedBegin(String serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+        //implement if needed
+    }
+    
+    @Override
+    protected void onServiceRemovedMiddle(String serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+        //implement if needed
+    }
+    
+    @Override
+    protected void onServiceRemovedEnd(String serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+        //implement if needed
+    }
+    
+    @Override
     protected void onServiceRegistryEmptyingBegin(boolean kill) throws ShutDownException, ServiceNotFoundException {
         //implement if needed
     }
     
     @Override
     protected void onServiceRegistryEmptyingEnd(boolean kill) throws ShutDownException, ServiceNotFoundException {
-        //implement if needed
-    }
-    
-    @Override
-    protected void onServiceRemovedEnd(OffenseProcessorType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        //implement if needed
-    }
-    
-    @Override
-    protected void onServiceRemovedMiddle(OffenseProcessorType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        //implement if needed
-    }
-    
-    @Override
-    protected void onServiceRemovedBegin(OffenseProcessorType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        //implement if needed
-    }
-    
-    @Override
-    protected void onServiceAddedEnd(OffenseProcessorType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
-        //implement if needed
-    }
-    
-    @Override
-    protected void onServiceAddedMiddle(OffenseProcessorType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
-        //implement if needed
-    }
-    
-    @Override
-    protected void onServiceAddedBegin(OffenseProcessorType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         //implement if needed
     }
 }

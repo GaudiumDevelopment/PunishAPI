@@ -9,7 +9,7 @@ import me.superbiebel.punishapi.services.Service;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
-public abstract class ServiceRegistry<T extends Enum<T>> extends System {
+public abstract class ServiceRegistry<T> extends System {
     
     protected final ConcurrentHashMap<T, Service> serviceRegistryMap;
     

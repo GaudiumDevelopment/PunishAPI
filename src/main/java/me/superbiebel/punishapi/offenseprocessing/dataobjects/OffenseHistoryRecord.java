@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 @Builder
-public class OffenseRecord {
+public class OffenseHistoryRecord {
     protected final UUID offenseProcessingTemplateUUID;
     protected final long timeregistered;
     protected final Map<String, String> attributes;

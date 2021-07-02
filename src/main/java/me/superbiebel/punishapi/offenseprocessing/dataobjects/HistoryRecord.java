@@ -15,6 +15,6 @@ public class HistoryRecord {
     private final UUID criminalUUID;
     private final long timeregistered;
     private final Map<String,String> attributes;
-    private final List<OffenseRecord> offensesDone; //list if a batch of offenses was done, otherwise just one.
+    private final List<OffenseHistoryRecord> offensesDone; //list if a batch of offenses was done, otherwise just one.
     private final List<Punishment> punishments;
 }
