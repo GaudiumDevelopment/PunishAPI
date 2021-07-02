@@ -23,3 +23,10 @@ System D will ask PunishAPI if A can come in the vicinity of B. If punishAPI say
 In this example, moderator C may be as agitated as possible on A, the punishment will be chosen by your settings/script, not by the mood of C. 
 Errors are not possible as PunishAPi will follow your settings/script to the letter. 
 C may be as bad as a mod can get, if C fills in the form in honesty, everyone is fine. This way of punishing someone is fair for both the criminal and the victim.
+
+## Terminology
+**Offense**: An action that has happened and is not allowed and thus will be punished.
+
+**Punishment**: A consequence to the offense that you committed. An offense can have multiple punishments.
+
+**History Record**: a record to store the offenses that have happened on a certain time.
