@@ -2,7 +2,6 @@ package me.superbiebel.punishapi.api;
 
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.exceptions.*;
-import me.superbiebel.punishapi.offenseprocessing.OffenseManager;
 import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.services.Service;
 
@@ -13,10 +12,10 @@ public class OffenseAPI {
         this.core = core;
     }
     
-    public void addService(OffenseManager.OffenseProcessorType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+    public void addService(String serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         core.getOffenseManager().addService(serviceType, service);
     }
-    public void removeService(OffenseManager.OffenseProcessorType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+    public void removeService(String serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         core.getOffenseManager().removeService(serviceType,kill);
     }
     public void submitOffense(OffenseProcessingRequest offenseProcessingRequest) throws FailedServiceOperationException {
