@@ -14,6 +14,11 @@ public class OffenseManager extends ServiceRegistry<OffenseManager.OffenseProces
         super(new ConcurrentHashMap<>());
     }
     
+    
+    public enum OffenseProcessorType {
+        TEST, COMMAND
+    }
+    
     @Override
     public void onServiceRegistryStartup(boolean force) throws StartupException {
         //implement if needed
@@ -67,9 +72,5 @@ public class OffenseManager extends ServiceRegistry<OffenseManager.OffenseProces
     @Override
     protected void onServiceAddedBegin(OffenseProcessorType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         //implement if needed
-    }
-    
-    public enum OffenseProcessorType {
-        TEST, COMMAND
     }
 }
