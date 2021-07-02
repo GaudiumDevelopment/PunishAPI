@@ -6,8 +6,23 @@ import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseRecord;
 import me.superbiebel.punishapi.services.Service;
 
 public interface OffenseProcessor extends Service {
+    /**
+     * @param offenseProcessingRequest the request that will be processed.
+     * @return the record that will be stored in the database.
+     * @throws FailedServiceOperationException if some kind of exception happened it should be wrapped in a FailedServiceOperationException
+     */
     OffenseRecord process(OffenseProcessingRequest offenseProcessingRequest) throws FailedServiceOperationException;
-    OffenseRecord[] process(OffenseProcessingRequest[] offenseProcessingRequest) throws FailedServiceOperationException;
-    //returns true if this OffenseProcessor can handle a batch of criminal actions by the same person.
+    
+    /**
+     * @param offenseProcessingRequest the request that will be processed.
+     * @return  the record that will be stored in the database.
+     * @throws FailedServiceOperationException If some kind of exception happened it should be wrapped in a FailedServiceOperation
+     * @throws UnsupportedOperationException If batch processing is not supported but this method was called anyway.
+     */
+    OffenseRecord[] process(OffenseProcessingRequest[] offenseProcessingRequest) throws FailedServiceOperationException, UnsupportedOperationException;
+    
+    /**
+     * @return true if this processor can handle batch processing.
+     */
     boolean canHandleBatch();
 }
