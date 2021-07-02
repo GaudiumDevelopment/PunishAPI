@@ -1,5 +1,9 @@
 package me.superbiebel.punishapi.exceptions;
 
+/**
+ * When a service throws an exception, it will be wrapped in this.
+ */
+
 public class FailedServiceOperationException extends Exception{
     public FailedServiceOperationException() {
         super();

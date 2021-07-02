@@ -1,15 +1,14 @@
 package me.superbiebel.punishapi.offenseprocessing.dataobjects;
 
+import lombok.Builder;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
+@Builder
 public class PunishmentReduction {
-    
-    protected int priority;
-    protected int amountSubtracted;
-    
-    public PunishmentReduction(int priority, int amountSubtracted) {
-        this.priority = priority;
-        this.amountSubtracted = amountSubtracted;
-    }
+    private final UUID punishmentReductionUUID;
+    private final int priority;
+    private final int amountSubtracted;
 }
