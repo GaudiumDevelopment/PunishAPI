@@ -1,11 +1,9 @@
 package me.superbiebel.punishapi.api;
 
 import me.superbiebel.punishapi.PunishCore;
-import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
-import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
-import me.superbiebel.punishapi.exceptions.ShutDownException;
-import me.superbiebel.punishapi.exceptions.StartupException;
+import me.superbiebel.punishapi.exceptions.*;
 import me.superbiebel.punishapi.offenseprocessing.OffenseManager;
+import me.superbiebel.punishapi.offenseprocessing.dataobjects.Offense;
 import me.superbiebel.punishapi.services.Service;
 
 public class OffenseAPI {
@@ -21,10 +19,16 @@ public class OffenseAPI {
     public void removeService(OffenseManager.OffenseProcessorType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         core.getOffenseManager().removeService(serviceType,kill);
     }
-    public void createOffense(int offenseId) {
+    public void createOffenseProcessingTemplate() throws FailedServiceOperationException {
         throw new UnsupportedOperationException("Coming soon!");
     }
-    public void deleteOffense(int offenseID) {
+    public void deleteOffenseProcessingTemplate(int offenseID) throws FailedServiceOperationException {
+        throw new UnsupportedOperationException("Coming soon!");
+    }
+    public void submitOffense(Offense offense) throws FailedServiceOperationException {
+        throw new UnsupportedOperationException("Coming soon!");
+    }
+    public void submitOffense(Offense[] offenses) throws FailedServiceOperationException{
         throw new UnsupportedOperationException("Coming soon!");
     }
 }
