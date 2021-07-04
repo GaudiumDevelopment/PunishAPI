@@ -21,7 +21,4 @@ public class OffenseAPI {
     public void submitOffense(OffenseProcessingRequest offenseProcessingRequest) throws FailedServiceOperationException {
         throw new UnsupportedOperationException("Coming soon!");
     }
-    public void submitOffense(OffenseProcessingRequest[] offenseProcessingRequest) throws FailedServiceOperationException {
-        throw new UnsupportedOperationException("Coming soon!");
-    }
 }

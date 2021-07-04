@@ -96,4 +96,9 @@ public class TestServiceImpl implements TestService {
         return status.get();
     }
     
+    @Override
+    public String type() {
+        return "TEST";
+    }
+    
 }

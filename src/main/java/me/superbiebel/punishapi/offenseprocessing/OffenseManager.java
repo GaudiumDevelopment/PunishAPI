@@ -16,9 +16,6 @@ public class OffenseManager extends ServiceRegistry<String> {
     public void submitOffense(OffenseProcessingRequest offenseProcessingRequest) throws FailedServiceOperationException {
         throw new UnsupportedOperationException("Coming soon!");
     }
-    public void submitOffense(OffenseProcessingRequest[] offenseProcessingRequest) throws FailedServiceOperationException {
-        throw new UnsupportedOperationException("Coming soon!");
-    }
     
     
     

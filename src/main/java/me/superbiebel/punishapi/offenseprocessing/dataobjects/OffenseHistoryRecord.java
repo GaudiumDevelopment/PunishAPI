@@ -10,8 +10,10 @@ import java.util.UUID;
 @Getter
 @Builder
 public class OffenseHistoryRecord {
-    protected final UUID offenseProcessingTemplateUUID;
-    protected final long timeregistered;
-    protected final Map<String, String> attributes;
+    private final UUID moderatorUUID;
+    private final UUID criminalUUID;
+    private final UUID offenseProcessingTemplateUUID;
+    private final long timeregistered;
+    private final Map<String, String> attributes;
     private final List<Punishment> linkedPunishments;
 }
