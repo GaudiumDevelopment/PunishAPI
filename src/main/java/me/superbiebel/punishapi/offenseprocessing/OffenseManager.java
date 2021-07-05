@@ -71,6 +71,16 @@ public class OffenseManager extends ServiceRegistry<String> {
     }
     
     @Override
+    protected void onServiceRegistryEmptyingBeginIteration(boolean kill) throws ShutDownException, ServiceNotFoundException {
+    
+    }
+    
+    @Override
+    protected void onServiceRegistryEmptyingEndIteration(boolean kill) throws ShutDownException, ServiceNotFoundException {
+    
+    }
+    
+    @Override
     protected void onServiceRegistryEmptyingEnd(boolean kill) throws ShutDownException, ServiceNotFoundException {
         //implement if needed
     }

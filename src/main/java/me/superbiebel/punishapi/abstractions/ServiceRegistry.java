@@ -70,10 +70,14 @@ public abstract class ServiceRegistry<T> extends System {
         return service;
     }
     public void emptyServiceRegistry(boolean kill) throws ShutDownException, ServiceNotFoundException {
+        onServiceRegistryEmptyingBegin(kill);
         for (Iterator<T> it = serviceRegistryMap.keys().asIterator(); it.hasNext(); ) {
             T serviceType = it.next();
+            onServiceRegistryEmptyingBeginIteration(kill);
             this.removeService(serviceType, kill);
+            onServiceRegistryEmptyingEndIteration(kill);
         }
+        onServiceRegistryEmptyingEnd(kill);
     }
     
     /**
@@ -89,5 +93,7 @@ public abstract class ServiceRegistry<T> extends System {
     protected abstract void onServiceRemovedMiddle(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException;
     protected abstract void onServiceRemovedEnd(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException;
     protected abstract void onServiceRegistryEmptyingBegin(boolean kill) throws ShutDownException, ServiceNotFoundException;
+    protected abstract void onServiceRegistryEmptyingBeginIteration(boolean kill) throws ShutDownException, ServiceNotFoundException;
+    protected abstract void onServiceRegistryEmptyingEndIteration(boolean kill) throws ShutDownException, ServiceNotFoundException;
     protected abstract void onServiceRegistryEmptyingEnd(boolean kill) throws ShutDownException, ServiceNotFoundException;
 }
