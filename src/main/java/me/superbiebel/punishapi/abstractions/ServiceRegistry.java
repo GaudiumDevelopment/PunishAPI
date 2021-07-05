@@ -41,7 +41,7 @@ public abstract class ServiceRegistry<T> extends System {
         onServiceAddedBegin(serviceType, service);
         serviceRegistryMap.put(serviceType,service);
         onServiceAddedMiddle(serviceType, service);
-        service.startup(false);
+        service.serviceStartup(false);
         onServiceAddedEnd(serviceType,service);
     }
     
@@ -61,10 +61,10 @@ public abstract class ServiceRegistry<T> extends System {
         Service service = serviceRegistryMap.remove(serviceType);
         onServiceRemovedMiddle(serviceType, kill);
         if (kill) {
-            service.kill();
+            service.serviceKill();
             onServiceRemovedEnd(serviceType,kill);
         } else {
-            service.shutdown();
+            service.serviceShutdown();
             onServiceRemovedEnd(serviceType,kill);
         }
         return service;

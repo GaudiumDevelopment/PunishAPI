@@ -24,6 +24,12 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
         super(new ConcurrentHashMap<>());
     }
     
+    public enum DataServiceType {
+        TEST,OFFENSE_PROCESSING_TEMPLATE_STORAGE,OFFENSE_RECORD_STORAGE,USER_LOCKING
+    }
+    
+    
+    
     @Override
     public void onServiceRegistryStartup(boolean force) {
         //to be implemented if needed
@@ -84,9 +90,5 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     @Override
     protected void onServiceRegistryEmptyingEnd(boolean kill) throws ShutDownException, ServiceNotFoundException {
         //to be implemented if needed
-    }
-    
-    public enum DataServiceType {
-        TEST
     }
 }

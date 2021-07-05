@@ -6,12 +6,12 @@ import me.superbiebel.punishapi.exceptions.StartupException;
 import org.jetbrains.annotations.NotNull;
 
 public interface Service<T> {
-    void startup(boolean force) throws StartupException;
-    void shutdown() throws ShutDownException;
+    void serviceStartup(boolean force) throws StartupException;
+    void serviceShutdown() throws ShutDownException;
     //Will shut down without throwing any exception, force closing and killing anything that is in its way.
-    void kill();
+    void serviceKill();
     @NotNull
-    SystemStatus status();
-    T type();
+    SystemStatus serviceStatus();
+    T serviceType();
     
 }

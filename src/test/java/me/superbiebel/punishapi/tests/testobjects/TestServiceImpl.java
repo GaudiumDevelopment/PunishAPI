@@ -2,6 +2,7 @@ package me.superbiebel.punishapi.tests.testobjects;
 
 import lombok.Getter;
 import me.superbiebel.punishapi.SystemStatus;
+import me.superbiebel.punishapi.data.Datamanager.DataServiceType;
 import me.superbiebel.punishapi.data.services.TestService;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
@@ -17,7 +18,7 @@ public class TestServiceImpl implements TestService {
     private final Lock startupShutdownLock = new ReentrantLock(true);
     
     @Getter
-    private AtomicReference<SystemStatus> status = new AtomicReference<>(SystemStatus.DOWN);
+    private final AtomicReference<SystemStatus> status = new AtomicReference<>(SystemStatus.DOWN);
     
     @Override
     public String exampleOperation(String returnString) throws FailedServiceOperationException {
@@ -25,7 +26,7 @@ public class TestServiceImpl implements TestService {
     }
     
     @Override
-    public void startup(boolean force) throws StartupException {
+    public void serviceStartup(boolean force) throws StartupException {
         try {
             startupShutdownLock.lock();
             if (status.get() == SystemStatus.STARTING_UP) {
@@ -53,7 +54,7 @@ public class TestServiceImpl implements TestService {
     }
     
     @Override
-    public void shutdown() throws ShutDownException {
+    public void serviceShutdown() throws ShutDownException {
         try {
             startupShutdownLock.lock();
             if (status.get() ==SystemStatus.DOWN || status.get() ==SystemStatus.KILLED) {
@@ -71,7 +72,7 @@ public class TestServiceImpl implements TestService {
     }
     
     @Override
-    public void kill() {
+    public void serviceKill() {
         try {
             startupShutdownLock.lock();
             if (status.get() ==SystemStatus.KILLED) {
@@ -92,13 +93,13 @@ public class TestServiceImpl implements TestService {
     }
     
     @Override
-    public @NotNull SystemStatus status() {
+    public @NotNull SystemStatus serviceStatus() {
         return status.get();
     }
     
     @Override
-    public String type() {
-        return "TEST";
+    public DataServiceType serviceType() {
+        return DataServiceType.TEST;
     }
     
 }

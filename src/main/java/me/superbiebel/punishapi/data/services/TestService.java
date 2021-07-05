@@ -1,9 +1,9 @@
 package me.superbiebel.punishapi.data.services;
 
+import me.superbiebel.punishapi.data.DataService;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
-import me.superbiebel.punishapi.services.Service;
 
-public interface TestService extends Service<String> {
+public interface TestService extends DataService {
     
     String exampleOperation(String returnString) throws FailedServiceOperationException;
 }

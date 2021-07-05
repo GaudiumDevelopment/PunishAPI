@@ -1,10 +1,10 @@
 package me.superbiebel.punishapi.data.services;
 
-import me.superbiebel.punishapi.services.Service;
+import me.superbiebel.punishapi.data.DataService;
 
 import java.util.UUID;
 
-public interface UserLockService extends Service {
+public interface UserLockService extends DataService {
     
     //Disables editing of that person (history, punishment applying)
     //This means that there is currently an offense that is being processed

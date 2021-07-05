@@ -26,6 +26,13 @@ dependencies {
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
     implementation 'org.jetbrains:annotations:16.0.2'
 
+    //graalvm js dependencies
+    implementation 'org.graalvm.sdk:graal-sdk:21.1.0'
+    implementation 'org.graalvm.js:js:21.1.0'
+    implementation 'org.graalvm.js:js-scriptengine:21.1.0'
+    implementation 'org.graalvm.tools:profiler:21.1.0'
+    implementation 'org.graalvm.tools:chromeinspector:21.1.0'
+
 }
 shadowJar {
     relocate('org.apache.logging.log4j','me.superbiebel.shaded.org.apache.logging.log4j')
