@@ -9,7 +9,10 @@ import java.util.UUID;
 @Getter
 @Builder(toBuilder = true)
 public class OffenseProcessingRequest {
-    private final UUID uuid;
-    private final long timeregistered;
+    
+    private final UUID criminalUUID;
+    private final UUID moderatorUUID;
+    
+    private final UUID processingTemplateUUID;
     private final Map<String,String> attributes;
 }

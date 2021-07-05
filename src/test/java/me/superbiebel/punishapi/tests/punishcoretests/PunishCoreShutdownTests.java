@@ -2,6 +2,7 @@ package me.superbiebel.punishapi.tests.punishcoretests;
 
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.SystemStatus;
+import me.superbiebel.punishapi.api.PunishAPI;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,8 @@ class PunishCoreShutdownTests {
     @Test
     @Execution(ExecutionMode.CONCURRENT)
     void readyBooleanShutdownTestTest() throws ShutDownException, StartupException {
-        PunishCore core = new PunishCore();
+        PunishAPI api = new PunishAPI();
+        PunishCore core = api.getCore();
         core.startup();
         core.shutdown();
         assertSame(SystemStatus.DOWN, core.status());
@@ -26,7 +28,8 @@ class PunishCoreShutdownTests {
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
     void multipleShutdownTest(int times) throws ShutDownException, StartupException {
-        PunishCore core = new PunishCore();
+        PunishAPI api = new PunishAPI();
+        PunishCore core = api.getCore();
         core.startup();
         core.shutdown();
         for (int i = 1; i<=times;i++) {
@@ -38,7 +41,8 @@ class PunishCoreShutdownTests {
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
     void multipleKilledShutdownTest(int times) throws StartupException, ShutDownException {
-        PunishCore core = new PunishCore();
+        PunishAPI api = new PunishAPI();
+        PunishCore core = api.getCore();
         core.startup();
         core.kill();
         for (int i = 1; i<=times;i++) {

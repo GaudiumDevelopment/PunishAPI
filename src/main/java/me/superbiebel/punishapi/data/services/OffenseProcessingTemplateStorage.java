@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public interface OffenseProcessingTemplateStorage extends DataService {
     void storeOffenseProcessingTemplate(OffenseProcessingTemplate template);
-    void retrieveOffenseProcessingTemplate(UUID templateUUID);
+    OffenseProcessingTemplate retrieveOffenseProcessingTemplate(UUID templateUUID);
 }

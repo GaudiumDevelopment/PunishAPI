@@ -23,10 +23,10 @@ class DataAPIOperationTests {
     @Test
     @Execution(ExecutionMode.CONCURRENT)
     void addServiceTest() throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException {
+    
+        PunishAPI api = new PunishAPI();
+        PunishCore core = api.getCore();
         
-        PunishCore core = new PunishCore();
-        
-        PunishAPI api = new PunishAPI(core);
         api.startup();
         
         TestServiceImpl testService = new TestServiceImpl();
@@ -39,10 +39,9 @@ class DataAPIOperationTests {
     @ValueSource(ints = {2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
     void addMultipleServiceTest(int times) throws StartupException, ServiceNotFoundException, ServiceAlreadyRegisteredException {
-        
-        PunishCore core = new PunishCore();
-        
-        PunishAPI api = new PunishAPI(core);
+    
+        PunishAPI api = new PunishAPI();
+        PunishCore core = api.getCore();
         api.startup();
         
         TestServiceImpl testService = new TestServiceImpl();
@@ -57,9 +56,8 @@ class DataAPIOperationTests {
     @Test
     @Execution(ExecutionMode.CONCURRENT)
     void getServiceTest() throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException {
-        PunishCore core = new PunishCore();
-    
-        PunishAPI api = new PunishAPI(core);
+        PunishAPI api = new PunishAPI();
+        PunishCore core = api.getCore();
         api.startup();
     
         TestServiceImpl testService = new TestServiceImpl();
@@ -71,9 +69,8 @@ class DataAPIOperationTests {
     @ValueSource(booleans = {false, true})
     @Execution(ExecutionMode.CONCURRENT)
     void removeServiceTest(boolean kill) throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException, ShutDownException {
-        PunishCore core = new PunishCore();
-    
-        PunishAPI api = new PunishAPI(core);
+        PunishAPI api = new PunishAPI();
+        PunishCore core = api.getCore();
         api.startup();
     
         TestServiceImpl testService = new TestServiceImpl();
@@ -85,10 +82,9 @@ class DataAPIOperationTests {
     @ValueSource(ints = {2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
     void removeMultipleServiceTest(int times) throws StartupException, ServiceNotFoundException, ServiceAlreadyRegisteredException, ShutDownException {
-        
-        PunishCore core = new PunishCore();
-        
-        PunishAPI api = new PunishAPI(core);
+    
+        PunishAPI api = new PunishAPI();
+        PunishCore core = api.getCore();
         api.startup();
         
         TestServiceImpl testService = new TestServiceImpl();

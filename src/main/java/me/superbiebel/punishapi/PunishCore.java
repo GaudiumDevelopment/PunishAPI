@@ -3,6 +3,7 @@ package me.superbiebel.punishapi;
 
 import lombok.Getter;
 import me.superbiebel.punishapi.abstractions.System;
+import me.superbiebel.punishapi.api.PunishAPI;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
@@ -16,12 +17,19 @@ public class PunishCore extends System {
     private Datamanager datamanager;
     @Getter
     private OffenseManager offenseManager;
+    
+    private final PunishAPI api;
+    
+    public PunishCore(PunishAPI api) {
+        this.api = api;
+    }
+    
     @Override
     protected void onStartup(boolean forcedInit) throws StartupException {
         LogManager.getLogger().debug("Starting up PunishAPI");
         datamanager = new Datamanager();
         datamanager.startup();
-        offenseManager = new OffenseManager();
+        offenseManager = new OffenseManager(this);
         offenseManager.startup();
     }
     @Override

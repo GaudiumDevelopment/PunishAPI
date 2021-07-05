@@ -5,6 +5,7 @@ import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * This is the base class of the whole API. This is the only class where there may be interacted with.
@@ -12,17 +13,12 @@ import me.superbiebel.punishapi.exceptions.StartupException;
 
 public class PunishAPI {
     
-    private final PunishCore core;
+    private final PunishCore core; //do NOT interact with this!
     @Getter
     private final DataAPI dataAPI;
     
     public PunishAPI() {
-        core = new PunishCore();
-        dataAPI = new DataAPI(core);
-    }
-    
-    public PunishAPI(PunishCore core) {
-        this.core = core;
+        core = new PunishCore(this);
         dataAPI = new DataAPI(core);
     }
     
@@ -39,6 +35,9 @@ public class PunishAPI {
     public SystemStatus status() {
         return core.status();
     }
-    
+    public PunishCore getCore() {
+        LogManager.getLogger().warn("A reference of Punishcore has just been acquired. THIS IS ONLY FOR AUTOMATED TESTING PURPOSES AND IT MAY NOT BE EDITED IN ANY WAY NOR ANY OF ITS METHODS MAY BE USED!");
+        return core;
+    }
     
 }

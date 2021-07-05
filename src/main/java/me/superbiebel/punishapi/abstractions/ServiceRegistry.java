@@ -30,9 +30,9 @@ public abstract class ServiceRegistry<T> extends System {
     protected void onKill() throws ShutDownException {
         onServiceRegistryKill();
     }
-    public abstract void onServiceRegistryStartup(boolean force) throws StartupException;
-    public abstract void onServiceRegistryShutdown() throws ShutDownException;
-    public abstract void onServiceRegistryKill() throws ShutDownException;
+    protected abstract void onServiceRegistryStartup(boolean force) throws StartupException;
+    protected abstract void onServiceRegistryShutdown() throws ShutDownException;
+    protected abstract void onServiceRegistryKill() throws ShutDownException;
     
     public void addService(T serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         if(serviceRegistryMap.containsKey(serviceType)) {

@@ -2,6 +2,7 @@ package me.superbiebel.punishapi.tests.datamanagertests;
 
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.SystemStatus;
+import me.superbiebel.punishapi.api.PunishAPI;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
@@ -25,7 +26,8 @@ class DataManagerOperationTests {
     @Execution(ExecutionMode.CONCURRENT)
     void addServiceTest() throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException {
         TestServiceImpl service = new TestServiceImpl();
-        PunishCore punishCore = new PunishCore();
+        PunishAPI api = new PunishAPI();
+        PunishCore punishCore = api.getCore();
         punishCore.startup();
         punishCore.getDatamanager().addService(Datamanager.DataServiceType.TEST, service);
         assertSame(service, punishCore.getDatamanager().getService(Datamanager.DataServiceType.TEST));
@@ -37,7 +39,8 @@ class DataManagerOperationTests {
     @Execution(ExecutionMode.CONCURRENT)
     void removeServiceTest(boolean kill) throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException, ShutDownException {
         TestServiceImpl service = new TestServiceImpl();
-        PunishCore punishCore = new PunishCore();
+        PunishAPI api = new PunishAPI();
+        PunishCore punishCore = api.getCore();
         punishCore.startup();
         punishCore.getDatamanager().addService(Datamanager.DataServiceType.TEST, service);
         TestServiceImpl removedService = (TestServiceImpl) punishCore.getDatamanager().removeService(Datamanager.DataServiceType.TEST, kill);
@@ -47,7 +50,8 @@ class DataManagerOperationTests {
     @Execution(ExecutionMode.CONCURRENT)
     void getService() throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException {
         TestServiceImpl service = new TestServiceImpl();
-        PunishCore punishCore = new PunishCore();
+        PunishAPI api = new PunishAPI();
+        PunishCore punishCore = api.getCore();
         punishCore.startup();
         punishCore.getDatamanager().addService(Datamanager.DataServiceType.TEST, service);
         punishCore.getDatamanager().getService(Datamanager.DataServiceType.TEST);
