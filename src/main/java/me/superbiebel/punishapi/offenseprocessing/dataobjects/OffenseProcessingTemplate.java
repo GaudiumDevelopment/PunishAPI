@@ -10,6 +10,5 @@ import java.util.UUID;
 @Builder
 public class OffenseProcessingTemplate {
     private final UUID offenseProcessingTemplateUUID;
-    private final String command;
-    private final File commandFile;
+    private final File scriptFile; //currently only graalvm JS is supported.
 }
