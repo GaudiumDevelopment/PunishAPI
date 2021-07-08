@@ -6,42 +6,87 @@ import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseHistoryRecord;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseProcessingRequest;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseProcessingResult;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseProcessingTemplate;
+import me.superbiebel.punishapi.offenseprocessing.dataobjects.*;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class OffenseManager extends System {
     
     PunishCore core;
-    Context context = Context.create();
+    
     
     public OffenseManager(PunishCore core) {
         this.core = core;
     }
+    @NotNull
     public OffenseHistoryRecord submitOffense(OffenseProcessingRequest offenseProcessingRequest) throws ServiceNotFoundException, IOException {
+        
         Datamanager datamanager = core.getDatamanager();
         datamanager.lockUser(offenseProcessingRequest.getCriminalUUID());
-        OffenseProcessingTemplate offenseProcessingTemplate = datamanager.retrieveOffenseProcessingTemplate(offenseProcessingRequest.getProcessingTemplateUUID());
-        Source source = Source.newBuilder("js",offenseProcessingTemplate.getScriptFile()).build();
-        Value jsBindings = context.getBindings("js");
-        jsBindings.putMember("offenseProcessingRequest",offenseProcessingRequest);
-        jsBindings.putMember("datamanager", core.getDatamanager()); //gives limited access to do data operations.
-        context.eval(source);
-        Value verdictValue = jsBindings.getMember("verdict");
-        OffenseProcessingResult verdict = verdictValue.as(OffenseProcessingResult.class);
-        OffenseHistoryRecord offenseHistoryRecord =  OffenseHistoryRecord.builder().attributes(verdict.attributes)
-                                               .linkedPunishments(verdict.linkedPunishments)
-                                               .criminalUUID(offenseProcessingRequest.getCriminalUUID())
-                                               .moderatorUUID(offenseProcessingRequest.getModeratorUUID()).timeregistered(java.lang.System.currentTimeMillis()).build();
+        
+        
+        OffenseScriptProcessingResult verdict = processScript(offenseProcessingRequest
+                ,datamanager.retrieveOffenseProcessingTemplate(offenseProcessingRequest.getProcessingTemplateUUID()));
+        
+        OffenseHistoryRecord offenseHistoryRecord = convertToOffenseHistoryRecord(verdict, offenseProcessingRequest);
         core.getDatamanager().storeOffense(offenseHistoryRecord);
         
         return offenseHistoryRecord;
+    }
+    @NotNull
+    public OffenseScriptProcessingResult processScript(OffenseProcessingRequest offenseProcessingRequest, OffenseProcessingTemplate template) throws IOException {
+        
+        try (Context context = Context.newBuilder().allowAllAccess(true).build()) {
+            Source source = Source.newBuilder("js", template.getScriptFile()).build();
+            Value jsBindings = context.getBindings("js");
+            jsBindings.putMember("offenseProcessingRequest", offenseProcessingRequest);
+            jsBindings.putMember("datamanager", core.getDatamanager());
+            context.eval(source);
+            Value verdictValue = jsBindings.getMember("verdict");
+            return verdictValue.as(OffenseScriptProcessingResult.class);
+        }
+    }
+    public OffenseHistoryRecord convertToOffenseHistoryRecord(OffenseScriptProcessingResult result, OffenseProcessingRequest offenseProcessingRequest) {
+        List<Punishment> punishmentList = new ArrayList<>();
+        
+        UUID offenseUUID = UUID.randomUUID();
+        
+        result.linkedScriptPunishmentObjects.forEach((punishmentScriptObject)->{
+            Punishment.PunishmentBuilder punishmentBuilder = Punishment.builder()
+                                            .punishmentUUID(UUID.randomUUID())
+                                            .offenseUUID(offenseUUID)
+                                            .attributes(punishmentScriptObject.attributes)
+                                            .startTime(punishmentScriptObject.startTime)
+                                            .originalDuration(punishmentScriptObject.duration)
+                                            .duration(punishmentScriptObject.duration)
+                                            .decrementsDuration(punishmentScriptObject.decrementsDuration)
+                                            .activated(punishmentScriptObject.activated)
+                                            .scopes(punishmentScriptObject.scopes);
+            List<PunishmentReduction> punishmentReductionList = new ArrayList<>();
+            punishmentScriptObject.punishmentReductionScriptObjects.forEach((punishmentReductionScriptObject)->{
+                PunishmentReduction reduction = PunishmentReduction.builder()
+                                                        .punishmentReductionUUID(UUID.randomUUID())
+                                                        .amountSubtracted(punishmentReductionScriptObject.amountSubtracted)
+                                                        .priority(punishmentReductionScriptObject.priority)
+                                                        .build();
+                punishmentReductionList.add(reduction);
+            });
+            punishmentBuilder.punishmentReductions(punishmentReductionList);
+            punishmentList.add(punishmentBuilder.build());
+        });
+        
+        
+        return OffenseHistoryRecord.builder().attributes(result.attributes)
+                       .linkedPunishments(punishmentList)
+                       .criminalUUID(offenseProcessingRequest.getCriminalUUID())
+                       .moderatorUUID(offenseProcessingRequest.getModeratorUUID()).timeregistered(java.lang.System.currentTimeMillis()).build();
     }
     
     
