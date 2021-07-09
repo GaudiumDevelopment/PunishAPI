@@ -18,7 +18,7 @@ public class PunishAPI {
     private final DataAPI dataAPI;
     
     public PunishAPI() {
-        core = new PunishCore(this);
+        core = new PunishCore();
         dataAPI = new DataAPI(core);
     }
     
