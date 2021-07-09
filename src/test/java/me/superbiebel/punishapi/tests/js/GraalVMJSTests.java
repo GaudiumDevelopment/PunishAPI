@@ -8,7 +8,6 @@ import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseProcessingT
 import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseScriptProcessingResult;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -29,7 +28,6 @@ class GraalVMJSTests {
         assertSame(2,result);
     }
     
-    @Disabled("js file must be rewritten")
     @Test //offenseProcessingTestFile1.js
     void offenseProcessingTest() throws IOException, InterruptedException, StartupException {
         PunishAPI api = new PunishAPI();
@@ -44,12 +42,15 @@ class GraalVMJSTests {
         File scriptFile = new File(getClass().getClassLoader().getResource("offenseProcessingTestFiles/offenseProcessingTestFile1.js").getFile());
         OffenseProcessingTemplate offenseProcessingTemplate = OffenseProcessingTemplate.builder().scriptFile(scriptFile).offenseProcessingTemplateUUID(UUID.randomUUID()).build();
         OffenseScriptProcessingResult result = offenseManager.processScript(offenseProcessingRequest, offenseProcessingTemplate);
-        assertEquals("testvalue", result.attributes.get("testkey"));
-        assertEquals("punishmenttestvalue",result.linkedScriptPunishmentObjects.get(0).attributes.get("punishmenttestkey"));
-        assertEquals(1000,result.linkedScriptPunishmentObjects.get(0).startTime);
-        assertEquals(3000,result.linkedScriptPunishmentObjects.get(0).duration);
-        assertTrue(result.linkedScriptPunishmentObjects.get(0).activated);
-        assertEquals("testscope",result.linkedScriptPunishmentObjects.get(0).scopes.get(0));
+        assertEquals("testvalueresult", result.attributes.get("testkeyresult"));
+        assertEquals("testvaluepunishment",result.punishments.get(0).attributes.get("testkeypunishment"));
+        assertEquals(1000,result.punishments.get(0).startTime);
+        assertEquals(2000,result.punishments.get(0).duration);
+        assertTrue(result.punishments.get(0).activated);
+        assertEquals("MINECRAFT",result.punishments.get(0).scopes.get(0));
+        assertEquals(123160, result.punishments.get(0).punishmentReductionList.get(0).priority);
+        assertEquals(65464, result.punishments.get(0).punishmentReductionList.get(0).amountSubtracted);
+        assertEquals("testvaluepunishmentreductionattributes", result.punishments.get(0).punishmentReductionList.get(0).attributes.get("testkeypunishmentreductionattributes"));
     }
     
 }

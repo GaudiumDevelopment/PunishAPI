@@ -8,12 +8,12 @@ import java.util.Map;
  *Every variable has been made public to allow editing from the script.
  */
 
-public class ScriptPunishmentObject {
+public class PunishmentScriptObject {
     public Map<String,String> attributes;
     public long startTime;
     public long duration;
     public boolean activated;
     public List<String> scopes;
-    public List<PunishmentReductionScriptObject> punishmentReductionScriptObjects;
+    public List<PunishmentReductionScriptObject> punishmentReductionList;
     public boolean decrementsDuration;
 }

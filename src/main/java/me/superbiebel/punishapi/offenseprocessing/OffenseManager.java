@@ -58,7 +58,7 @@ public class OffenseManager extends System {
         
         UUID offenseUUID = UUID.randomUUID();
         
-        result.linkedScriptPunishmentObjects.forEach((punishmentScriptObject)->{
+        result.punishments.forEach((punishmentScriptObject)->{
             Punishment.PunishmentBuilder punishmentBuilder = Punishment.builder()
                                             .punishmentUUID(UUID.randomUUID())
                                             .offenseUUID(offenseUUID)
@@ -70,7 +70,7 @@ public class OffenseManager extends System {
                                             .activated(punishmentScriptObject.activated)
                                             .scopes(punishmentScriptObject.scopes);
             List<PunishmentReduction> punishmentReductionList = new ArrayList<>();
-            punishmentScriptObject.punishmentReductionScriptObjects.forEach((punishmentReductionScriptObject)->{
+            punishmentScriptObject.punishmentReductionList.forEach((punishmentReductionScriptObject)->{
                 PunishmentReduction reduction = PunishmentReduction.builder()
                                                         .punishmentReductionUUID(UUID.randomUUID())
                                                         .amountSubtracted(punishmentReductionScriptObject.amountSubtracted)
