@@ -101,7 +101,7 @@ class OffenseManagerOperationTests {
         PunishAPI api = new PunishAPI();
         api.startup();
         
-        historyRecord = api.getCore().getOffenseManager().convertToOffenseHistoryRecord(scriptProcessingResult,offenseProcessingRequest);
+        historyRecord = api.getCore().getOffenseManager().getDefaultOffenseProcessor().convertToOffenseHistoryRecord(scriptProcessingResult, offenseProcessingRequest);
     
         assertEquals(historyRecord.getLinkedPunishments().get(0).getAttributes(), scriptProcessingResult.punishments.get(0).attributes);
         assertEquals(historyRecord.getLinkedPunishments().get(0).isActivated(),scriptProcessingResult.punishments.get(0).activated);

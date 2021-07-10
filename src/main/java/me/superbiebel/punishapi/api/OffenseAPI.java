@@ -9,7 +9,6 @@ import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 
-import java.io.IOException;
 import java.util.UUID;
 
 public class OffenseAPI {
@@ -19,11 +18,7 @@ public class OffenseAPI {
         this.core = core;
     }
     public void submitOffense(OffenseProcessingRequest offenseProcessingRequest) throws FailedServiceOperationException, ServiceNotFoundException {
-        try {
-            core.getOffenseManager().submitOffense(offenseProcessingRequest);
-        } catch (IOException e) {
-            throw new FailedServiceOperationException(e);
-        }
+        core.getOffenseManager().submitOffense(offenseProcessingRequest);
     }
     public void submitOffenseWithoutProcessing(OffenseHistoryRecord offenseRecord) throws ServiceNotFoundException {
         core.getOffenseManager().submitOffenseWithoutProcessing(offenseRecord);

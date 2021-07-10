@@ -5,7 +5,6 @@ import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.dataobjects.scriptobjects.OffenseScriptProcessingResult;
 import me.superbiebel.punishapi.exceptions.StartupException;
-import me.superbiebel.punishapi.offenseprocessing.OffenseManager;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,7 +30,6 @@ class GraalVMJSTests {
     void offenseProcessingJSProcessingTest() throws IOException, InterruptedException, StartupException {
         PunishAPI api = new PunishAPI();
         api.startup();
-        OffenseManager offenseManager = Objects.requireNonNull(api.getCore().getOffenseManager());
         OffenseProcessingRequest offenseProcessingRequest = OffenseProcessingRequest.builder()
                                                                     .processingTemplateUUID(UUID.randomUUID())
                                                                     .criminalUUID(UUID.randomUUID())
@@ -41,7 +38,7 @@ class GraalVMJSTests {
                                                                     .build();
         File scriptFile = new File(getClass().getClassLoader().getResource("offenseProcessingTestFiles/offenseProcessingTestFile1.js").getFile());
         OffenseProcessingTemplate offenseProcessingTemplate = OffenseProcessingTemplate.builder().scriptFile(scriptFile).offenseProcessingTemplateUUID(UUID.randomUUID()).build();
-        OffenseScriptProcessingResult result = offenseManager.processScript(offenseProcessingRequest, offenseProcessingTemplate);
+        OffenseScriptProcessingResult result = api.getCore().getOffenseManager().getDefaultOffenseProcessor().processScript(offenseProcessingRequest, offenseProcessingTemplate.getScriptFile());
         assertEquals("testvalueresult", result.attributes.get("testkeyresult"));
         assertEquals("testvaluepunishment",result.punishments.get(0).attributes.get("testkeypunishment"));
         assertEquals(1000,result.punishments.get(0).startTime);
@@ -56,7 +53,6 @@ class GraalVMJSTests {
     void offenseProcessingJSImportVariablesTest() throws IOException, StartupException {
         PunishAPI api = new PunishAPI();
         api.startup();
-        OffenseManager offenseManager = Objects.requireNonNull(api.getCore().getOffenseManager());
         OffenseProcessingRequest offenseProcessingRequest = OffenseProcessingRequest.builder()
                                                                     .processingTemplateUUID(UUID.randomUUID())
                                                                     .criminalUUID(UUID.randomUUID())
@@ -65,7 +61,7 @@ class GraalVMJSTests {
                                                                     .build();
         File scriptFile = new File(getClass().getClassLoader().getResource("offenseProcessingTestFiles/importVariablesJSTest.js").getFile());
         OffenseProcessingTemplate offenseProcessingTemplate = OffenseProcessingTemplate.builder().scriptFile(scriptFile).offenseProcessingTemplateUUID(UUID.randomUUID()).build();
-        assertDoesNotThrow(()->offenseManager.processScript(offenseProcessingRequest, offenseProcessingTemplate));
+        assertDoesNotThrow(()->api.getCore().getOffenseManager().getDefaultOffenseProcessor().processScript(offenseProcessingRequest, offenseProcessingTemplate.getScriptFile()));
         
     }
     
