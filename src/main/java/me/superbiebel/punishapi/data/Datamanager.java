@@ -5,9 +5,11 @@ import lombok.Getter;
 import me.superbiebel.punishapi.abstractions.ServiceRegistry;
 import me.superbiebel.punishapi.data.services.OffenseProcessingTemplateStorage;
 import me.superbiebel.punishapi.data.services.OffenseRecordStorage;
+import me.superbiebel.punishapi.data.services.UserAccountService;
 import me.superbiebel.punishapi.data.services.UserLockService;
 import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
+import me.superbiebel.punishapi.dataobjects.UserAccount;
 import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
@@ -15,6 +17,8 @@ import me.superbiebel.punishapi.exceptions.StartupException;
 import me.superbiebel.punishapi.services.Service;
 import org.apache.logging.log4j.LogManager;
 
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,7 +35,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     }
     
     public enum DataServiceType {
-        TEST,OFFENSE_PROCESSING_TEMPLATE_STORAGE,OFFENSE_RECORD_STORAGE,USER_LOCKING
+        TEST,OFFENSE_PROCESSING_TEMPLATE_STORAGE,OFFENSE_RECORD_STORAGE,USER_LOCKING,USER_ACCOUNT_STORAGE
     }
     public void lockUser(UUID uuid) throws ServiceNotFoundException {
         UserLockService userLockService = (UserLockService) getService(Datamanager.DataServiceType.USER_LOCKING);
@@ -59,6 +63,42 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     }
     public String testecho(String echo) {
         return echo;
+    }
+    
+    UserAccount createUser(UUID userUUID, Map<String, String> attributes) throws ServiceNotFoundException {
+        UserAccountService service = (UserAccountService) getService(DataServiceType.USER_ACCOUNT_STORAGE);
+        service.createUser(userUUID,attributes);
+        return UserAccount.builder().userUUID(userUUID).attributes(attributes).build();
+    }
+    
+    UserAccount retrieveUser(UUID userUUID) throws ServiceNotFoundException {
+        UserAccountService service = (UserAccountService) getService(DataServiceType.USER_ACCOUNT_STORAGE);
+        return service.retrieveUser(userUUID);
+    }
+    
+    void setAttribute(String key, String value) throws ServiceNotFoundException {
+        UserAccountService service = (UserAccountService) getService(DataServiceType.USER_ACCOUNT_STORAGE);
+        service.setAttribute(key, value);
+    }
+    
+    void removeAttribute(String key) throws ServiceNotFoundException {
+        UserAccountService service = (UserAccountService) getService(DataServiceType.USER_ACCOUNT_STORAGE);
+        service.removeAttribute(key);
+    }
+    
+    List<UserAccount> getByAttribute(String key, String value) throws ServiceNotFoundException {
+        UserAccountService service = (UserAccountService) getService(DataServiceType.USER_ACCOUNT_STORAGE);
+        return service.getByAttribute(key,value);
+    }
+    
+    List<UserAccount> getBykey(String key) throws ServiceNotFoundException {
+        UserAccountService service = (UserAccountService) getService(DataServiceType.USER_ACCOUNT_STORAGE);
+        return service.getBykey(key);
+    }
+    
+    List<UserAccount> getByValue(String value) throws ServiceNotFoundException {
+        UserAccountService service = (UserAccountService) getService(DataServiceType.USER_ACCOUNT_STORAGE);
+        return service.getByValue(value);
     }
     
     

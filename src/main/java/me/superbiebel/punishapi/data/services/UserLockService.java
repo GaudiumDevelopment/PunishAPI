@@ -1,6 +1,7 @@
 package me.superbiebel.punishapi.data.services;
 
 import me.superbiebel.punishapi.data.DataService;
+import me.superbiebel.punishapi.data.Datamanager;
 
 import java.util.UUID;
 
@@ -12,4 +13,7 @@ public interface UserLockService extends DataService {
     void lockUser(UUID uuid);
     //The processing is done
     void unlockUser(UUID uuid);
+    default Datamanager.DataServiceType serviceType(){
+        return Datamanager.DataServiceType.USER_LOCKING;
+    }
 }

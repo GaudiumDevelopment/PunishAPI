@@ -1,6 +1,7 @@
 package me.superbiebel.punishapi.data.services;
 
 import me.superbiebel.punishapi.data.DataService;
+import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.dataobjects.UserAccount;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface UserAccountService extends DataService {
     List<UserAccount> getByAttribute(String key, String value);
     List<UserAccount> getBykey(String key);
     List<UserAccount> getByValue(String value);
+    default Datamanager.DataServiceType serviceType(){
+        return Datamanager.DataServiceType.USER_ACCOUNT_STORAGE;
+    }
 }
