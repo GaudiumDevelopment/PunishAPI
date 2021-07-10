@@ -43,6 +43,9 @@ public class OffenseManager extends System {
         }
         
     }
+    public void submitOffenseWithoutProcessing(OffenseHistoryRecord offenseRecord) throws ServiceNotFoundException {
+        core.getDatamanager().storeOffense(offenseRecord);
+    }
     @NotNull
     public OffenseScriptProcessingResult processScript(OffenseProcessingRequest offenseProcessingRequest, OffenseProcessingTemplate template) throws IOException {
         
@@ -61,7 +64,7 @@ public class OffenseManager extends System {
         
         UUID offenseUUID = UUID.randomUUID();
         
-        result.punishments.forEach((punishmentScriptObject)->{
+        result.punishments.forEach(punishmentScriptObject->{
             Punishment.PunishmentBuilder punishmentBuilder = Punishment.builder()
                                             .punishmentUUID(UUID.randomUUID())
                                             .offenseUUID(offenseUUID)
@@ -73,7 +76,7 @@ public class OffenseManager extends System {
                                             .activated(punishmentScriptObject.activated)
                                             .scopes(punishmentScriptObject.scopes);
             List<PunishmentReduction> punishmentReductionList = new ArrayList<>();
-            punishmentScriptObject.punishmentReductionList.forEach((punishmentReductionScriptObject)->{
+            punishmentScriptObject.punishmentReductionList.forEach(punishmentReductionScriptObject->{
                 PunishmentReduction reduction = PunishmentReduction.builder()
                                                         .punishmentReductionUUID(UUID.randomUUID())
                                                         .amountSubtracted(punishmentReductionScriptObject.amountSubtracted)

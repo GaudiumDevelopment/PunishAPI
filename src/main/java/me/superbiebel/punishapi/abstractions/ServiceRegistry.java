@@ -11,9 +11,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class ServiceRegistry<T> extends System {
     
-    protected final ConcurrentHashMap<T, Service> serviceRegistryMap;
+    protected final ConcurrentHashMap<T, Service<T>> serviceRegistryMap;
     
-    protected ServiceRegistry(ConcurrentHashMap<T, Service> serviceRegistryMap) {
+    protected ServiceRegistry(ConcurrentHashMap<T, Service<T>> serviceRegistryMap) {
         this.serviceRegistryMap = serviceRegistryMap;
     }
     @Override
@@ -34,7 +34,7 @@ public abstract class ServiceRegistry<T> extends System {
     protected abstract void onServiceRegistryShutdown() throws ShutDownException;
     protected abstract void onServiceRegistryKill() throws ShutDownException;
     
-    public void addService(T serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+    public void addService(T serviceType, Service<T> service) throws StartupException, ServiceAlreadyRegisteredException {
         if(serviceRegistryMap.containsKey(serviceType)) {
             throw new ServiceAlreadyRegisteredException("Service was already registered");
         }
@@ -42,19 +42,19 @@ public abstract class ServiceRegistry<T> extends System {
         service.serviceStartup(false);
     }
     
-    public Service getService(T serviceType) throws ServiceNotFoundException {
-        Service returnedService = serviceRegistryMap.get(serviceType);
+    public Service<T> getService(T serviceType) throws ServiceNotFoundException {
+        Service<T> returnedService = serviceRegistryMap.get(serviceType);
         if (returnedService == null) {
             throw new ServiceNotFoundException();
         }
         return returnedService;
     }
     
-    public Service removeService(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+    public Service<T> removeService(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         if (!serviceRegistryMap.containsKey(serviceType)) {
             throw new ServiceNotFoundException("Servicetype not found");
         }
-        Service service = serviceRegistryMap.remove(serviceType);
+        Service<T> service = serviceRegistryMap.remove(serviceType);
         if (kill) {
             service.serviceKill();
         } else {

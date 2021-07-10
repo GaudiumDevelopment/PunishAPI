@@ -1,6 +1,7 @@
 package me.superbiebel.punishapi.api;
 
 import me.superbiebel.punishapi.PunishCore;
+import me.superbiebel.punishapi.data.DataService;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
@@ -15,14 +16,14 @@ public class DataAPI {
     public DataAPI(PunishCore core) {
         this.core = core;
     }
-    public void addService(Datamanager.DataServiceType dataServiceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
+    public void addService(Datamanager.DataServiceType dataServiceType, DataService service) throws StartupException, ServiceAlreadyRegisteredException {
         core.getDatamanager().addService(dataServiceType, service);
     }
     @Nullable
-    public Service removeService(Datamanager.DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+    public Service<Datamanager.DataServiceType> removeService(Datamanager.DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         return core.getDatamanager().removeService(dataServiceType,kill);
     }
-    public Service getService(Datamanager.DataServiceType dataServiceType) throws ServiceNotFoundException {
+    public Service<Datamanager.DataServiceType> getService(Datamanager.DataServiceType dataServiceType) throws ServiceNotFoundException {
         return core.getDatamanager().getService(dataServiceType);
     }
     

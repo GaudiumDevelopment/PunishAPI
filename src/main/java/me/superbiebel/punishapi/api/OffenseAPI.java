@@ -3,6 +3,7 @@ package me.superbiebel.punishapi.api;
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.data.services.OffenseProcessingTemplateStorage;
+import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
@@ -23,6 +24,9 @@ public class OffenseAPI {
         } catch (IOException e) {
             throw new FailedServiceOperationException(e);
         }
+    }
+    public void submitOffenseWithoutProcessing(OffenseHistoryRecord offenseRecord) throws ServiceNotFoundException {
+        core.getOffenseManager().submitOffenseWithoutProcessing(offenseRecord);
     }
     public void createOffenseProcessingTemplate(OffenseProcessingTemplate template) throws ServiceNotFoundException {
         OffenseProcessingTemplateStorage service = (OffenseProcessingTemplateStorage) core.getDatamanager().getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE);
