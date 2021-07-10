@@ -28,18 +28,20 @@ public class OffenseManager extends System {
     }
     @NotNull
     public OffenseHistoryRecord submitOffense(OffenseProcessingRequest offenseProcessingRequest) throws ServiceNotFoundException, IOException {
-        
         Datamanager datamanager = core.getDatamanager();
-        datamanager.lockUser(offenseProcessingRequest.getCriminalUUID());
+        try {
+            
+            datamanager.lockUser(offenseProcessingRequest.getCriminalUUID());
+            OffenseScriptProcessingResult verdict = processScript(offenseProcessingRequest
+                    , datamanager.retrieveOffenseProcessingTemplate(offenseProcessingRequest.getProcessingTemplateUUID()));
+    
+            OffenseHistoryRecord offenseHistoryRecord = convertToOffenseHistoryRecord(verdict, offenseProcessingRequest);
+            core.getDatamanager().storeOffense(offenseHistoryRecord);
+            return offenseHistoryRecord;
+        } finally {
+            datamanager.unlockUser(offenseProcessingRequest.getCriminalUUID());
+        }
         
-        
-        OffenseScriptProcessingResult verdict = processScript(offenseProcessingRequest
-                ,datamanager.retrieveOffenseProcessingTemplate(offenseProcessingRequest.getProcessingTemplateUUID()));
-        
-        OffenseHistoryRecord offenseHistoryRecord = convertToOffenseHistoryRecord(verdict, offenseProcessingRequest);
-        core.getDatamanager().storeOffense(offenseHistoryRecord);
-        
-        return offenseHistoryRecord;
     }
     @NotNull
     public OffenseScriptProcessingResult processScript(OffenseProcessingRequest offenseProcessingRequest, OffenseProcessingTemplate template) throws IOException {
