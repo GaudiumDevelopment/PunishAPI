@@ -10,11 +10,7 @@ import me.superbiebel.punishapi.data.services.UserLockService;
 import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.dataobjects.UserAccount;
-import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
-import me.superbiebel.punishapi.exceptions.ShutDownException;
-import me.superbiebel.punishapi.exceptions.StartupException;
-import me.superbiebel.punishapi.services.Service;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.List;
@@ -122,55 +118,5 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     }
     public int serviceCount() {
         return serviceRegistryMap.size();
-    }
-    
-    @Override
-    protected void onServiceAddedBegin(DataServiceType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
-        //to be implemented if needed
-    }
-    
-    @Override
-    protected void onServiceAddedMiddle(DataServiceType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
-        //to be implemented if needed
-    }
-    
-    @Override
-    protected void onServiceAddedEnd(DataServiceType serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
-        //to be implemented if needed
-    }
-    
-    @Override
-    protected void onServiceRemovedBegin(DataServiceType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        //to be implemented if needed
-    }
-    
-    @Override
-    protected void onServiceRemovedMiddle(DataServiceType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        //to be implemented if needed
-    }
-    
-    @Override
-    protected void onServiceRemovedEnd(DataServiceType serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
-        //to be implemented if needed
-    }
-    
-    @Override
-    protected void onServiceRegistryEmptyingBegin(boolean kill) throws ShutDownException, ServiceNotFoundException {
-        //to be implemented if needed
-    }
-    
-    @Override
-    protected void onServiceRegistryEmptyingBeginIteration(boolean kill) throws ShutDownException, ServiceNotFoundException {
-        //to be implemented if needed
-    }
-    
-    @Override
-    protected void onServiceRegistryEmptyingEndIteration(boolean kill) throws ShutDownException, ServiceNotFoundException {
-        //to be implemented if needed
-    }
-    
-    @Override
-    protected void onServiceRegistryEmptyingEnd(boolean kill) throws ShutDownException, ServiceNotFoundException {
-        //to be implemented if needed
     }
 }
