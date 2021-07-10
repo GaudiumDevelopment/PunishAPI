@@ -3,10 +3,11 @@ package me.superbiebel.punishapi.offenseprocessing;
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.abstractions.System;
 import me.superbiebel.punishapi.data.Datamanager;
+import me.superbiebel.punishapi.dataobjects.*;
+import me.superbiebel.punishapi.dataobjects.scriptobjects.OffenseScriptProcessingResult;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.*;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
@@ -46,7 +47,7 @@ public class OffenseManager extends System {
         try (Context context = Context.newBuilder().allowAllAccess(true).build()) {
             Source source = Source.newBuilder("js", template.getScriptFile()).build();
             Value jsBindings = context.getBindings("js");
-            jsBindings.putMember("offenseProcessingRequest", offenseProcessingRequest);
+            jsBindings.putMember("request", offenseProcessingRequest);
             jsBindings.putMember("datamanager", core.getDatamanager());
             context.eval(source);
             Value verdictValue = jsBindings.getMember("verdict");

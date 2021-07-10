@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.offenseprocessing.dataobjects;
+package me.superbiebel.punishapi.dataobjects.scriptobjects;
 
 import java.util.List;
 import java.util.Map;

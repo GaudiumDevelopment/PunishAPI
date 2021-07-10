@@ -1,7 +1,7 @@
 package me.superbiebel.punishapi.data.services;
 
 import me.superbiebel.punishapi.data.DataService;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseHistoryRecord;
+import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 
 import java.util.UUID;
 

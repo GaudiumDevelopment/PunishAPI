@@ -1,8 +1,12 @@
 package me.superbiebel.punishapi.tests.offensemanagertests;
 
 import me.superbiebel.punishapi.api.PunishAPI;
+import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
+import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
+import me.superbiebel.punishapi.dataobjects.scriptobjects.OffenseScriptProcessingResult;
+import me.superbiebel.punishapi.dataobjects.scriptobjects.PunishmentReductionScriptObject;
+import me.superbiebel.punishapi.dataobjects.scriptobjects.PunishmentScriptObject;
 import me.superbiebel.punishapi.exceptions.StartupException;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

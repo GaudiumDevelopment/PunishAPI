@@ -3,10 +3,10 @@ package me.superbiebel.punishapi.api;
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.data.services.OffenseProcessingTemplateStorage;
+import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
+import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseProcessingRequest;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseProcessingTemplate;
 
 import java.io.IOException;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.offenseprocessing.dataobjects;
+package me.superbiebel.punishapi.dataobjects;
 
 import lombok.Builder;
 import lombok.Getter;

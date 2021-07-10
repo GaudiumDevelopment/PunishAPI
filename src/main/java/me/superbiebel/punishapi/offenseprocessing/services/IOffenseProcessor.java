@@ -1,8 +1,8 @@
 package me.superbiebel.punishapi.offenseprocessing.services;
 
+import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
+import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseHistoryRecord;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.services.Service;
 
 public interface IOffenseProcessor extends Service<String> {

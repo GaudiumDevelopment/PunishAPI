@@ -1,11 +1,11 @@
 package me.superbiebel.punishapi.tests.js;
 
 import me.superbiebel.punishapi.api.PunishAPI;
+import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
+import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
+import me.superbiebel.punishapi.dataobjects.scriptobjects.OffenseScriptProcessingResult;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import me.superbiebel.punishapi.offenseprocessing.OffenseManager;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseProcessingRequest;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseProcessingTemplate;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseScriptProcessingResult;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class GraalVMJSTests {
     }
     
     @Test //offenseProcessingTestFile1.js
-    void offenseProcessingTest() throws IOException, InterruptedException, StartupException {
+    void offenseProcessingJSProcessingTest() throws IOException, InterruptedException, StartupException {
         PunishAPI api = new PunishAPI();
         api.startup();
         OffenseManager offenseManager = Objects.requireNonNull(api.getCore().getOffenseManager());
@@ -51,6 +51,21 @@ class GraalVMJSTests {
         assertEquals(123160, result.punishments.get(0).punishmentReductionList.get(0).priority);
         assertEquals(65464, result.punishments.get(0).punishmentReductionList.get(0).amountSubtracted);
         assertEquals("testvaluepunishmentreductionattributes", result.punishments.get(0).punishmentReductionList.get(0).attributes.get("testkeypunishmentreductionattributes"));
+    }
+    @Test //importVariablesJSTest.js
+    void offenseProcessingJSImportVariablesTest() throws IOException, StartupException {
+        PunishAPI api = new PunishAPI();
+        api.startup();
+        OffenseManager offenseManager = Objects.requireNonNull(api.getCore().getOffenseManager());
+        OffenseProcessingRequest offenseProcessingRequest = OffenseProcessingRequest.builder()
+                                                                    .processingTemplateUUID(UUID.randomUUID())
+                                                                    .criminalUUID(UUID.randomUUID())
+                                                                    .moderatorUUID(UUID.randomUUID())
+                                                                    .attributes(new HashMap<>())
+                                                                    .build();
+        File scriptFile = new File(getClass().getClassLoader().getResource("offenseProcessingTestFiles/importVariablesJSTest.js").getFile());
+        OffenseProcessingTemplate offenseProcessingTemplate = OffenseProcessingTemplate.builder().scriptFile(scriptFile).offenseProcessingTemplateUUID(UUID.randomUUID()).build();
+        OffenseScriptProcessingResult result = offenseManager.processScript(offenseProcessingRequest, offenseProcessingTemplate);
     }
     
 }

@@ -6,15 +6,14 @@ import me.superbiebel.punishapi.abstractions.ServiceRegistry;
 import me.superbiebel.punishapi.data.services.OffenseProcessingTemplateStorage;
 import me.superbiebel.punishapi.data.services.OffenseRecordStorage;
 import me.superbiebel.punishapi.data.services.UserLockService;
+import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
+import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseHistoryRecord;
-import me.superbiebel.punishapi.offenseprocessing.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.services.Service;
 import org.apache.logging.log4j.LogManager;
-import org.graalvm.polyglot.HostAccess;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,7 +45,6 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
         OffenseRecordStorage service = (OffenseRecordStorage) getService(Datamanager.DataServiceType.OFFENSE_RECORD_STORAGE);
         service.storeOffenseRecord(offenseHistoryRecord);
     }
-    @HostAccess.Export
     public void retrieveOffense(UUID offenseUUID) throws ServiceNotFoundException {
         OffenseRecordStorage service = (OffenseRecordStorage) getService(Datamanager.DataServiceType.OFFENSE_RECORD_STORAGE);
         service.retrieveOffenseRecord(offenseUUID);
@@ -59,6 +57,9 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
         OffenseProcessingTemplateStorage service = (OffenseProcessingTemplateStorage) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE);
         
         return service.retrieveOffenseProcessingTemplate(templateUUID);
+    }
+    public String testecho(String echo) {
+        return echo;
     }
     
     
