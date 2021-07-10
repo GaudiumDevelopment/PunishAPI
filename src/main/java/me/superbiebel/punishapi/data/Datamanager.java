@@ -121,12 +121,12 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     
     @Override
     protected void onServiceRegistryEmptyingBeginIteration(boolean kill) throws ShutDownException, ServiceNotFoundException {
-    
+        //to be implemented if needed
     }
     
     @Override
     protected void onServiceRegistryEmptyingEndIteration(boolean kill) throws ShutDownException, ServiceNotFoundException {
-    
+        //to be implemented if needed
     }
     
     @Override
