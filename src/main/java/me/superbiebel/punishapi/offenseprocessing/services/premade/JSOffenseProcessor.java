@@ -16,17 +16,17 @@ public class JSOffenseProcessor extends AbstractOffenseProcessor {
     
     @Override
     public void serviceStartup(boolean force) throws StartupException {
-    
+        //to be implemented if needed
     }
     
     @Override
     public void serviceShutdown() throws ShutDownException {
-    
+        //to be implemented if needed
     }
     
     @Override
     public void serviceKill() {
-    
+        //to be implemented if needed
     }
     
     @Override
