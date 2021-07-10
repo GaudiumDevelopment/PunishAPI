@@ -45,9 +45,9 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
         OffenseRecordStorage service = (OffenseRecordStorage) getService(Datamanager.DataServiceType.OFFENSE_RECORD_STORAGE);
         service.storeOffenseRecord(offenseHistoryRecord);
     }
-    public void retrieveOffense(UUID offenseUUID) throws ServiceNotFoundException {
+    public OffenseHistoryRecord retrieveOffense(UUID offenseUUID) throws ServiceNotFoundException {
         OffenseRecordStorage service = (OffenseRecordStorage) getService(Datamanager.DataServiceType.OFFENSE_RECORD_STORAGE);
-        service.retrieveOffenseRecord(offenseUUID);
+        return service.retrieveOffenseRecord(offenseUUID);
     }
     public void createOffenseProcessingTemplate(OffenseProcessingTemplate template) throws ServiceNotFoundException {
         OffenseProcessingTemplateStorage service = (OffenseProcessingTemplateStorage) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE);
@@ -55,7 +55,6 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     }
     public OffenseProcessingTemplate retrieveOffenseProcessingTemplate(UUID templateUUID) throws ServiceNotFoundException {
         OffenseProcessingTemplateStorage service = (OffenseProcessingTemplateStorage) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE);
-        
         return service.retrieveOffenseProcessingTemplate(templateUUID);
     }
     public String testecho(String echo) {
