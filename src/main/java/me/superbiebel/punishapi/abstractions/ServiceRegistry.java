@@ -38,11 +38,8 @@ public abstract class ServiceRegistry<T> extends System {
         if(serviceRegistryMap.containsKey(serviceType)) {
             throw new ServiceAlreadyRegisteredException("Service was already registered");
         }
-        onServiceAddedBegin(serviceType, service);
         serviceRegistryMap.put(serviceType,service);
-        onServiceAddedMiddle(serviceType, service);
         service.serviceStartup(false);
-        onServiceAddedEnd(serviceType,service);
     }
     
     public Service getService(T serviceType) throws ServiceNotFoundException {
@@ -57,43 +54,18 @@ public abstract class ServiceRegistry<T> extends System {
         if (!serviceRegistryMap.containsKey(serviceType)) {
             throw new ServiceNotFoundException("Servicetype not found");
         }
-        onServiceRemovedBegin(serviceType, kill);
         Service service = serviceRegistryMap.remove(serviceType);
-        onServiceRemovedMiddle(serviceType, kill);
         if (kill) {
             service.serviceKill();
-            onServiceRemovedEnd(serviceType,kill);
         } else {
             service.serviceShutdown();
-            onServiceRemovedEnd(serviceType,kill);
         }
         return service;
     }
     public void emptyServiceRegistry(boolean kill) throws ShutDownException, ServiceNotFoundException {
-        onServiceRegistryEmptyingBegin(kill);
         for (Iterator<T> it = serviceRegistryMap.keys().asIterator(); it.hasNext(); ) {
             T serviceType = it.next();
-            onServiceRegistryEmptyingBeginIteration(kill);
             this.removeService(serviceType, kill);
-            onServiceRegistryEmptyingEndIteration(kill);
         }
-        onServiceRegistryEmptyingEnd(kill);
     }
-    
-    /**
-     * Begin = before the service is started up/shutdown/killed and before put into Map
-     * middle = before the service is started up/shutdown/killed but after put/removed into/from Map
-     * End = after the service is started up/shutdown/killed
-     */
-    protected abstract void onServiceAddedBegin(T serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException;
-    protected abstract void onServiceAddedMiddle(T serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException;
-    
-    protected abstract void onServiceAddedEnd(T serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException;
-    protected abstract void onServiceRemovedBegin(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException;
-    protected abstract void onServiceRemovedMiddle(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException;
-    protected abstract void onServiceRemovedEnd(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException;
-    protected abstract void onServiceRegistryEmptyingBegin(boolean kill) throws ShutDownException, ServiceNotFoundException;
-    protected abstract void onServiceRegistryEmptyingBeginIteration(boolean kill) throws ShutDownException, ServiceNotFoundException;
-    protected abstract void onServiceRegistryEmptyingEndIteration(boolean kill) throws ShutDownException, ServiceNotFoundException;
-    protected abstract void onServiceRegistryEmptyingEnd(boolean kill) throws ShutDownException, ServiceNotFoundException;
 }
