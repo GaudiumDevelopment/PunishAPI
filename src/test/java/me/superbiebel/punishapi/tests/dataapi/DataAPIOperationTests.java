@@ -70,7 +70,6 @@ class DataAPIOperationTests {
     @Execution(ExecutionMode.CONCURRENT)
     void removeServiceTest(boolean kill) throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException, ShutDownException {
         PunishAPI api = new PunishAPI();
-        PunishCore core = api.getCore();
         api.startup();
     
         TestServiceImpl testService = new TestServiceImpl();
