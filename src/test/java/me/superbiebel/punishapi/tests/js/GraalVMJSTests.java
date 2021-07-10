@@ -65,7 +65,8 @@ class GraalVMJSTests {
                                                                     .build();
         File scriptFile = new File(getClass().getClassLoader().getResource("offenseProcessingTestFiles/importVariablesJSTest.js").getFile());
         OffenseProcessingTemplate offenseProcessingTemplate = OffenseProcessingTemplate.builder().scriptFile(scriptFile).offenseProcessingTemplateUUID(UUID.randomUUID()).build();
-        OffenseScriptProcessingResult result = offenseManager.processScript(offenseProcessingRequest, offenseProcessingTemplate);
+        assertDoesNotThrow(()->offenseManager.processScript(offenseProcessingRequest, offenseProcessingTemplate));
+        
     }
     
 }
