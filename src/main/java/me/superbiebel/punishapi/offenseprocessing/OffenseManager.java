@@ -12,6 +12,7 @@ import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import me.superbiebel.punishapi.offenseprocessing.services.IOffenseProcessor;
 import me.superbiebel.punishapi.offenseprocessing.services.premade.JSOffenseProcessor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -38,7 +39,7 @@ public class OffenseManager extends ServiceRegistry<String> {
      *
      */
     
-    public OffenseHistoryRecord submitOffense(OffenseProcessingRequest offenseProcessingRequest) throws ServiceNotFoundException {
+    public OffenseHistoryRecord submitOffense(@NotNull OffenseProcessingRequest offenseProcessingRequest) throws ServiceNotFoundException {
         Datamanager datamanager = core.getDatamanager();
         try {
             
