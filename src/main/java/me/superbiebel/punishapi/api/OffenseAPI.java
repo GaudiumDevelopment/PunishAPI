@@ -17,8 +17,8 @@ public class OffenseAPI {
     public OffenseAPI(PunishCore core) {
         this.core = core;
     }
-    public void submitOffense(OffenseProcessingRequest offenseProcessingRequest) throws FailedServiceOperationException, ServiceNotFoundException {
-        core.getOffenseManager().submitOffense(offenseProcessingRequest);
+    public OffenseHistoryRecord submitOffense(OffenseProcessingRequest offenseProcessingRequest) throws FailedServiceOperationException, ServiceNotFoundException {
+        return core.getOffenseManager().submitOffense(offenseProcessingRequest);
     }
     public void submitOffenseWithoutProcessing(OffenseHistoryRecord offenseRecord) throws ServiceNotFoundException {
         core.getOffenseManager().submitOffenseWithoutProcessing(offenseRecord);

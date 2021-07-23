@@ -7,7 +7,7 @@ import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.dataobjects.Punishment;
 import me.superbiebel.punishapi.dataobjects.PunishmentReduction;
 import me.superbiebel.punishapi.dataobjects.scriptobjects.OffenseScriptProcessingResult;
-import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
+import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import me.superbiebel.punishapi.offenseprocessing.services.AbstractOffenseProcessor;
@@ -31,21 +31,19 @@ public class JSOffenseProcessor extends AbstractOffenseProcessor {
     }
     
     @Override
-    protected OffenseHistoryRecord process(OffenseProcessingRequest offenseProcessingRequest, File scriptFile) {
-        return convertToOffenseHistoryRecord(processScript(offenseProcessingRequest,));
+    protected OffenseHistoryRecord process(OffenseProcessingRequest offenseProcessingRequest, File scriptFile) throws OffenseProcessingException {
+        try {
+            return convertToOffenseHistoryRecord(processScript(offenseProcessingRequest, scriptFile), offenseProcessingRequest);
+        } catch (Exception e) {
+            throw new OffenseProcessingException(e);
+        }
     }
     
     @Override
     public void serviceStartup(boolean force) throws StartupException {
         //to be implemented if needed
     }
-    @NotNull
-    public OffenseHistoryRecord submitOffense(OffenseProcessingRequest offenseProcessingRequest) throws ServiceNotFoundException, IOException {
     
-    }
-    public void submitOffenseWithoutProcessing(OffenseHistoryRecord offenseRecord) throws ServiceNotFoundException {
-        core.getDatamanager().storeOffense(offenseRecord);
-    }
     @NotNull
     public OffenseScriptProcessingResult processScript(OffenseProcessingRequest offenseProcessingRequest, File scriptFile) throws IOException {
         try (Context context = Context.newBuilder().allowAllAccess(true).build()) {
@@ -118,6 +116,6 @@ public class JSOffenseProcessor extends AbstractOffenseProcessor {
     
     @Override
     public boolean isScriptBased() {
-        return true;
+        return true; //yes becuz it uses js scripts.
     }
 }

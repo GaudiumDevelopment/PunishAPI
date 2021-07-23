@@ -6,6 +6,7 @@ import me.superbiebel.punishapi.abstractions.ServiceRegistry;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
+import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
@@ -36,17 +37,19 @@ public class OffenseManager extends ServiceRegistry<String> {
      * 3. A custom offenseprocessor that is already supplied will be used otherwise the default processor will be used (JS)
      * 4. The offenseprocessor will process this offense and then generate an OffenseHistoryRecord
      * 5. The generated offenseHistoryRecord will then be stored inside the database.
-     *
      */
     
-    public OffenseHistoryRecord submitOffense(@NotNull OffenseProcessingRequest offenseProcessingRequest) throws ServiceNotFoundException {
+    public OffenseHistoryRecord submitOffense(@NotNull OffenseProcessingRequest offenseProcessingRequest) throws ServiceNotFoundException, FailedServiceOperationException {
         Datamanager datamanager = core.getDatamanager();
         try {
-            
             datamanager.lockUser(offenseProcessingRequest.getCriminalUUID());
-            
+            OffenseProcessingTemplate template = datamanager.retrieveOffenseProcessingTemplate(offenseProcessingRequest.getProcessingTemplateUUID());
+            IOffenseProcessor processor = (IOffenseProcessor) super.getService(template.getOffenseProcessorID());
+            if (processor.isScriptBased()) {
+                processor.processOffense(offenseProcessingRequest,template.getScriptFile());
+            }
         } finally {
-        datamanager.unlockUser(offenseProcessingRequest.getCriminalUUID());
+            datamanager.unlockUser(offenseProcessingRequest.getCriminalUUID());
         }
         return null;
     }
