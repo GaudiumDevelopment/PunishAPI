@@ -61,7 +61,7 @@ public class JSOffenseProcessor extends AbstractOffenseProcessor {
     
     @Override
     public String serviceType() {
-        return null; //TODO: set it to a non-null value.
+        return "JSGRAALVM";
     }
     
     

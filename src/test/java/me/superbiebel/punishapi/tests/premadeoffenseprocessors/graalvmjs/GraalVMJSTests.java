@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.tests.js;
+package me.superbiebel.punishapi.tests.premadeoffenseprocessors.graalvmjs;
 
 import java.io.File;
 import java.io.IOException;
