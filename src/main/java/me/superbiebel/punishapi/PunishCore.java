@@ -7,7 +7,9 @@ import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import me.superbiebel.punishapi.offenseprocessing.OffenseManager;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
 
 //multiple instances of this class can be created!
 public class PunishCore extends System {
@@ -19,6 +21,7 @@ public class PunishCore extends System {
     
     @Override
     protected void onStartup(boolean forcedInit) throws StartupException {
+        setLogLevel(Level.ALL);
         LogManager.getLogger().debug("Starting up PunishAPI");
         datamanager = new Datamanager();
         datamanager.startup();
@@ -36,5 +39,11 @@ public class PunishCore extends System {
         LogManager.getLogger().debug("Killing PunishAPI");
         datamanager.kill();
         offenseManager.kill();
+    }
+    public void setLogLevel(Level logLevel) {
+        final LoggerContext context = (LoggerContext) LogManager.getContext(false);
+        final org.apache.logging.log4j.core.config.Configuration config = context.getConfiguration();
+        config.getLoggerConfig(LogManager.ROOT_LOGGER_NAME).setLevel(logLevel);
+        context.updateLoggers(config);
     }
 }

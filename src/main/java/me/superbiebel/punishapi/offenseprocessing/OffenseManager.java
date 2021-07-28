@@ -1,5 +1,7 @@
 package me.superbiebel.punishapi.offenseprocessing;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import lombok.Getter;
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.abstractions.ServiceRegistry;
@@ -8,22 +10,24 @@ import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
+import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
-import me.superbiebel.punishapi.exceptions.ShutDownException;
-import me.superbiebel.punishapi.exceptions.StartupException;
 import me.superbiebel.punishapi.offenseprocessing.services.IOffenseProcessor;
-import me.superbiebel.punishapi.offenseprocessing.services.premade.JSOffenseProcessor;
+import me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.JSOffenseProcessor;
+import me.superbiebel.punishapi.services.Service;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.File;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class OffenseManager extends ServiceRegistry<String> {
     
     private final PunishCore core;
     @Getter
     private final JSOffenseProcessor defaultOffenseProcessor;
+    
+    public OffenseManager(ConcurrentMap<String, Service<String>> serviceRegistryMap, PunishCore core, JSOffenseProcessor defaultOffenseProcessor) {
+        super(serviceRegistryMap);
+        this.core = core;
+        this.defaultOffenseProcessor = defaultOffenseProcessor;
+    }
     
     public OffenseManager(PunishCore core) {
         super(new ConcurrentHashMap<>());
@@ -39,43 +43,61 @@ public class OffenseManager extends ServiceRegistry<String> {
      * 5. The generated offenseHistoryRecord will then be stored inside the database.
      */
     
-    public OffenseHistoryRecord submitOffense(@NotNull OffenseProcessingRequest offenseProcessingRequest) throws ServiceNotFoundException, FailedServiceOperationException {
+    public OffenseHistoryRecord submitOffense(@NotNull OffenseProcessingRequest offenseProcessingRequest) throws ServiceNotFoundException, FailedServiceOperationException, OffenseProcessingException {
         Datamanager datamanager = core.getDatamanager();
         try {
+            //Indicate that processing on this user begins.
             datamanager.lockUser(offenseProcessingRequest.getCriminalUUID());
+            
+            //Download this template.
             OffenseProcessingTemplate template = datamanager.retrieveOffenseProcessingTemplate(offenseProcessingRequest.getProcessingTemplateUUID());
-            IOffenseProcessor processor = (IOffenseProcessor) super.getService(template.getOffenseProcessorID());
+            
+            //Get the appropriate offense processor.
+            IOffenseProcessor processor = getOffenseProcessor(template);
+            
             if (processor.isScriptBased()) {
-                processor.processOffense(offenseProcessingRequest,template.getScriptFile());
+                //confirm that if the processor is script based, the file can actually be found and run.
+                if (template.getScriptFile() == null) {
+                    throw new IllegalArgumentException("Script file cannot be null in a script based offenseprocessor!");
+                }
+                if (!template.getScriptFile().exists()) {
+                    throw new IllegalStateException("Script file that should be run does not exist!");
+                }
+                if (!template.getScriptFile().isFile()) {
+                    throw new IllegalStateException("Script file is not a file!");
+                }
             }
+            return processor.processOffense(offenseProcessingRequest,template.getScriptFile());
         } finally {
             datamanager.unlockUser(offenseProcessingRequest.getCriminalUUID());
         }
-        return null;
     }
     public void submitOffenseWithoutProcessing(OffenseHistoryRecord offenseHistoryRecord) throws ServiceNotFoundException {
         core.getDatamanager().storeOffense(offenseHistoryRecord);
     }
-    private OffenseHistoryRecord submitOffense(OffenseProcessingRequest offenseProcessingRequest, IOffenseProcessor offenseProcessor, @Nullable File scriptFile) throws ServiceNotFoundException, FailedServiceOperationException {
-            OffenseHistoryRecord offenseHistoryRecord = offenseProcessor.processOffense(offenseProcessingRequest, scriptFile);
-            
-            core.getDatamanager().storeOffense(offenseHistoryRecord);
-            return offenseHistoryRecord;
-        
+    
+    private IOffenseProcessor getOffenseProcessor(@NotNull OffenseProcessingTemplate template) throws ServiceNotFoundException {
+        IOffenseProcessor processor;
+        if (template.getOffenseProcessorID().equals("DEFAULTJSPROCESSOR")) {
+            processor = defaultOffenseProcessor;
+        } else {
+            processor = (IOffenseProcessor) super.getService(template.getOffenseProcessorID());
+        }
+        return processor;
     }
     
     @Override
-    protected void onServiceRegistryStartup(boolean force) throws StartupException {
+    protected void onServiceRegistryStartup(boolean force) {
         //implement if needed
     }
     
     @Override
-    protected void onServiceRegistryShutdown() throws ShutDownException {
+    protected void onServiceRegistryShutdown() {
         //implement if needed
     }
     
     @Override
-    protected void onServiceRegistryKill() throws ShutDownException {
+    protected void onServiceRegistryKill() {
         //implement if needed
     }
 }

@@ -1,19 +1,17 @@
 package me.superbiebel.punishapi.abstractions;
 
+import java.util.concurrent.ConcurrentMap;
 import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import me.superbiebel.punishapi.services.Service;
 
-import java.util.Iterator;
-import java.util.concurrent.ConcurrentHashMap;
-
 public abstract class ServiceRegistry<T> extends System {
     
-    protected final ConcurrentHashMap<T, Service<T>> serviceRegistryMap;
+    protected final ConcurrentMap<T, Service<T>> serviceRegistryMap;
     
-    protected ServiceRegistry(ConcurrentHashMap<T, Service<T>> serviceRegistryMap) {
+    protected ServiceRegistry(ConcurrentMap<T, Service<T>> serviceRegistryMap) {
         this.serviceRegistryMap = serviceRegistryMap;
     }
     @Override
@@ -63,8 +61,7 @@ public abstract class ServiceRegistry<T> extends System {
         return service;
     }
     public void emptyServiceRegistry(boolean kill) throws ShutDownException, ServiceNotFoundException {
-        for (Iterator<T> it = serviceRegistryMap.keys().asIterator(); it.hasNext(); ) {
-            T serviceType = it.next();
+        for (T serviceType : serviceRegistryMap.keySet()) {
             this.removeService(serviceType, kill);
         }
     }

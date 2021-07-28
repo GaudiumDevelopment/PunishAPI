@@ -1,7 +1,8 @@
-package me.superbiebel.punishapi.dataobjects.scriptobjects;
+package me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects;
 
 import java.util.List;
 import java.util.Map;
+import me.superbiebel.punishapi.offenseprocessing.annotations.NoWriteFromScript;
 
 /*the @Builder annotation cannot be used in the js script, graalvm will throw an exception
  *We will also not use the UUID class and instead use a string.
@@ -9,11 +10,17 @@ import java.util.Map;
  */
 
 public class PunishmentScriptObject {
+    @NoWriteFromScript
+    public String punishmentUUID;
+    @NoWriteFromScript
+    public String offenseUUID;
     public Map<String,String> attributes;
     public long startTime;
+    @NoWriteFromScript
+    public long originalDuration;
     public long duration;
     public boolean activated;
     public List<String> scopes;
-    public List<PunishmentReductionScriptObject> punishmentReductionList;
+    public List<PunishmentReductionScriptObject> punishmentReductions;
     public boolean decrementsDuration;
 }

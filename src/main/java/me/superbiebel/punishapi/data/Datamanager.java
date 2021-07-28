@@ -1,6 +1,10 @@
 package me.superbiebel.punishapi.data;
 
 
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
 import me.superbiebel.punishapi.abstractions.ServiceRegistry;
 import me.superbiebel.punishapi.data.services.OffenseProcessingTemplateStorage;
@@ -12,11 +16,6 @@ import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.dataobjects.UserAccount;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import org.apache.logging.log4j.LogManager;
-
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * FOR INTERNAL USE ONLY!!!!
@@ -72,27 +71,27 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
         return service.retrieveUser(userUUID);
     }
     
-    void setAttribute(String key, String value) throws ServiceNotFoundException {
+    void setUserAttribute(String key, String value) throws ServiceNotFoundException {
         UserAccountService service = (UserAccountService) getService(DataServiceType.USER_ACCOUNT_STORAGE);
         service.setAttribute(key, value);
     }
     
-    void removeAttribute(String key) throws ServiceNotFoundException {
+    void removeUserAttribute(String key) throws ServiceNotFoundException {
         UserAccountService service = (UserAccountService) getService(DataServiceType.USER_ACCOUNT_STORAGE);
         service.removeAttribute(key);
     }
     
-    List<UserAccount> getByAttribute(String key, String value) throws ServiceNotFoundException {
+    List<UserAccount> getUsersByAttribute(String key, String value) throws ServiceNotFoundException {
         UserAccountService service = (UserAccountService) getService(DataServiceType.USER_ACCOUNT_STORAGE);
         return service.getByAttribute(key,value);
     }
     
-    List<UserAccount> getBykey(String key) throws ServiceNotFoundException {
+    List<UserAccount> getUsersBykey(String key) throws ServiceNotFoundException {
         UserAccountService service = (UserAccountService) getService(DataServiceType.USER_ACCOUNT_STORAGE);
         return service.getBykey(key);
     }
     
-    List<UserAccount> getByValue(String value) throws ServiceNotFoundException {
+    List<UserAccount> getUsersByValue(String value) throws ServiceNotFoundException {
         UserAccountService service = (UserAccountService) getService(DataServiceType.USER_ACCOUNT_STORAGE);
         return service.getByValue(value);
     }
@@ -104,7 +103,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     }
     @Override
     protected void onServiceRegistryShutdown() {
-        serviceRegistryMap.keys().asIterator().forEachRemaining(dataServiceType -> {
+        serviceRegistryMap.keySet().iterator().forEachRemaining(dataServiceType -> {
             try {
                 this.removeService(dataServiceType, false);
             } catch (Exception e) {

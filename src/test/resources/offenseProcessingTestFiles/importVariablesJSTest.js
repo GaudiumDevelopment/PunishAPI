@@ -6,11 +6,11 @@ print(testrequest)
 
 
 //standard stuff so graalvm doesnt error
-var offenseProcessingResultClass = Java.type("me.superbiebel.punishapi.dataobjects.scriptobjects.OffenseScriptProcessingResult");
+var offenseProcessingResultClass = Java.type("me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.OffenseHistoryRecordScriptObject");
 var HashMap = Java.type("java.util.HashMap");
 var ArrayList = Java.type("java.util.ArrayList");
-var PunishmentScriptObject = Java.type("me.superbiebel.punishapi.dataobjects.scriptobjects.PunishmentScriptObject");
-var PunishmentReductionScriptObject = Java.type("me.superbiebel.punishapi.dataobjects.scriptobjects.PunishmentReductionScriptObject")
+var PunishmentScriptObject = Java.type("me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.PunishmentScriptObject");
+var PunishmentReductionScriptObject = Java.type("me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.PunishmentReductionScriptObject")
 
 var verdict = new offenseProcessingResultClass();
 var punishment1attributes = new HashMap();
@@ -19,7 +19,7 @@ var linkedPunishments = new ArrayList();
 var punishment1 = new PunishmentScriptObject();
 var scopes = new ArrayList();
 var punishmentReduction1 = new PunishmentReductionScriptObject();
-var punishmentReductionList = new ArrayList();
+var punishmentReductions = new ArrayList();
 
 scopes.add("MINECRAFT");
 punishment1attributes.put("testkeypunishment", "testvaluepunishment");
@@ -32,9 +32,9 @@ punishmentReduction1.amountSubtracted = 65464;
 var punishmentreductionattributes = new HashMap();
 punishmentreductionattributes.put("testkeypunishmentreductionattributes", "testvaluepunishmentreductionattributes");
 punishmentReduction1.attributes = punishmentreductionattributes;
-punishmentReductionList.add(punishmentReduction1)
+punishmentReductions.add(punishmentReduction1)
 
-punishment1.punishmentReductionList = punishmentReductionList;
+punishment1.punishmentReductions = punishmentReductions;
 
 punishment1.startTime = 1000;
 punishment1.attributes = punishment1attributes;

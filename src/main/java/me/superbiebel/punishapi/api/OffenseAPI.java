@@ -1,5 +1,6 @@
 package me.superbiebel.punishapi.api;
 
+import java.util.UUID;
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.data.services.OffenseProcessingTemplateStorage;
@@ -7,9 +8,8 @@ import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
+import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
-
-import java.util.UUID;
 
 public class OffenseAPI {
     private final PunishCore core;
@@ -17,7 +17,7 @@ public class OffenseAPI {
     public OffenseAPI(PunishCore core) {
         this.core = core;
     }
-    public OffenseHistoryRecord submitOffense(OffenseProcessingRequest offenseProcessingRequest) throws FailedServiceOperationException, ServiceNotFoundException {
+    public OffenseHistoryRecord submitOffense(OffenseProcessingRequest offenseProcessingRequest) throws FailedServiceOperationException, ServiceNotFoundException, OffenseProcessingException {
         return core.getOffenseManager().submitOffense(offenseProcessingRequest);
     }
     public void submitOffenseWithoutProcessing(OffenseHistoryRecord offenseRecord) throws ServiceNotFoundException {

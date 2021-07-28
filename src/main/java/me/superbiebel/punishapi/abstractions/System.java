@@ -1,21 +1,20 @@
 package me.superbiebel.punishapi.abstractions;
 
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import lombok.Getter;
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import org.apache.logging.log4j.LogManager;
 
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 public abstract class System {
     
     private final Lock startupShutdownLock = new ReentrantLock(true);
     
     @Getter
-    private AtomicReference<SystemStatus> atomicstatus = new AtomicReference<>();
+    private final AtomicReference<SystemStatus> atomicstatus = new AtomicReference<>();
     
     //locked so threadsafe
     public void startup(boolean force) throws StartupException{
@@ -26,7 +25,6 @@ public abstract class System {
                 throw new IllegalStateException("Cannot start up while already starting up!");
             }
             if ((atomicstatus.get() == SystemStatus.READY || atomicstatus.get() == SystemStatus.FORCED_READY)&&!force) {
-                LogManager.getLogger().debug("System already ready, aborting...");
                     throw new IllegalStateException("System already started up!");
             }
            atomicstatus.set(SystemStatus.STARTING_UP);

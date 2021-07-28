@@ -7,6 +7,7 @@ import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import org.apache.logging.log4j.LogManager;
 
+
 /**
  * This is the base class of the whole API. This is the only class where there may be interacted with.
  */
@@ -31,6 +32,7 @@ public class PunishAPI {
     public void kill() throws ShutDownException {
         core.kill();
     }
+    
     
     public SystemStatus status() {
         return core.status();

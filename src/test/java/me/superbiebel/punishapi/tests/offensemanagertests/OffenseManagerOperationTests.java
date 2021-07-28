@@ -1,17 +1,18 @@
 package me.superbiebel.punishapi.tests.offensemanagertests;
 
-import me.superbiebel.punishapi.api.PunishAPI;
-import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
-import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
-import me.superbiebel.punishapi.dataobjects.scriptobjects.OffenseScriptProcessingResult;
-import me.superbiebel.punishapi.dataobjects.scriptobjects.PunishmentReductionScriptObject;
-import me.superbiebel.punishapi.dataobjects.scriptobjects.PunishmentScriptObject;
-import me.superbiebel.punishapi.exceptions.StartupException;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import me.superbiebel.punishapi.api.PunishAPI;
+import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
+import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
+import me.superbiebel.punishapi.exceptions.StartupException;
+import me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.ScriptObjectConverter;
+import me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.OffenseHistoryRecordScriptObject;
+import me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.PunishmentReductionScriptObject;
+import me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.PunishmentScriptObject;
+import org.junit.jupiter.api.Test;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,7 +23,7 @@ class OffenseManagerOperationTests {
     
     @Test
     void offenseManagerConverterTest() throws StartupException {
-        OffenseScriptProcessingResult scriptProcessingResult = new OffenseScriptProcessingResult();
+        OffenseHistoryRecordScriptObject scriptProcessingResult = new OffenseHistoryRecordScriptObject();
         scriptProcessingResult.punishments = new ArrayList<>();
     
         
@@ -37,7 +38,7 @@ class OffenseManagerOperationTests {
         punishmentScriptObject.scopes = new ArrayList<>();
         punishmentScriptObject.scopes.add("DISCORD");
         punishmentScriptObject.scopes.add("MINECRAFT");
-        punishmentScriptObject.punishmentReductionList = new ArrayList<>();
+        punishmentScriptObject.punishmentReductions = new ArrayList<>();
         scriptProcessingResult.punishments.add(punishmentScriptObject);
         
         
@@ -53,8 +54,8 @@ class OffenseManagerOperationTests {
         punishmentReductionScriptObject2.attributes = new HashMap<>();
         punishmentReductionScriptObject2.attributes.put("testkeyATTRIBUTESOMETHING","testvalueATTRIBUTESOMETHING");
         
-        punishmentScriptObject.punishmentReductionList.add(punishmentReductionScriptObject);
-        punishmentScriptObject.punishmentReductionList.add(punishmentReductionScriptObject2);
+        punishmentScriptObject.punishmentReductions.add(punishmentReductionScriptObject);
+        punishmentScriptObject.punishmentReductions.add(punishmentReductionScriptObject2);
         
         
         PunishmentScriptObject punishmentScriptObject2 = new PunishmentScriptObject();
@@ -67,7 +68,7 @@ class OffenseManagerOperationTests {
         punishmentScriptObject2.scopes = new ArrayList<>();
         punishmentScriptObject2.scopes.add("SOMETHINGRANDOM");
         punishmentScriptObject2.scopes.add("STEAM");
-        punishmentScriptObject2.punishmentReductionList = new ArrayList<>();
+        punishmentScriptObject2.punishmentReductions = new ArrayList<>();
     
         scriptProcessingResult.punishments.add(punishmentScriptObject);
         
@@ -78,7 +79,7 @@ class OffenseManagerOperationTests {
         punishmentReductionScriptObject3.attributes = new HashMap<>();
         punishmentReductionScriptObject3.attributes.put("testkeyATTRIBUTESOMETHING3","testvalueATTRIBUTESOMETHING3");
         
-        punishmentScriptObject2.punishmentReductionList.add(punishmentReductionScriptObject3);
+        punishmentScriptObject2.punishmentReductions.add(punishmentReductionScriptObject3);
         
         PunishmentReductionScriptObject punishmentReductionScriptObject4 = new PunishmentReductionScriptObject();
         punishmentReductionScriptObject4.priority = 564654;
@@ -86,7 +87,7 @@ class OffenseManagerOperationTests {
         punishmentReductionScriptObject4.attributes = new HashMap<>();
         punishmentReductionScriptObject4.attributes.put("testkeyATTRIBUTESOMETHING4","testvalueATTRIBUTESOMETHING4");
         
-        punishmentScriptObject2.punishmentReductionList.add(punishmentReductionScriptObject4);
+        punishmentScriptObject2.punishmentReductions.add(punishmentReductionScriptObject4);
         
         UUID criminalUUID = UUID.randomUUID();
         UUID moderatorUUID = UUID.randomUUID();
@@ -101,8 +102,8 @@ class OffenseManagerOperationTests {
         PunishAPI api = new PunishAPI();
         api.startup();
         
-        historyRecord = api.getCore().getOffenseManager().getDefaultOffenseProcessor().convertToOffenseHistoryRecord(scriptProcessingResult, offenseProcessingRequest);
-    
+        historyRecord = ScriptObjectConverter.convertOffenseScriptProcessingResultToOffenseHistoryRecord(scriptProcessingResult, offenseProcessingRequest, false);
+
         assertEquals(historyRecord.getLinkedPunishments().get(0).getAttributes(), scriptProcessingResult.punishments.get(0).attributes);
         assertEquals(historyRecord.getLinkedPunishments().get(0).isActivated(),scriptProcessingResult.punishments.get(0).activated);
         assertEquals(historyRecord.getLinkedPunishments().get(0).isDecrementsDuration(),scriptProcessingResult.punishments.get(0).decrementsDuration);
@@ -111,10 +112,10 @@ class OffenseManagerOperationTests {
         assertEquals(historyRecord.getLinkedPunishments().get(0).getScopes().get(0),scriptProcessingResult.punishments.get(0).scopes.get(0));
         assertEquals(historyRecord.getLinkedPunishments().get(0).getScopes().get(0),scriptProcessingResult.punishments.get(0).scopes.get(0));
         assertEquals(historyRecord.getLinkedPunishments().get(0).getScopes().get(1),scriptProcessingResult.punishments.get(0).scopes.get(1));
-        assertEquals(historyRecord.getLinkedPunishments().get(0).getPunishmentReductions().get(0).getPriority(),scriptProcessingResult.punishments.get(0).punishmentReductionList.get(0).priority);
-        assertEquals(historyRecord.getLinkedPunishments().get(0).getPunishmentReductions().get(0).getAmountSubtracted(),scriptProcessingResult.punishments.get(0).punishmentReductionList.get(0).amountSubtracted);
-        assertEquals(historyRecord.getLinkedPunishments().get(0).getPunishmentReductions().get(1).getPriority(),scriptProcessingResult.punishments.get(0).punishmentReductionList.get(1).priority);
-        assertEquals(historyRecord.getLinkedPunishments().get(0).getPunishmentReductions().get(1).getAmountSubtracted(),scriptProcessingResult.punishments.get(0).punishmentReductionList.get(1).amountSubtracted);
+        assertEquals(historyRecord.getLinkedPunishments().get(0).getPunishmentReductions().get(0).getPriority(),scriptProcessingResult.punishments.get(0).punishmentReductions.get(0).priority);
+        assertEquals(historyRecord.getLinkedPunishments().get(0).getPunishmentReductions().get(0).getAmountSubtracted(),scriptProcessingResult.punishments.get(0).punishmentReductions.get(0).amountSubtracted);
+        assertEquals(historyRecord.getLinkedPunishments().get(0).getPunishmentReductions().get(1).getPriority(),scriptProcessingResult.punishments.get(0).punishmentReductions.get(1).priority);
+        assertEquals(historyRecord.getLinkedPunishments().get(0).getPunishmentReductions().get(1).getAmountSubtracted(),scriptProcessingResult.punishments.get(0).punishmentReductions.get(1).amountSubtracted);
         assertEquals(historyRecord.getLinkedPunishments().get(1).getAttributes(), scriptProcessingResult.punishments.get(1).attributes);
         assertEquals(historyRecord.getLinkedPunishments().get(1).isActivated(),scriptProcessingResult.punishments.get(1).activated);
         assertEquals(historyRecord.getLinkedPunishments().get(1).isDecrementsDuration(),scriptProcessingResult.punishments.get(1).decrementsDuration);
@@ -122,10 +123,10 @@ class OffenseManagerOperationTests {
         assertEquals(historyRecord.getLinkedPunishments().get(1).getDuration(),scriptProcessingResult.punishments.get(1).duration);
         assertEquals(historyRecord.getLinkedPunishments().get(1).getScopes().get(0),scriptProcessingResult.punishments.get(1).scopes.get(0));
         assertEquals(historyRecord.getLinkedPunishments().get(1).getScopes().get(1),scriptProcessingResult.punishments.get(1).scopes.get(1));
-        assertEquals(historyRecord.getLinkedPunishments().get(1).getPunishmentReductions().get(0).getPriority(),scriptProcessingResult.punishments.get(1).punishmentReductionList.get(0).priority);
-        assertEquals(historyRecord.getLinkedPunishments().get(1).getPunishmentReductions().get(0).getAmountSubtracted(),scriptProcessingResult.punishments.get(1).punishmentReductionList.get(0).amountSubtracted);
-        assertEquals(historyRecord.getLinkedPunishments().get(1).getPunishmentReductions().get(1).getPriority(),scriptProcessingResult.punishments.get(1).punishmentReductionList.get(1).priority);
-        assertEquals(historyRecord.getLinkedPunishments().get(1).getPunishmentReductions().get(1).getAmountSubtracted(),scriptProcessingResult.punishments.get(1).punishmentReductionList.get(1).amountSubtracted);
+        assertEquals(historyRecord.getLinkedPunishments().get(1).getPunishmentReductions().get(0).getPriority(),scriptProcessingResult.punishments.get(1).punishmentReductions.get(0).priority);
+        assertEquals(historyRecord.getLinkedPunishments().get(1).getPunishmentReductions().get(0).getAmountSubtracted(),scriptProcessingResult.punishments.get(1).punishmentReductions.get(0).amountSubtracted);
+        assertEquals(historyRecord.getLinkedPunishments().get(1).getPunishmentReductions().get(1).getPriority(),scriptProcessingResult.punishments.get(1).punishmentReductions.get(1).priority);
+        assertEquals(historyRecord.getLinkedPunishments().get(1).getPunishmentReductions().get(1).getAmountSubtracted(),scriptProcessingResult.punishments.get(1).punishmentReductions.get(1).amountSubtracted);
         
     }
 }
