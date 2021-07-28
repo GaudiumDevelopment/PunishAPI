@@ -1,8 +1,10 @@
 package me.superbiebel.punishapi.abstractions;
 
+import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import me.superbiebel.punishapi.services.Service;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class ServiceSystem<T> extends System implements Service<T>  {
     
@@ -17,7 +19,13 @@ public abstract class ServiceSystem<T> extends System implements Service<T>  {
     }
     
     @Override
-    protected void onKill() throws ShutDownException {
+    protected void onKill() {
         serviceKill();
+    }
+
+    @NotNull
+    @Override
+    public SystemStatus serviceStatus() {
+        return super.status();
     }
 }
