@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects;
+package me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.scriptobjects;
 
 import java.util.List;
 import java.util.Map;

@@ -4,6 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import lombok.Getter;
 import me.superbiebel.punishapi.PunishCore;
+import me.superbiebel.punishapi.abstractions.Service;
 import me.superbiebel.punishapi.abstractions.ServiceRegistry;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
@@ -12,9 +13,7 @@ import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
 import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
-import me.superbiebel.punishapi.offenseprocessing.services.IOffenseProcessor;
-import me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.JSOffenseProcessor;
-import me.superbiebel.punishapi.services.Service;
+import me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.JSOffenseProcessor;
 import org.jetbrains.annotations.NotNull;
 
 public class OffenseManager extends ServiceRegistry<String> {

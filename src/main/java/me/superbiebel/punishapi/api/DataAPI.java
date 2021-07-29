@@ -1,13 +1,13 @@
 package me.superbiebel.punishapi.api;
 
 import me.superbiebel.punishapi.PunishCore;
+import me.superbiebel.punishapi.abstractions.Service;
 import me.superbiebel.punishapi.data.DataService;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
-import me.superbiebel.punishapi.services.Service;
 import org.jetbrains.annotations.Nullable;
 
 public class DataAPI {

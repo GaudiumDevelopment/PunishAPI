@@ -3,7 +3,6 @@ package me.superbiebel.punishapi.abstractions;
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
-import me.superbiebel.punishapi.services.Service;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class ServiceSystem<T> extends System implements Service<T>  {

@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
 
-//multiple instances of this class can be created!
 public class PunishCore extends System {
     
     @Getter
@@ -21,8 +20,6 @@ public class PunishCore extends System {
     
     @Override
     protected void onStartup(boolean forcedInit) throws StartupException {
-        setLogLevel(Level.ALL);
-        LogManager.getLogger().debug("Starting up PunishAPI");
         datamanager = new Datamanager();
         datamanager.startup();
         offenseManager = new OffenseManager(this);
@@ -30,16 +27,15 @@ public class PunishCore extends System {
     }
     @Override
     protected void onShutdown() throws ShutDownException {
-        LogManager.getLogger().debug("Shutting down PunishAPI");
         datamanager.shutdown();
         offenseManager.shutdown();
     }
     @Override
     protected void onKill() throws ShutDownException {
-        LogManager.getLogger().debug("Killing PunishAPI");
         datamanager.kill();
         offenseManager.kill();
     }
+
     public void setLogLevel(Level logLevel) {
         final LoggerContext context = (LoggerContext) LogManager.getContext(false);
         final org.apache.logging.log4j.core.config.Configuration config = context.getConfiguration();

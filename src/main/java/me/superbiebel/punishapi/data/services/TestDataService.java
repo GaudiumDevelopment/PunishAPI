@@ -4,7 +4,7 @@ import me.superbiebel.punishapi.data.DataService;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
 
-public interface TestService extends DataService {
+public interface TestDataService extends DataService {
     
     String exampleOperation(String returnString) throws FailedServiceOperationException;
     default Datamanager.DataServiceType serviceType(){

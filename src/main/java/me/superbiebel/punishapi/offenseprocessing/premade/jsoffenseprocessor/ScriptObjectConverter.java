@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor;
+package me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +7,9 @@ import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.dataobjects.Punishment;
 import me.superbiebel.punishapi.dataobjects.PunishmentReduction;
-import me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.OffenseHistoryRecordScriptObject;
-import me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.PunishmentReductionScriptObject;
-import me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.PunishmentScriptObject;
+import me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.scriptobjects.OffenseHistoryRecordScriptObject;
+import me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.scriptobjects.PunishmentReductionScriptObject;
+import me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.scriptobjects.PunishmentScriptObject;
 
 public class ScriptObjectConverter {
     
@@ -20,9 +20,7 @@ public class ScriptObjectConverter {
         List<Punishment> punishmentList = new ArrayList<>();
     
         result.punishments.forEach(punishmentScriptObject->{
-            Punishment punishment = convertPunishmentScriptObjectToPunishment(punishmentScriptObject, false);
-            List<PunishmentReduction> punishmentReductionList = new ArrayList<>();
-            punishmentScriptObject.punishmentReductions.forEach(punishmentReductionScriptObject-> punishmentReductionList.add(convertPunishmentReductionScriptObjectToPunishmentReduction(punishmentReductionScriptObject, keepUUIDs)));
+            Punishment punishment = convertPunishmentScriptObjectToPunishment(punishmentScriptObject, keepUUIDs);
             punishmentList.add(punishment);
         });
     

@@ -7,9 +7,9 @@ import me.superbiebel.punishapi.api.PunishAPI;
 import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.exceptions.StartupException;
-import me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.OffenseHistoryRecordScriptObject;
-import me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.PunishmentReductionScriptObject;
-import me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.PunishmentScriptObject;
+import me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.scriptobjects.OffenseHistoryRecordScriptObject;
+import me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.scriptobjects.PunishmentReductionScriptObject;
+import me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.scriptobjects.PunishmentScriptObject;
 import org.junit.jupiter.api.Test;
 
 
@@ -100,7 +100,7 @@ class ScriptObjectConverterTests {
         PunishAPI api = new PunishAPI();
         api.startup();
 
-        historyRecord = me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.ScriptObjectConverter.convertOffenseScriptProcessingResultToOffenseHistoryRecord(scriptProcessingResult, offenseProcessingRequest, false);
+        historyRecord = me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.ScriptObjectConverter.convertOffenseScriptProcessingResultToOffenseHistoryRecord(scriptProcessingResult, offenseProcessingRequest, false);
 
         assertEquals(historyRecord.getLinkedPunishments().get(0).getAttributes(), scriptProcessingResult.punishments.get(0).attributes);
         assertEquals(historyRecord.getLinkedPunishments().get(0).isActivated(),scriptProcessingResult.punishments.get(0).activated);

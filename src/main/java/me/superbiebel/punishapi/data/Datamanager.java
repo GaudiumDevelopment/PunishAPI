@@ -28,7 +28,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType> {
     public Datamanager() {
         super(new ConcurrentHashMap<>());
     }
-    
+
     public enum DataServiceType {
         TEST,OFFENSE_PROCESSING_TEMPLATE_STORAGE,OFFENSE_RECORD_STORAGE,USER_LOCKING,USER_ACCOUNT_STORAGE
     }

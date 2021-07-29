@@ -1,8 +1,8 @@
-var offenseProcessingResultClass = Java.type("me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.OffenseHistoryRecordScriptObject");
+var offenseProcessingResultClass = Java.type("me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.scriptobjects.OffenseHistoryRecordScriptObject");
 var HashMap = Java.type("java.util.HashMap");
 var ArrayList = Java.type("java.util.ArrayList");
-var PunishmentScriptObject = Java.type("me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.PunishmentScriptObject");
-var PunishmentReductionScriptObject = Java.type("me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.PunishmentReductionScriptObject")
+var PunishmentScriptObject = Java.type("me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.scriptobjects.PunishmentScriptObject");
+var PunishmentReductionScriptObject = Java.type("me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.scriptobjects.PunishmentReductionScriptObject")
 
 var verdict = new offenseProcessingResultClass();
 var punishment1attributes = new HashMap();

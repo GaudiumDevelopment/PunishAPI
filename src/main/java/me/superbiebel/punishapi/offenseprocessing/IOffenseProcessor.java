@@ -1,12 +1,11 @@
-package me.superbiebel.punishapi.offenseprocessing.services;
+package me.superbiebel.punishapi.offenseprocessing;
 
+import java.io.File;
+import me.superbiebel.punishapi.abstractions.Service;
 import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
 import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
-import me.superbiebel.punishapi.services.Service;
-
-import java.io.File;
 
 public interface IOffenseProcessor extends Service<String> {
     /**

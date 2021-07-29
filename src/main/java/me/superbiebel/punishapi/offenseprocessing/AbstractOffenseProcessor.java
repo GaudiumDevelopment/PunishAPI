@@ -1,11 +1,10 @@
-package me.superbiebel.punishapi.offenseprocessing.services;
+package me.superbiebel.punishapi.offenseprocessing;
 
+import java.io.File;
 import me.superbiebel.punishapi.abstractions.ServiceSystem;
 import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
-
-import java.io.File;
 
 public abstract class AbstractOffenseProcessor extends ServiceSystem<String> implements IOffenseProcessor {
     

@@ -1,5 +1,6 @@
 package me.superbiebel.punishapi.tests.dataapi;
 
+import java.util.Objects;
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.api.PunishAPI;
@@ -8,12 +9,13 @@ import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
-import me.superbiebel.punishapi.tests.testobjects.TestServiceImpl;
+import me.superbiebel.punishapi.tests.testobjects.TestDataServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,7 +31,7 @@ class DataAPIOperationTests {
         
         api.startup();
         
-        TestServiceImpl testService = new TestServiceImpl();
+        TestDataServiceImpl testService = new TestDataServiceImpl();
         
         api.getDataAPI().addService(Datamanager.DataServiceType.TEST,testService);
         assertSame(testService,core.getDatamanager().getService(Datamanager.DataServiceType.TEST));
@@ -44,7 +46,7 @@ class DataAPIOperationTests {
         PunishCore core = api.getCore();
         api.startup();
         
-        TestServiceImpl testService = new TestServiceImpl();
+        TestDataServiceImpl testService = new TestDataServiceImpl();
         api.getDataAPI().addService(Datamanager.DataServiceType.TEST,testService);
         
         for (int i = 1; i<=times;i++) {
@@ -60,7 +62,7 @@ class DataAPIOperationTests {
         PunishCore core = api.getCore();
         api.startup();
     
-        TestServiceImpl testService = new TestServiceImpl();
+        TestDataServiceImpl testService = new TestDataServiceImpl();
         api.getDataAPI().addService(Datamanager.DataServiceType.TEST,testService);
         assertSame(testService,api.getDataAPI().getService(Datamanager.DataServiceType.TEST));
         assertSame(testService,core.getDatamanager().getService(Datamanager.DataServiceType.TEST));
@@ -72,10 +74,10 @@ class DataAPIOperationTests {
         PunishAPI api = new PunishAPI();
         api.startup();
     
-        TestServiceImpl testService = new TestServiceImpl();
+        TestDataServiceImpl testService = new TestDataServiceImpl();
         api.getDataAPI().addService(Datamanager.DataServiceType.TEST,testService);
         
-        assertSame(kill ? SystemStatus.KILLED : SystemStatus.DOWN, api.getDataAPI().removeService(Datamanager.DataServiceType.TEST,kill).serviceStatus());
+        assertSame(kill ? SystemStatus.KILLED : SystemStatus.DOWN, Objects.requireNonNull(api.getDataAPI().removeService(Datamanager.DataServiceType.TEST, kill)).serviceStatus());
     }
     @ParameterizedTest
     @ValueSource(ints = {2,3,4,5})
@@ -86,7 +88,7 @@ class DataAPIOperationTests {
         PunishCore core = api.getCore();
         api.startup();
         
-        TestServiceImpl testService = new TestServiceImpl();
+        TestDataServiceImpl testService = new TestDataServiceImpl();
         api.getDataAPI().addService(Datamanager.DataServiceType.TEST,testService);
         api.getDataAPI().removeService(Datamanager.DataServiceType.TEST,false);
         

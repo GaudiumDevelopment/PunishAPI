@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.services;
+package me.superbiebel.punishapi.abstractions;
 
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.exceptions.ShutDownException;

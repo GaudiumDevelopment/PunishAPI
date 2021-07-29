@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor;
+package me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,8 +6,8 @@ import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
-import me.superbiebel.punishapi.offenseprocessing.services.AbstractOffenseProcessor;
-import me.superbiebel.punishapi.offenseprocessing.services.premade.jsoffenseprocessor.scriptobjects.OffenseHistoryRecordScriptObject;
+import me.superbiebel.punishapi.offenseprocessing.AbstractOffenseProcessor;
+import me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.scriptobjects.OffenseHistoryRecordScriptObject;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;

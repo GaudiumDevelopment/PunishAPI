@@ -1,19 +1,17 @@
 package me.superbiebel.punishapi.tests.testobjects;
 
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import lombok.Getter;
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.data.Datamanager.DataServiceType;
-import me.superbiebel.punishapi.data.services.TestService;
-import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
+import me.superbiebel.punishapi.data.services.TestDataService;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-public class TestServiceImpl implements TestService {
+public class TestDataServiceImpl implements TestDataService {
     
     private final Lock startupShutdownLock = new ReentrantLock(true);
     
@@ -21,7 +19,7 @@ public class TestServiceImpl implements TestService {
     private final AtomicReference<SystemStatus> status = new AtomicReference<>(SystemStatus.DOWN);
     
     @Override
-    public String exampleOperation(String returnString) throws FailedServiceOperationException {
+    public String exampleOperation(String returnString) {
         return returnString;
     }
     
