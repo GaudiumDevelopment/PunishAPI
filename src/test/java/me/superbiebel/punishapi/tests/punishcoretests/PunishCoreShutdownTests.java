@@ -11,13 +11,16 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PunishCoreShutdownTests {
     
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    void readyBooleanShutdownTestTest() throws ShutDownException, StartupException {
+    void statusShutdownTest() throws ShutDownException, StartupException {
         PunishAPI api = new PunishAPI();
         PunishCore core = api.getCore();
         core.startup();
@@ -49,5 +52,14 @@ class PunishCoreShutdownTests {
             Throwable thrown = assertThrows(ShutDownException.class, core::kill);
             assertEquals(IllegalStateException.class, thrown.getCause().getClass());
         }
+    }
+    @Test
+    @Execution(ExecutionMode.CONCURRENT)
+    void statusKilledTest() throws ShutDownException, StartupException {
+        PunishAPI api = new PunishAPI();
+        PunishCore core = api.getCore();
+        core.startup();
+        core.kill();
+        assertSame(SystemStatus.KILLED, core.status());
     }
 }
