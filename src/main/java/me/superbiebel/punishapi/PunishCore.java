@@ -10,6 +10,7 @@ import me.superbiebel.punishapi.offenseprocessing.OffenseManager;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.Configuration;
 
 public class PunishCore extends System {
     
@@ -38,7 +39,7 @@ public class PunishCore extends System {
 
     public void setLogLevel(Level logLevel) {
         final LoggerContext context = (LoggerContext) LogManager.getContext(false);
-        final org.apache.logging.log4j.core.config.Configuration config = context.getConfiguration();
+        final Configuration config = context.getConfiguration();
         config.getLoggerConfig(LogManager.ROOT_LOGGER_NAME).setLevel(logLevel);
         context.updateLoggers(config);
     }
