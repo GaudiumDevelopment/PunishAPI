@@ -14,10 +14,11 @@ public class PunishmentScriptObject {
     public String punishmentUUID;
     @NoWriteFromScript
     public String offenseUUID;
-    public Map<String,String> attributes;
-    public long startTime;
     @NoWriteFromScript
     public long originalDuration;
+
+    public Map<String,String> attributes;
+    public long startTime;
     public long duration;
     public boolean activated;
     public List<String> scopes;
