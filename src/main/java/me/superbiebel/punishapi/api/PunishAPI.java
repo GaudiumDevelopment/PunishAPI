@@ -14,26 +14,30 @@ import org.apache.logging.log4j.LogManager;
  */
 
 public class PunishAPI extends System {
-    
+
     private final PunishCore core; //do NOT interact with this!
     @Getter
     private DataAPI dataAPI;
-    
+
     public PunishAPI() {
         core = new PunishCore();
 
     }
+
     public void onStartup(boolean force) throws StartupException {
         setLogLevel(Level.WARN);
         core.startup(force);
         dataAPI = new DataAPI(core);
     }
+
     public void onShutdown() throws ShutDownException {
         core.shutdown();
     }
+
     public void onKill() throws ShutDownException {
         core.kill();
     }
+
     public PunishCore getCore() {
         LogManager.getLogger().warn("A reference of Punishcore has just been acquired. THIS IS ONLY FOR AUTOMATED TESTING PURPOSES AND IT MAY NOT BE EDITED IN ANY WAY NOR ANY OF ITS METHODS MAY BE USED!");
         return core;
@@ -45,5 +49,5 @@ public class PunishAPI extends System {
     public void setLogLevel(Level level) {
         core.setLogLevel(level);
     }
-    
+
 }

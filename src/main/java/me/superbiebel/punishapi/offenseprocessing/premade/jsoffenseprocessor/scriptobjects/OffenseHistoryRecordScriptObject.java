@@ -17,7 +17,7 @@ public class OffenseHistoryRecordScriptObject {
     public UUID offenseProcessingTemplateUUID;
     @NoWriteFromScript
     public long timeregistered;
-    
+
     public Map<String, String> attributes;
     public List<PunishmentScriptObject> punishments;
 }

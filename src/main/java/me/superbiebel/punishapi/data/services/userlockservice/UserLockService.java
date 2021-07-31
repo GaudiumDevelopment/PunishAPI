@@ -5,7 +5,7 @@ import me.superbiebel.punishapi.data.Datamanager;
 
 public interface UserLockService extends DataService, UserLockOperations {
 
-    default Datamanager.DataServiceType serviceType(){
+    default Datamanager.DataServiceType serviceType() {
         return Datamanager.DataServiceType.USER_LOCKING;
     }
 }

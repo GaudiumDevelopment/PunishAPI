@@ -28,10 +28,10 @@ import org.apache.logging.log4j.LogManager;
  */
 public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
         implements OffenseProcessingTemplateStorageOperations, OffenseRecordStorageOperations, TestDataOperations, UserAccountOperations, UserLockOperations {
-    
+
     @Getter
     private static final int MAXSERVICECOUNT = 2;
-    
+
     public Datamanager() {
         super(new ConcurrentHashMap<>());
     }
@@ -52,9 +52,6 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
         return returnString;
     }
 
-    public enum DataServiceType {
-        TEST,OFFENSE_PROCESSING_TEMPLATE_STORAGE,OFFENSE_RECORD_STORAGE,USER_LOCKING,USER_ACCOUNT_STORAGE
-    }
     @Override
     public void lockUser(UUID uuid) throws FailedDataOperationException {
         super.canInteract();
@@ -66,6 +63,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
             throw new FailedDataOperationException(e);
         }
     }
+
     @Override
     public void unlockUser(UUID uuid) throws FailedDataOperationException {
         super.canInteract();
@@ -76,6 +74,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
             throw new FailedDataOperationException(e);
         }
     }
+
     @Override
     public void storeOffenseRecord(OffenseHistoryRecord offenseHistoryRecord) throws FailedDataOperationException {
         super.canInteract();
@@ -87,6 +86,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
         }
 
     }
+
     @Override
     public void storeOffenseProcessingTemplate(OffenseProcessingTemplate template) throws FailedDataOperationException {
         super.canInteract();
@@ -97,6 +97,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
             throw new FailedDataOperationException(e);
         }
     }
+
     @Override
     public OffenseProcessingTemplate retrieveOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
         super.canInteract();
@@ -107,6 +108,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
             throw new FailedDataOperationException(e);
         }
     }
+
     @Override
     public UserAccount createUser(UUID userUUID, Map<String, String> attributes) throws FailedDataOperationException {
         super.canInteract();
@@ -118,6 +120,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
             throw new FailedDataOperationException(e);
         }
     }
+
     @Override
     public UserAccount retrieveUser(UUID userUUID) throws FailedDataOperationException {
         super.canInteract();
@@ -128,6 +131,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
             throw new FailedDataOperationException(e);
         }
     }
+
     @Override
     public void setUserAttribute(String key, String value) throws FailedDataOperationException {
         super.canInteract();
@@ -138,6 +142,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
             throw new FailedDataOperationException(e);
         }
     }
+
     @Override
     public void removeUserAttribute(String key) throws FailedDataOperationException {
         super.canInteract();
@@ -148,6 +153,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
             throw new FailedDataOperationException(e);
         }
     }
+
     @Override
     public List<UserAccount> getUsersByAttribute(String key, String value) throws FailedDataOperationException {
         super.canInteract();
@@ -158,6 +164,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
             throw new FailedDataOperationException(e);
         }
     }
+
     @Override
     public List<UserAccount> getUsersByAttributekey(String key) throws FailedDataOperationException {
         super.canInteract();
@@ -167,6 +174,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
             throw new FailedDataOperationException(e);
         }
     }
+
     @Override
     public List<UserAccount> getUsersByAttributeValue(String value) throws FailedDataOperationException {
         super.canInteract();
@@ -177,11 +185,12 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
             throw new FailedDataOperationException(e);
         }
     }
-    
+
     @Override
     protected void onServiceRegistryStartup(boolean force) {
         //to be implemented if needed
     }
+
     @Override
     protected void onServiceRegistryShutdown() {
         serviceRegistryMap.keySet().iterator().forEachRemaining(dataServiceType -> {
@@ -192,11 +201,17 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
             }
         });
     }
+
     @Override
     protected void onServiceRegistryKill() {
         //to be implemented if needed
     }
+
     public int serviceCount() {
         return serviceRegistryMap.size();
+    }
+
+    public enum DataServiceType {
+        TEST, OFFENSE_PROCESSING_TEMPLATE_STORAGE, OFFENSE_RECORD_STORAGE, USER_LOCKING, USER_ACCOUNT_STORAGE
     }
 }

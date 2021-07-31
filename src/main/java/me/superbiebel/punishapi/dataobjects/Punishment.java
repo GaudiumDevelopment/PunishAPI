@@ -11,7 +11,7 @@ import lombok.Getter;
 public class Punishment {
     private final UUID punishmentUUID;
     private final UUID offenseUUID;
-    private final Map<String,String> attributes;
+    private final Map<String, String> attributes;
     private final long startTime;
     private final long originalDuration;
     private final long duration;

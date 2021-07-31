@@ -15,7 +15,7 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;
 
 public class PunishCore extends System {
-    
+
     @Getter
     private Datamanager datamanager;
     @Getter
@@ -23,7 +23,7 @@ public class PunishCore extends System {
     @Getter
     @Setter
     private DataAPI dataAPI;
-    
+
     @Override
     protected void onStartup(boolean forcedInit) throws StartupException {
         datamanager = new Datamanager();
@@ -31,11 +31,13 @@ public class PunishCore extends System {
         offenseManager = new OffenseManager(this);
         offenseManager.startup();
     }
+
     @Override
     protected void onShutdown() throws ShutDownException {
         datamanager.shutdown();
         offenseManager.shutdown();
     }
+
     @Override
     protected void onKill() throws ShutDownException {
         datamanager.kill();

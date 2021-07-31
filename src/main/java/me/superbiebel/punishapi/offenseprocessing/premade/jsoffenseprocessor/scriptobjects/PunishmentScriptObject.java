@@ -17,7 +17,7 @@ public class PunishmentScriptObject {
     @NoWriteFromScript
     public long originalDuration;
 
-    public Map<String,String> attributes;
+    public Map<String, String> attributes;
     public long startTime;
     public long duration;
     public boolean activated;

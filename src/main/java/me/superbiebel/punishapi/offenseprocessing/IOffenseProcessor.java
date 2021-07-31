@@ -14,5 +14,6 @@ public interface IOffenseProcessor extends Service<String> {
      * @throws FailedServiceOperationException if some kind of exception happened it should be wrapped in a FailedServiceOperationException
      */
     OffenseHistoryRecord processOffense(OffenseProcessingRequest offenseProcessingRequest, File scriptFile) throws FailedServiceOperationException, OffenseProcessingException;
+
     boolean isScriptBased();
 }

@@ -7,5 +7,6 @@ import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 
 public interface OffenseProcessingTemplateStorageOperations {
     void storeOffenseProcessingTemplate(OffenseProcessingTemplate template) throws FailedDataOperationException;
+
     OffenseProcessingTemplate retrieveOffenseProcessingTemplate(UUID templateUUID) throws ServiceNotFoundException, FailedDataOperationException;
 }

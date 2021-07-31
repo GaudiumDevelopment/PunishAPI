@@ -7,7 +7,7 @@ import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
 
 public abstract class AbstractOffenseProcessor extends ServiceSystem<String> implements IOffenseProcessor {
-    
+
     public final OffenseHistoryRecord processOffense(OffenseProcessingRequest offenseProcessingRequest, File scriptFile) throws OffenseProcessingException {
         try {
             return process(offenseProcessingRequest, scriptFile);
@@ -15,5 +15,6 @@ public abstract class AbstractOffenseProcessor extends ServiceSystem<String> imp
             throw new OffenseProcessingException(e);
         }
     }
+
     protected abstract OffenseHistoryRecord process(OffenseProcessingRequest offenseProcessingRequest, File scriptFile) throws OffenseProcessingException;
 }

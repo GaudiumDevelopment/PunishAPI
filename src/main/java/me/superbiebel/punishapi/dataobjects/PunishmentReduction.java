@@ -11,5 +11,5 @@ public class PunishmentReduction {
     private final UUID punishmentReductionUUID;
     private final int priority;
     private final int amountSubtracted;
-    private final Map<String,String> attributes;
+    private final Map<String, String> attributes;
 }

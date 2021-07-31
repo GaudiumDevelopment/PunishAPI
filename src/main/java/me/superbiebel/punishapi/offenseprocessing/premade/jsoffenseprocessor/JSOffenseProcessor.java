@@ -14,13 +14,13 @@ import org.graalvm.polyglot.Value;
 import org.jetbrains.annotations.NotNull;
 
 public class JSOffenseProcessor extends AbstractOffenseProcessor {
-    
+
     private final DataAPI dataAPI;
-    
+
     public JSOffenseProcessor(DataAPI dataAPI) {
         this.dataAPI = dataAPI;
     }
-    
+
     @Override
     protected OffenseHistoryRecord process(OffenseProcessingRequest offenseProcessingRequest, File scriptFile) throws OffenseProcessingException {
         try {
@@ -29,12 +29,12 @@ public class JSOffenseProcessor extends AbstractOffenseProcessor {
             throw new OffenseProcessingException(e);
         }
     }
-    
+
     @Override
     public void serviceStartup(boolean force) {
         //to be implemented if needed
     }
-    
+
     @NotNull
     public OffenseHistoryRecordScriptObject processScript(OffenseProcessingRequest offenseProcessingRequest, File scriptFile) throws IOException {
         try (Context context = Context.newBuilder().allowAllAccess(true).build()) {
@@ -46,25 +46,25 @@ public class JSOffenseProcessor extends AbstractOffenseProcessor {
             Value verdictValue = jsBindings.getMember("verdict");
             return verdictValue.as(OffenseHistoryRecordScriptObject.class);
         }
-        
+
     }
-    
+
     @Override
     public void serviceShutdown() {
         //to be implemented if needed
     }
-    
+
     @Override
     public void serviceKill() {
         //to be implemented if needed
     }
-    
+
     @Override
     public String serviceType() {
         return "JSGRAALVM";
     }
-    
-    
+
+
     @Override
     public boolean isScriptBased() {
         return true; //yes becuz it uses js scripts.
