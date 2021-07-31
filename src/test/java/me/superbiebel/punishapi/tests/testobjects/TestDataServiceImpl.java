@@ -6,7 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import lombok.Getter;
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.data.Datamanager.DataServiceType;
-import me.superbiebel.punishapi.data.services.TestDataService;
+import me.superbiebel.punishapi.data.services.testdataservice.TestDataService;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import org.jetbrains.annotations.NotNull;

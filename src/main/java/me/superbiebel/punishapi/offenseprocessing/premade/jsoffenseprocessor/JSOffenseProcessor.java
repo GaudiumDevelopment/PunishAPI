@@ -2,7 +2,7 @@ package me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor;
 
 import java.io.File;
 import java.io.IOException;
-import me.superbiebel.punishapi.PunishCore;
+import me.superbiebel.punishapi.api.DataAPI;
 import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
@@ -15,10 +15,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class JSOffenseProcessor extends AbstractOffenseProcessor {
     
-    private final PunishCore core;
+    private final DataAPI dataAPI;
     
-    public JSOffenseProcessor(PunishCore core) {
-        this.core = core;
+    public JSOffenseProcessor(DataAPI dataAPI) {
+        this.dataAPI = dataAPI;
     }
     
     @Override
@@ -41,7 +41,7 @@ public class JSOffenseProcessor extends AbstractOffenseProcessor {
             Source source = Source.newBuilder("js", scriptFile).build();
             Value jsBindings = context.getBindings("js");
             jsBindings.putMember("request", offenseProcessingRequest);
-            jsBindings.putMember("datamanager", core.getDatamanager()); //TODO: change this to a new facade with adapted objects and a converter otherwise it can't be accessed from the script.
+            jsBindings.putMember("dataAPI", new ScriptDataInterface(dataAPI));
             context.eval(source);
             Value verdictValue = jsBindings.getMember("verdict");
             return verdictValue.as(OffenseHistoryRecordScriptObject.class);
@@ -68,5 +68,16 @@ public class JSOffenseProcessor extends AbstractOffenseProcessor {
     @Override
     public boolean isScriptBased() {
         return true; //yes becuz it uses js scripts.
+    }
+
+    private class ScriptDataInterface {
+        @SuppressWarnings("unused")
+        private final DataAPI dataAPI;
+
+        public ScriptDataInterface(DataAPI dataAPI) {
+            this.dataAPI = dataAPI;
+        }
+
+
     }
 }

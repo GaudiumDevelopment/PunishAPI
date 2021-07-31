@@ -1,11 +1,3 @@
-var datamanager;
-var request;
-
-// noinspection JSUnusedAssignment
-var testrequest = datamanager.testecho("testing datamanager methods")
-print(testrequest)
-
-
 //standard stuff so graalvm doesnt error
 var offenseProcessingResultClass = Java.type("me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.scriptobjects.OffenseHistoryRecordScriptObject");
 var HashMap = Java.type("java.util.HashMap");

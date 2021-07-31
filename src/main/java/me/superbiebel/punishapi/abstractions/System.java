@@ -83,8 +83,10 @@ public abstract class System {
     public SystemStatus status() {
         return atomicstatus.get();
     }
-    public boolean canInteract() {
-        return atomicstatus.get().equals(SystemStatus.READY) || atomicstatus.get().equals(SystemStatus.FORCED_READY);
+    public void canInteract() {
+        if (!(atomicstatus.get().equals(SystemStatus.READY) || atomicstatus.get().equals(SystemStatus.FORCED_READY))) {
+            throw new IllegalStateException("Cannot interact with system because it is not ready");
+        }
     }
     
     

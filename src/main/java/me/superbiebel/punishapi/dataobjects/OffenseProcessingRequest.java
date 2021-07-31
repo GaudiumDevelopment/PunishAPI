@@ -1,10 +1,9 @@
 package me.superbiebel.punishapi.dataobjects;
 
-import lombok.Builder;
-import lombok.Getter;
-
 import java.util.Map;
 import java.util.UUID;
+import lombok.Builder;
+import lombok.Getter;
 
 @Getter
 @Builder(toBuilder = true)

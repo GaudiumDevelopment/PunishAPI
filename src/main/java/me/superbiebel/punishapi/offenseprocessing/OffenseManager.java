@@ -10,6 +10,7 @@ import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
+import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
 import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
@@ -31,7 +32,7 @@ public class OffenseManager extends ServiceRegistry<String> {
     public OffenseManager(PunishCore core) {
         super(new ConcurrentHashMap<>());
         this.core = core;
-        this.defaultOffenseProcessor = new JSOffenseProcessor(this.core);
+        this.defaultOffenseProcessor = new JSOffenseProcessor(this.core.getDataAPI());
     }
     
     /**
@@ -42,7 +43,7 @@ public class OffenseManager extends ServiceRegistry<String> {
      * 5. The generated offenseHistoryRecord will then be stored inside the database.
      */
     
-    public OffenseHistoryRecord submitOffense(@NotNull OffenseProcessingRequest offenseProcessingRequest) throws ServiceNotFoundException, FailedServiceOperationException, OffenseProcessingException {
+    public OffenseHistoryRecord submitOffense(@NotNull OffenseProcessingRequest offenseProcessingRequest) throws FailedServiceOperationException, OffenseProcessingException, FailedDataOperationException, ServiceNotFoundException {
         Datamanager datamanager = core.getDatamanager();
         try {
             //Indicate that processing on this user begins.
@@ -71,8 +72,8 @@ public class OffenseManager extends ServiceRegistry<String> {
             datamanager.unlockUser(offenseProcessingRequest.getCriminalUUID());
         }
     }
-    public void submitOffenseWithoutProcessing(OffenseHistoryRecord offenseHistoryRecord) throws ServiceNotFoundException {
-        core.getDatamanager().storeOffense(offenseHistoryRecord);
+    public void submitOffenseWithoutProcessing(OffenseHistoryRecord offenseHistoryRecord) throws FailedDataOperationException {
+        core.getDatamanager().storeOffenseRecord(offenseHistoryRecord);
     }
     
     private IOffenseProcessor getOffenseProcessor(@NotNull OffenseProcessingTemplate template) throws ServiceNotFoundException {
