@@ -5,7 +5,6 @@ import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.abstractions.System;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
 
@@ -25,7 +24,6 @@ public class PunishAPI extends System {
     }
 
     public void onStartup(boolean force) throws StartupException {
-        setLogLevel(Level.WARN);
         core.startup(force);
         dataAPI = new DataAPI(core);
     }
@@ -41,13 +39,6 @@ public class PunishAPI extends System {
     public PunishCore getCore() {
         LogManager.getLogger().warn("A reference of Punishcore has just been acquired. THIS IS ONLY FOR AUTOMATED TESTING PURPOSES AND IT MAY NOT BE EDITED IN ANY WAY NOR ANY OF ITS METHODS MAY BE USED!");
         return core;
-    }
-
-    /**
-     * You can call this method before anything is initialized.
-     */
-    public void setLogLevel(Level level) {
-        core.setLogLevel(level);
     }
 
 }

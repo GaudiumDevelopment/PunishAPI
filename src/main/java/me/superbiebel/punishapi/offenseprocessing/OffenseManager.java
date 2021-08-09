@@ -2,7 +2,6 @@ package me.superbiebel.punishapi.offenseprocessing;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import lombok.Getter;
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.abstractions.Service;
 import me.superbiebel.punishapi.abstractions.ServiceRegistry;
@@ -14,25 +13,20 @@ import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
 import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
-import me.superbiebel.punishapi.offenseprocessing.premade.jsoffenseprocessor.JSOffenseProcessor;
 import org.jetbrains.annotations.NotNull;
 
 public class OffenseManager extends ServiceRegistry<String> {
 
     private final PunishCore core;
-    @Getter
-    private final JSOffenseProcessor defaultOffenseProcessor;
 
-    public OffenseManager(ConcurrentMap<String, Service<String>> serviceRegistryMap, PunishCore core, JSOffenseProcessor defaultOffenseProcessor) {
+    public OffenseManager(ConcurrentMap<String, Service<String>> serviceRegistryMap, PunishCore core) {
         super(serviceRegistryMap);
         this.core = core;
-        this.defaultOffenseProcessor = defaultOffenseProcessor;
     }
 
     public OffenseManager(PunishCore core) {
         super(new ConcurrentHashMap<>());
         this.core = core;
-        this.defaultOffenseProcessor = new JSOffenseProcessor(this.core.getDataAPI());
     }
 
     /**
@@ -79,11 +73,7 @@ public class OffenseManager extends ServiceRegistry<String> {
 
     private IOffenseProcessor getOffenseProcessor(@NotNull OffenseProcessingTemplate template) throws ServiceNotFoundException {
         IOffenseProcessor processor;
-        if (template.getOffenseProcessorID().equals("DEFAULTJSPROCESSOR")) {
-            processor = defaultOffenseProcessor;
-        } else {
             processor = (IOffenseProcessor) super.getService(template.getOffenseProcessorID());
-        }
         return processor;
     }
 

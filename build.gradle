@@ -1,43 +1,50 @@
+//file:noinspection GroovyAssignabilityCheck
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'maven-publish'
 }
-
 group 'me.superbiebel'
-version '0.0.1-ALPHA'
+version 'INDEV'
 
 repositories {
     mavenCentral()
 }
 
+publishing {
+    publications {
+        shadow(MavenPublication) { publication ->
+            project.shadow.component(publication)
+        }
+    }
+}
+
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
-
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.7.2")
-
+    //lombok stuff
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
-    testCompileOnly 'org.projectlombok:lombok:1.18.20'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
-
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
-    implementation 'org.jetbrains:annotations:16.0.2'
+    implementation 'org.jetbrains:annotations:21.0.1'
 
-    //graalvm js dependencies
-    implementation 'org.graalvm.sdk:graal-sdk:21.1.0'
-    implementation 'org.graalvm.js:js:21.1.0'
-    implementation 'org.graalvm.js:js-scriptengine:21.1.0'
-    implementation 'org.graalvm.tools:profiler:21.1.0'
-    implementation 'org.graalvm.tools:chromeinspector:21.1.0'
-
+    //test stuff
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.7.2'
+    testCompileOnly 'org.projectlombok:lombok:1.18.20'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 }
 shadowJar {
-    relocate('org.apache.logging.log4j','me.superbiebel.shaded.org.apache.logging.log4j')
+    archiveClassifier.set('')
 }
 build.dependsOn shadowJar
+
+jar {
+    manifest {
+        attributes 'Multi-Release': 'true'
+    }
+}
 
 test {
     useJUnitPlatform()
