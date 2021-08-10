@@ -4,7 +4,7 @@ package me.superbiebel.punishapi;
 import lombok.Getter;
 import lombok.Setter;
 import me.superbiebel.punishapi.abstractions.System;
-import me.superbiebel.punishapi.api.DataAPI;
+import me.superbiebel.punishapi.api.dataapi.DataAPI;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
