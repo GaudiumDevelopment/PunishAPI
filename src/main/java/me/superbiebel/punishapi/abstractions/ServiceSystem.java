@@ -5,7 +5,7 @@ import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class ServiceSystem<T> extends System implements Service<T> {
+public abstract class ServiceSystem extends System implements Service {
 
     @Override
     protected void onStartup(boolean force) throws StartupException {

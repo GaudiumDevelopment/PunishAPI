@@ -5,7 +5,7 @@ import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import org.jetbrains.annotations.NotNull;
 
-public interface Service<T> {
+public interface Service {
     void serviceStartup(boolean force) throws StartupException;
 
     void serviceShutdown() throws ShutDownException;
@@ -15,7 +15,4 @@ public interface Service<T> {
 
     @NotNull
     SystemStatus serviceStatus();
-
-    T serviceType();
-
 }

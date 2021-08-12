@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.tests.dataapi;
+package me.superbiebel.punishapi.tests.datatests;
 
 import java.util.Objects;
 import me.superbiebel.punishapi.PunishCore;
@@ -85,7 +85,6 @@ class DataAPIOperationTests {
     void removeMultipleServiceTest(int times) throws StartupException, ServiceNotFoundException, ServiceAlreadyRegisteredException, ShutDownException {
     
         PunishAPI api = new PunishAPI();
-        PunishCore core = api.getCore();
         api.startup();
         
         TestDataServiceImpl testService = new TestDataServiceImpl();
@@ -96,4 +95,5 @@ class DataAPIOperationTests {
             assertThrows(ServiceNotFoundException.class, ()->api.getDataAPI().removeService(Datamanager.DataServiceType.TEST,false));
         }
     }
+
 }

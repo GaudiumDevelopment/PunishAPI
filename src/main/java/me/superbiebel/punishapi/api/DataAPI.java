@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.api.dataapi;
+package me.superbiebel.punishapi.api;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,11 +30,11 @@ public class DataAPI {
     }
     
     @Nullable
-    public Service<Datamanager.DataServiceType> removeService(Datamanager.DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+    public Service removeService(Datamanager.DataServiceType dataServiceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         return datamanager.removeService(dataServiceType, kill);
     }
     
-    public Service<Datamanager.DataServiceType> getService(Datamanager.DataServiceType dataServiceType) throws ServiceNotFoundException {
+    public Service getService(Datamanager.DataServiceType dataServiceType) throws ServiceNotFoundException {
         return datamanager.getService(dataServiceType);
     }
     

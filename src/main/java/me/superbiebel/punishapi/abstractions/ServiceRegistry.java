@@ -8,34 +8,34 @@ import me.superbiebel.punishapi.exceptions.StartupException;
 
 public abstract class ServiceRegistry<T> extends System {
 
-    protected final ConcurrentMap<T, Service<T>> serviceRegistryMap;
+    protected final ConcurrentMap<T, Service> serviceRegistryMap;
 
-    protected ServiceRegistry(ConcurrentMap<T, Service<T>> serviceRegistryMap) {
+    protected ServiceRegistry(ConcurrentMap<T, Service> serviceRegistryMap) {
         this.serviceRegistryMap = serviceRegistryMap;
     }
 
     @Override
-    protected void onStartup(boolean force) throws StartupException {
+    protected void onStartup(boolean force) {
         onServiceRegistryStartup(force);
     }
 
     @Override
-    protected void onShutdown() throws ShutDownException {
+    protected void onShutdown() {
         onServiceRegistryShutdown();
     }
 
     @Override
-    protected void onKill() throws ShutDownException {
+    protected void onKill() {
         onServiceRegistryKill();
     }
 
-    protected abstract void onServiceRegistryStartup(boolean force) throws StartupException;
+    protected abstract void onServiceRegistryStartup(boolean force);
 
-    protected abstract void onServiceRegistryShutdown() throws ShutDownException;
+    protected abstract void onServiceRegistryShutdown();
 
-    protected abstract void onServiceRegistryKill() throws ShutDownException;
+    protected abstract void onServiceRegistryKill();
 
-    public void addService(T serviceType, Service<T> service) throws StartupException, ServiceAlreadyRegisteredException {
+    public void addService(T serviceType, Service service) throws StartupException, ServiceAlreadyRegisteredException {
         if (serviceRegistryMap.containsKey(serviceType)) {
             throw new ServiceAlreadyRegisteredException("Service was already registered");
         }
@@ -43,19 +43,19 @@ public abstract class ServiceRegistry<T> extends System {
         service.serviceStartup(false);
     }
 
-    public Service<T> getService(T serviceType) throws ServiceNotFoundException {
-        Service<T> returnedService = serviceRegistryMap.get(serviceType);
+    public Service getService(T serviceType) throws ServiceNotFoundException {
+        Service returnedService = serviceRegistryMap.get(serviceType);
         if (returnedService == null) {
             throw new ServiceNotFoundException();
         }
         return returnedService;
     }
 
-    public Service<T> removeService(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
+    public Service removeService(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         if (!serviceRegistryMap.containsKey(serviceType)) {
             throw new ServiceNotFoundException("Servicetype not found");
         }
-        Service<T> service = serviceRegistryMap.remove(serviceType);
+        Service service = serviceRegistryMap.remove(serviceType);
         if (kill) {
             service.serviceKill();
         } else {

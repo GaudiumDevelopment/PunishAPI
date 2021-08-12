@@ -10,7 +10,6 @@ import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
-import me.superbiebel.punishapi.exceptions.FailedServiceOperationException;
 import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +18,7 @@ public class OffenseManager extends ServiceRegistry<String> {
 
     private final PunishCore core;
 
-    public OffenseManager(ConcurrentMap<String, Service<String>> serviceRegistryMap, PunishCore core) {
+    public OffenseManager(ConcurrentMap<String, Service> serviceRegistryMap, PunishCore core) {
         super(serviceRegistryMap);
         this.core = core;
     }
@@ -37,7 +36,7 @@ public class OffenseManager extends ServiceRegistry<String> {
      * 5. The generated offenseHistoryRecord will then be stored inside the database.
      */
 
-    public OffenseHistoryRecord submitOffense(@NotNull OffenseProcessingRequest offenseProcessingRequest) throws FailedServiceOperationException, OffenseProcessingException, FailedDataOperationException, ServiceNotFoundException {
+    public OffenseHistoryRecord submitOffense(@NotNull OffenseProcessingRequest offenseProcessingRequest) throws OffenseProcessingException, FailedDataOperationException, ServiceNotFoundException {
         Datamanager datamanager = core.getDatamanager();
         try {
             //Indicate that processing on this user begins.
