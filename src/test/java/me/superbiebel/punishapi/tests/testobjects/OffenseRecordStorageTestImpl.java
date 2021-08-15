@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import me.superbiebel.punishapi.data.Datamanager;
-import me.superbiebel.punishapi.data.services.offenserecordstorage.OffenseRecordStorageOperations;
+import me.superbiebel.punishapi.data.servicesoperations.OffenseRecordStorageOperations;
 import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 
 public class OffenseRecordStorageTestImpl extends BaseDataTestingService implements OffenseRecordStorageOperations {

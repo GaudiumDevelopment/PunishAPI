@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.data.services.offenseprocessingtemplatestorage;
+package me.superbiebel.punishapi.data.servicesoperations;
 
 import java.util.UUID;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;

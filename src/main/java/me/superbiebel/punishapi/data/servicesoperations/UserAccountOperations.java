@@ -1,4 +1,4 @@
-package me.superbiebel.punishapi.data.services.useraccountservice;
+package me.superbiebel.punishapi.data.servicesoperations;
 
 import java.util.List;
 import java.util.Map;
