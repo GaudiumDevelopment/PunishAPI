@@ -19,7 +19,7 @@ public abstract class BaseDataTestingService implements DataService {
 
 
     @Override
-    public void serviceStartup(boolean force) throws StartupException {
+    public void startup(boolean force) throws StartupException {
         try {
             startupShutdownLock.lock();
             if (status.get() == SystemStatus.STARTING_UP) {
@@ -47,7 +47,7 @@ public abstract class BaseDataTestingService implements DataService {
     }
 
     @Override
-    public void serviceShutdown() throws ShutDownException {
+    public void shutdown() throws ShutDownException {
         try {
             startupShutdownLock.lock();
             if (status.get() ==SystemStatus.DOWN || status.get() ==SystemStatus.KILLED) {
@@ -65,7 +65,7 @@ public abstract class BaseDataTestingService implements DataService {
     }
 
     @Override
-    public void serviceKill() {
+    public void kill() {
         try {
             startupShutdownLock.lock();
             if (status.get() ==SystemStatus.KILLED) {
@@ -86,7 +86,7 @@ public abstract class BaseDataTestingService implements DataService {
     }
 
     @Override
-    public @NotNull SystemStatus serviceStatus() {
+    public @NotNull SystemStatus status() {
         return status.get();
     }
 }

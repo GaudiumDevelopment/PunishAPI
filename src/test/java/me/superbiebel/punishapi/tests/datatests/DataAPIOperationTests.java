@@ -35,7 +35,7 @@ class DataAPIOperationTests {
         
         api.getDataAPI().addService(Datamanager.DataServiceType.TEST,testService);
         assertSame(testService,core.getDatamanager().getService(Datamanager.DataServiceType.TEST));
-        assertSame(SystemStatus.READY,core.getDatamanager().getService(Datamanager.DataServiceType.TEST).serviceStatus());
+        assertSame(SystemStatus.READY,core.getDatamanager().getService(Datamanager.DataServiceType.TEST).status());
     }
     @ParameterizedTest
     @ValueSource(ints = {2,3,4,5})
@@ -53,7 +53,7 @@ class DataAPIOperationTests {
             assertThrows(ServiceAlreadyRegisteredException.class, ()->api.getDataAPI().addService(Datamanager.DataServiceType.TEST,testService));
         }
         assertSame(testService,core.getDatamanager().getService(Datamanager.DataServiceType.TEST));
-        assertSame(SystemStatus.READY,core.getDatamanager().getService(Datamanager.DataServiceType.TEST).serviceStatus());
+        assertSame(SystemStatus.READY,core.getDatamanager().getService(Datamanager.DataServiceType.TEST).status());
     }
     @Test
     @Execution(ExecutionMode.CONCURRENT)
@@ -77,7 +77,7 @@ class DataAPIOperationTests {
         TestDataServiceImpl testService = new TestDataServiceImpl();
         api.getDataAPI().addService(Datamanager.DataServiceType.TEST,testService);
         
-        assertSame(kill ? SystemStatus.KILLED : SystemStatus.DOWN, Objects.requireNonNull(api.getDataAPI().removeService(Datamanager.DataServiceType.TEST, kill)).serviceStatus());
+        assertSame(kill ? SystemStatus.KILLED : SystemStatus.DOWN, Objects.requireNonNull(api.getDataAPI().removeService(Datamanager.DataServiceType.TEST, kill)).status());
     }
     @ParameterizedTest
     @ValueSource(ints = {2,3,4,5})

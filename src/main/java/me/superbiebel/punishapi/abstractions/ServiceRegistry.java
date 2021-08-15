@@ -40,7 +40,7 @@ public abstract class ServiceRegistry<T> extends System {
             throw new ServiceAlreadyRegisteredException("Service was already registered");
         }
         serviceRegistryMap.put(serviceType, service);
-        service.serviceStartup(false);
+        service.startup(false);
     }
 
     public Service getService(T serviceType) throws ServiceNotFoundException {
@@ -57,9 +57,9 @@ public abstract class ServiceRegistry<T> extends System {
         }
         Service service = serviceRegistryMap.remove(serviceType);
         if (kill) {
-            service.serviceKill();
+            service.kill();
         } else {
-            service.serviceShutdown();
+            service.shutdown();
         }
         return service;
     }

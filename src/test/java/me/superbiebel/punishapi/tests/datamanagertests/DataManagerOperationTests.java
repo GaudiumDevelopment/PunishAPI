@@ -32,7 +32,7 @@ class DataManagerOperationTests {
         punishCore.getDatamanager().addService(Datamanager.DataServiceType.TEST, service);
         assertSame(service, punishCore.getDatamanager().getService(Datamanager.DataServiceType.TEST));
         TestDataServiceImpl serviceFromApi = (TestDataServiceImpl) punishCore.getDatamanager().getService(Datamanager.DataServiceType.TEST);
-        assertSame(SystemStatus.READY, serviceFromApi.serviceStatus());
+        assertSame(SystemStatus.READY, serviceFromApi.status());
     }
     @ParameterizedTest
     @ValueSource(booleans = {false,true})

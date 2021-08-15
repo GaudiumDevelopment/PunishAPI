@@ -7,8 +7,9 @@ import lombok.Getter;
 import me.superbiebel.punishapi.SystemStatus;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
+import org.jetbrains.annotations.NotNull;
 
-public abstract class System {
+public abstract class System implements Service{
 
     private final Lock startupShutdownLock = new ReentrantLock(true);
 
@@ -83,7 +84,7 @@ public abstract class System {
         }
     }
 
-    public SystemStatus status() {
+    public @NotNull SystemStatus status() {
         return atomicstatus.get();
     }
 
