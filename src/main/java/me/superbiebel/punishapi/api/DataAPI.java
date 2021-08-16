@@ -1,5 +1,6 @@
 package me.superbiebel.punishapi.api;
 
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 import me.superbiebel.punishapi.PunishCore;
@@ -42,10 +43,6 @@ public class DataAPI {
         return datamanager.retrieveOffenseRecord(offenseUUID);
     }
     
-    public OffenseProcessingTemplate retrieveOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
-        return datamanager.retrieveOffenseProcessingTemplate(templateUUID);
-    }
-    
     public UserAccount retrieveUser(UUID userUUID) throws FailedDataOperationException {
         return datamanager.retrieveUser(userUUID);
     }
@@ -68,5 +65,39 @@ public class DataAPI {
     
     public List<UserAccount> getUsersByAttributeValue(String value) throws FailedDataOperationException {
         return datamanager.getUsersByAttributeValue(value);
+    }
+
+    public boolean tryLockUser(UUID uuid) throws FailedDataOperationException {
+        return datamanager.tryLockUser(uuid);
+    }
+
+    //The processing is done
+    public void unlockUser(UUID uuid) throws FailedDataOperationException{
+        datamanager.unlockUser(uuid);
+    }
+
+    //Checks if the user is locked
+    public boolean isUserLocked(UUID userUUID) throws FailedDataOperationException{
+        return datamanager.isUserLocked(userUUID);
+    }
+
+    void storeOffenseProcessingTemplate(OffenseProcessingTemplate template) throws FailedDataOperationException {
+        datamanager.storeOffenseProcessingTemplate(template);
+    }
+
+    OffenseProcessingTemplate retrieveOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
+        return datamanager.retrieveOffenseProcessingTemplate(templateUUID);
+    }
+
+    void deleteOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
+        datamanager.deleteOffenseProcessingTemplate(templateUUID);
+    }
+
+    void updateOffenseProcessorUUIDInOffenseProcessingTemplate(UUID templateUUID, UUID newOffenseProcessorUUID) throws FailedDataOperationException {
+        datamanager.updateOffenseProcessorUUIDInOffenseProcessingTemplate(templateUUID, newOffenseProcessorUUID);
+    }
+
+    void updateScriptFile(UUID templateUUID, File newScriptFile) throws FailedDataOperationException {
+        datamanager.updateScriptFile(templateUUID, newScriptFile);
     }
 }

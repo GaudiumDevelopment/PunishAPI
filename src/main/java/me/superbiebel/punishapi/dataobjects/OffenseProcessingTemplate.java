@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 @Builder
 public class OffenseProcessingTemplate {
     private final UUID offenseProcessingTemplateUUID;
-    private final String offenseProcessorID; //for custom offenseprocessors
+    private final UUID offenseProcessorUUID;
     @Nullable
-    private final File scriptFile; //currently only graalvm JS is supported.
+    private final File scriptFile;
 }

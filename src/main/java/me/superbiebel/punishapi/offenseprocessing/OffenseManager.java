@@ -1,5 +1,6 @@
 package me.superbiebel.punishapi.offenseprocessing;
 
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import me.superbiebel.punishapi.PunishCore;
@@ -14,11 +15,11 @@ import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
-public class OffenseManager extends ServiceRegistry<String> {
+public class OffenseManager extends ServiceRegistry<UUID> {
 
     private final PunishCore core;
 
-    public OffenseManager(ConcurrentMap<String, Service> serviceRegistryMap, PunishCore core) {
+    public OffenseManager(ConcurrentMap<UUID    , Service> serviceRegistryMap, PunishCore core) {
         super(serviceRegistryMap);
         this.core = core;
     }
@@ -40,7 +41,7 @@ public class OffenseManager extends ServiceRegistry<String> {
         Datamanager datamanager = core.getDatamanager();
         try {
             //Indicate that processing on this user begins.
-            datamanager.lockUser(offenseProcessingRequest.getCriminalUUID());
+            datamanager.tryLockUser(offenseProcessingRequest.getCriminalUUID());
 
             //Download this template.
             OffenseProcessingTemplate template = datamanager.retrieveOffenseProcessingTemplate(offenseProcessingRequest.getProcessingTemplateUUID());
@@ -72,7 +73,7 @@ public class OffenseManager extends ServiceRegistry<String> {
 
     private IOffenseProcessor getOffenseProcessor(@NotNull OffenseProcessingTemplate template) throws ServiceNotFoundException {
         IOffenseProcessor processor;
-            processor = (IOffenseProcessor) super.getService(template.getOffenseProcessorID());
+            processor = (IOffenseProcessor) super.getService(template.getOffenseProcessorUUID());
         return processor;
     }
 

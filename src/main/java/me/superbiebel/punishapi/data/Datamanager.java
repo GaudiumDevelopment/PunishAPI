@@ -1,6 +1,7 @@
 package me.superbiebel.punishapi.data;
 
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -16,7 +17,6 @@ import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.dataobjects.UserAccount;
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
-import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -37,7 +37,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
         super.canInteract();
         try {
             return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).retrieveOffenseRecord(offenseUUID);
-        } catch (ServiceNotFoundException e) {
+        } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
@@ -49,24 +49,31 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
     }
 
     @Override
-    public void lockUser(UUID uuid) throws FailedDataOperationException {
+    public boolean tryLockUser(UUID uuid) throws FailedDataOperationException {
         super.canInteract();
         try {
-            UserLockOperations userLockService = (UserLockOperations) getService(Datamanager.DataServiceType.USER_LOCKING);
-            userLockService.lockUser(uuid);
-
-        } catch (ServiceNotFoundException e) {
+            return ((UserLockOperations) getService(Datamanager.DataServiceType.USER_LOCKING)).tryLockUser(uuid);
+        } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
 
     @Override
-    public void unlockUser(UUID uuid) throws FailedDataOperationException {
+    public void unlockUser(UUID userUUID) throws FailedDataOperationException {
         super.canInteract();
         try {
-            UserLockOperations userLockService = (UserLockOperations) getService(Datamanager.DataServiceType.USER_LOCKING);
-            userLockService.unlockUser(uuid);
-        } catch (ServiceNotFoundException e) {
+            ((UserLockOperations) getService(Datamanager.DataServiceType.USER_LOCKING)).unlockUser(userUUID);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public boolean isUserLocked(UUID userUUID) throws FailedDataOperationException {
+        super.canInteract();
+        try {
+            return ((UserLockOperations) getService(Datamanager.DataServiceType.USER_LOCKING)).isUserLocked(userUUID);
+        } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
@@ -75,9 +82,8 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
     public void storeOffenseRecord(OffenseHistoryRecord offenseHistoryRecord) throws FailedDataOperationException {
         super.canInteract();
         try {
-            OffenseRecordStorageOperations service = (OffenseRecordStorageOperations) getService(DataServiceType.OFFENSE_RECORD_STORAGE);
-            service.storeOffenseRecord(offenseHistoryRecord);
-        } catch (ServiceNotFoundException e) {
+            ((OffenseRecordStorageOperations) getService(DataServiceType.OFFENSE_RECORD_STORAGE)).storeOffenseRecord(offenseHistoryRecord);
+        } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
 
@@ -87,9 +93,8 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
     public void storeOffenseProcessingTemplate(OffenseProcessingTemplate template) throws FailedDataOperationException {
         super.canInteract();
         try {
-            OffenseProcessingTemplateStorageOperations service = (OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE);
-            service.storeOffenseProcessingTemplate(template);
-        } catch (ServiceNotFoundException e) {
+            ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).storeOffenseProcessingTemplate(template);
+        } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
@@ -98,20 +103,38 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
     public OffenseProcessingTemplate retrieveOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
         super.canInteract();
         try {
-            OffenseProcessingTemplateStorageOperations service = (OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE);
-            return service.retrieveOffenseProcessingTemplate(templateUUID);
-        } catch (ServiceNotFoundException e) {
+            return ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).retrieveOffenseProcessingTemplate(templateUUID);
+        } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
 
     @Override
-    public void deleteOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
+    public boolean deleteOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
         super.canInteract();
         try {
-            OffenseProcessingTemplateStorageOperations service = (OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE);
-            service.deleteOffenseProcessingTemplate(templateUUID);
-        } catch (ServiceNotFoundException e) {
+            return ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).deleteOffenseProcessingTemplate(templateUUID);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public boolean updateOffenseProcessorUUIDInOffenseProcessingTemplate(UUID templateUUID, UUID newOffenseProcessorUUID) throws FailedDataOperationException {
+        super.canInteract();
+        try {
+            return ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).updateOffenseProcessorUUIDInOffenseProcessingTemplate(templateUUID, newOffenseProcessorUUID);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public boolean updateScriptFile(UUID templateUUID, File newScriptFile) throws FailedDataOperationException {
+        super.canInteract();
+        try {
+            return ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).updateScriptFile(templateUUID, newScriptFile);
+        } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
@@ -120,10 +143,8 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
     public UserAccount createUser(UUID userUUID, Map<String, String> attributes) throws FailedDataOperationException {
         super.canInteract();
         try {
-            UserAccountOperations service = (UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE);
-            service.createUser(userUUID, attributes);
-            return UserAccount.builder().userUUID(userUUID).attributes(attributes).build();
-        } catch (ServiceNotFoundException e) {
+            return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).createUser(userUUID, attributes);
+        } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
@@ -134,7 +155,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
         try {
             UserAccountOperations service = (UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE);
             return service.retrieveUser(userUUID);
-        } catch (ServiceNotFoundException e) {
+        } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
@@ -143,9 +164,8 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
     public void setUserAttribute(String key, String value) throws FailedDataOperationException {
         super.canInteract();
         try {
-            UserAccountOperations service = (UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE);
-            service.setUserAttribute(key, value);
-        } catch (ServiceNotFoundException e) {
+            ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).setUserAttribute(key, value);
+        } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
@@ -154,9 +174,8 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
     public void removeUserAttribute(String key) throws FailedDataOperationException {
         super.canInteract();
         try {
-            UserAccountOperations service = (UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE);
-            service.removeUserAttribute(key);
-        } catch (ServiceNotFoundException e) {
+            ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).removeUserAttribute(key);
+        } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
@@ -165,9 +184,8 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
     public List<UserAccount> getUsersByAttribute(String key, String value) throws FailedDataOperationException {
         super.canInteract();
         try {
-            UserAccountOperations service = (UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE);
-            return service.getUsersByAttribute(key, value);
-        } catch (ServiceNotFoundException e) {
+            return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).getUsersByAttribute(key, value);
+        } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
@@ -177,7 +195,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
         super.canInteract();
         try {
             return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).getUsersByAttributekey(key);
-        } catch (ServiceNotFoundException e) {
+        } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
@@ -188,7 +206,7 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
         try {
             UserAccountOperations service = (UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE);
             return service.getUsersByAttributeValue(value);
-        } catch (ServiceNotFoundException e) {
+        } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
