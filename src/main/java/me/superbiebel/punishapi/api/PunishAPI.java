@@ -5,6 +5,7 @@ import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.abstractions.System;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
+import org.jetbrains.annotations.ApiStatus;
 
 
 /**
@@ -37,7 +38,7 @@ public class PunishAPI extends System {
     public void onKill() throws ShutDownException {
         core.kill();
     }
-
+    @ApiStatus.Internal
     public PunishCore getUnsafeCore() {
         return core;
     }
