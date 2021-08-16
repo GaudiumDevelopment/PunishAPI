@@ -26,7 +26,7 @@ class OffenseManagerOperationTests {
     void addServiceTest() throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException {
         TestDataServiceImpl service = new TestDataServiceImpl();
         PunishAPI api = new PunishAPI();
-        PunishCore punishCore = api.getCore();
+        PunishCore punishCore = api.getUnsafeCore();
         punishCore.startup();
         punishCore.getDatamanager().addService(Datamanager.DataServiceType.TEST, service);
         assertSame(service, punishCore.getDatamanager().getService(Datamanager.DataServiceType.TEST));
@@ -39,7 +39,7 @@ class OffenseManagerOperationTests {
     void removeServiceTest(boolean kill) throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException, ShutDownException {
         TestDataServiceImpl service = new TestDataServiceImpl();
         PunishAPI api = new PunishAPI();
-        PunishCore punishCore = api.getCore();
+        PunishCore punishCore = api.getUnsafeCore();
         punishCore.startup();
         punishCore.getDatamanager().addService(Datamanager.DataServiceType.TEST, service);
         TestDataServiceImpl removedService = (TestDataServiceImpl) punishCore.getDatamanager().removeService(Datamanager.DataServiceType.TEST, kill);
@@ -50,7 +50,7 @@ class OffenseManagerOperationTests {
     void getService() throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException {
         TestDataServiceImpl service = new TestDataServiceImpl();
         PunishAPI api = new PunishAPI();
-        PunishCore punishCore = api.getCore();
+        PunishCore punishCore = api.getUnsafeCore();
         punishCore.startup();
         punishCore.getDatamanager().addService(Datamanager.DataServiceType.TEST, service);
         punishCore.getDatamanager().getService(Datamanager.DataServiceType.TEST);

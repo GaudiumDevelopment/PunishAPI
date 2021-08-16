@@ -27,7 +27,7 @@ class DataAPIOperationTests {
     void addServiceTest() throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException {
     
         PunishAPI api = new PunishAPI();
-        PunishCore core = api.getCore();
+        PunishCore core = api.getUnsafeCore();
         
         api.startup();
         
@@ -43,7 +43,7 @@ class DataAPIOperationTests {
     void addMultipleServiceTest(int times) throws StartupException, ServiceNotFoundException, ServiceAlreadyRegisteredException {
     
         PunishAPI api = new PunishAPI();
-        PunishCore core = api.getCore();
+        PunishCore core = api.getUnsafeCore();
         api.startup();
         
         TestDataServiceImpl testService = new TestDataServiceImpl();
@@ -59,7 +59,7 @@ class DataAPIOperationTests {
     @Execution(ExecutionMode.CONCURRENT)
     void getServiceTest() throws StartupException, ServiceAlreadyRegisteredException, ServiceNotFoundException {
         PunishAPI api = new PunishAPI();
-        PunishCore core = api.getCore();
+        PunishCore core = api.getUnsafeCore();
         api.startup();
     
         TestDataServiceImpl testService = new TestDataServiceImpl();

@@ -28,7 +28,7 @@ class DataOperationsTests {
         api.getDataAPI().addService(Datamanager.DataServiceType.OFFENSE_RECORD_STORAGE,TestHistoryRecordService);
 
         UUID requestUUID = UUID.randomUUID();
-        assertDoesNotThrow(()->api.getCore().getDatamanager().storeOffenseRecord(OffenseHistoryRecord.builder().recordUUID(requestUUID).build()));
+        assertDoesNotThrow(()->api.getUnsafeCore().getDatamanager().storeOffenseRecord(OffenseHistoryRecord.builder().recordUUID(requestUUID).build()));
         assertEquals(requestUUID,api.getDataAPI().retrieveOffense(requestUUID).getRecordUUID());
     }
 }

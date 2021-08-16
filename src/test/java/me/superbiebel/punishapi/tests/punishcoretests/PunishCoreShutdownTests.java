@@ -22,7 +22,7 @@ class PunishCoreShutdownTests {
     @Execution(ExecutionMode.CONCURRENT)
     void statusShutdownTest() throws ShutDownException, StartupException {
         PunishAPI api = new PunishAPI();
-        PunishCore core = api.getCore();
+        PunishCore core = api.getUnsafeCore();
         core.startup();
         core.shutdown();
         assertSame(SystemStatus.DOWN, core.status());
@@ -32,7 +32,7 @@ class PunishCoreShutdownTests {
     @Execution(ExecutionMode.CONCURRENT)
     void multipleShutdownTest(int times) throws ShutDownException, StartupException {
         PunishAPI api = new PunishAPI();
-        PunishCore core = api.getCore();
+        PunishCore core = api.getUnsafeCore();
         core.startup();
         core.shutdown();
         for (int i = 1; i<=times;i++) {
@@ -45,7 +45,7 @@ class PunishCoreShutdownTests {
     @Execution(ExecutionMode.CONCURRENT)
     void multipleKilledShutdownTest(int times) throws StartupException, ShutDownException {
         PunishAPI api = new PunishAPI();
-        PunishCore core = api.getCore();
+        PunishCore core = api.getUnsafeCore();
         core.startup();
         core.kill();
         for (int i = 1; i<=times;i++) {
@@ -57,7 +57,7 @@ class PunishCoreShutdownTests {
     @Execution(ExecutionMode.CONCURRENT)
     void statusKilledTest() throws ShutDownException, StartupException {
         PunishAPI api = new PunishAPI();
-        PunishCore core = api.getCore();
+        PunishCore core = api.getUnsafeCore();
         core.startup();
         core.kill();
         assertSame(SystemStatus.KILLED, core.status());

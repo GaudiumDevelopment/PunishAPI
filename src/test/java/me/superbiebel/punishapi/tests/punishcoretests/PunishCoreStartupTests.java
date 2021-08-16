@@ -10,7 +10,10 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PunishCoreStartupTests {
     
@@ -19,7 +22,7 @@ class PunishCoreStartupTests {
     @Execution(ExecutionMode.CONCURRENT)
     void readyBooleanStartupTest() throws StartupException {
         PunishAPI api = new PunishAPI();
-        PunishCore core = api.getCore();
+        PunishCore core = api.getUnsafeCore();
         core.startup();
         assertSame(SystemStatus.READY, core.status());
     }
@@ -30,7 +33,7 @@ class PunishCoreStartupTests {
     @Execution(ExecutionMode.CONCURRENT)
     void multipleStartupTest(int times) throws StartupException {
         PunishAPI api = new PunishAPI();
-        PunishCore core = api.getCore();
+        PunishCore core = api.getUnsafeCore();
         core.startup();
         for (int i = 1; i<=times;i++) {
             Throwable thrown = assertThrows(StartupException.class, core::startup);
