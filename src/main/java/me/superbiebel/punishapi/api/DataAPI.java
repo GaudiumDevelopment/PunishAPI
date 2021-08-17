@@ -20,12 +20,11 @@ import org.jetbrains.annotations.Nullable;
 public class DataAPI {
     private final Datamanager datamanager;
 
-    public DataAPI(PunishCore core) {
+    protected DataAPI(PunishCore core) {
         core.setDataAPI(this);
         datamanager = core.getDatamanager();
     }
 
-    
     public void addService(Datamanager.DataServiceType dataServiceType, DataService service) throws StartupException, ServiceAlreadyRegisteredException {
         datamanager.addService(dataServiceType, service);
     }
@@ -47,12 +46,12 @@ public class DataAPI {
         return datamanager.retrieveUser(userUUID);
     }
     
-    public void setUserAttribute(String key, String value) throws FailedDataOperationException {
-        datamanager.setUserAttribute(key, value);
+    public void setUserAttribute(UUID userUUID, String key, String value) throws FailedDataOperationException {
+        datamanager.setUserAttribute(userUUID, key, value);
     }
     
-    public void removeUserAttribute(String key) throws FailedDataOperationException {
-        datamanager.removeUserAttribute(key);
+    public void removeUserAttribute(UUID userUUID,String key) throws FailedDataOperationException {
+        datamanager.removeUserAttribute(userUUID, key);
     }
     
     public List<UserAccount> getUsersByAttribute(String key, String value) throws FailedDataOperationException {
@@ -81,23 +80,23 @@ public class DataAPI {
         return datamanager.isUserLocked(userUUID);
     }
 
-    void storeOffenseProcessingTemplate(OffenseProcessingTemplate template) throws FailedDataOperationException {
+    public void storeOffenseProcessingTemplate(OffenseProcessingTemplate template) throws FailedDataOperationException {
         datamanager.storeOffenseProcessingTemplate(template);
     }
 
-    OffenseProcessingTemplate retrieveOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
+    public OffenseProcessingTemplate retrieveOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
         return datamanager.retrieveOffenseProcessingTemplate(templateUUID);
     }
 
-    void deleteOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
-        datamanager.deleteOffenseProcessingTemplate(templateUUID);
+    public boolean deleteOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
+        return datamanager.deleteOffenseProcessingTemplate(templateUUID);
     }
 
-    void updateOffenseProcessorUUIDInOffenseProcessingTemplate(UUID templateUUID, UUID newOffenseProcessorUUID) throws FailedDataOperationException {
-        datamanager.updateOffenseProcessorUUIDInOffenseProcessingTemplate(templateUUID, newOffenseProcessorUUID);
+    public boolean updateOffenseProcessorUUIDInOffenseProcessingTemplate(UUID templateUUID, UUID newOffenseProcessorUUID) throws FailedDataOperationException {
+        return datamanager.updateOffenseProcessorUUIDInOffenseProcessingTemplate(templateUUID, newOffenseProcessorUUID);
     }
 
-    void updateScriptFile(UUID templateUUID, File newScriptFile) throws FailedDataOperationException {
-        datamanager.updateScriptFile(templateUUID, newScriptFile);
+    public boolean updateScriptFile(UUID templateUUID, File newScriptFile) throws FailedDataOperationException {
+        return datamanager.updateScriptFile(templateUUID, newScriptFile);
     }
 }

@@ -7,13 +7,13 @@ import me.superbiebel.punishapi.dataobjects.UserAccount;
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 
 public interface UserAccountOperations {
-    UserAccount createUser(UUID userUUID, Map<String, String> attributes) throws FailedDataOperationException;
+    UserAccount createUser(Map<String, String> attributes) throws FailedDataOperationException;
 
     UserAccount retrieveUser(UUID userUUID) throws FailedDataOperationException;
 
-    void setUserAttribute(String key, String value) throws FailedDataOperationException;
+    boolean setUserAttribute(UUID userUUID, String key, String value) throws FailedDataOperationException;
 
-    void removeUserAttribute(String key) throws FailedDataOperationException;
+    boolean removeUserAttribute(UUID userUUID, String key) throws FailedDataOperationException;
 
     List<UserAccount> getUsersByAttribute(String key, String value) throws FailedDataOperationException;
 

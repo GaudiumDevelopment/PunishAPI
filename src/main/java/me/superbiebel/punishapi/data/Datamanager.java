@@ -2,11 +2,13 @@ package me.superbiebel.punishapi.data;
 
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
+import me.superbiebel.punishapi.abstractions.Service;
 import me.superbiebel.punishapi.abstractions.ServiceRegistry;
 import me.superbiebel.punishapi.data.servicesoperations.OffenseProcessingTemplateStorageOperations;
 import me.superbiebel.punishapi.data.servicesoperations.OffenseRecordStorageOperations;
@@ -17,11 +19,14 @@ import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.dataobjects.UserAccount;
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
+import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import org.apache.logging.log4j.LogManager;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
  * FOR INTERNAL USE ONLY!!!!
  */
+@ApiStatus.Internal
 public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
         implements OffenseProcessingTemplateStorageOperations, OffenseRecordStorageOperations, TestDataOperations, UserAccountOperations, UserLockOperations {
 
@@ -30,6 +35,15 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
 
     public Datamanager() {
         super(new ConcurrentHashMap<>());
+    }
+
+    @Override
+    public Service getService(DataServiceType serviceType) throws ServiceNotFoundException {
+        DataService foundService = (DataService) super.getService(serviceType);
+        if (Arrays.stream(foundService.supportsDataOperations()).noneMatch(dataServiceType -> dataServiceType.equals(serviceType))) {
+            throw new IllegalStateException("A service was found but it didn't actually support the dataoperation");
+        }
+        return foundService;
     }
 
     @Override
@@ -140,10 +154,10 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
     }
 
     @Override
-    public UserAccount createUser(UUID userUUID, Map<String, String> attributes) throws FailedDataOperationException {
+    public UserAccount createUser(Map<String, String> attributes) throws FailedDataOperationException {
         super.canInteract();
         try {
-            return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).createUser(userUUID, attributes);
+            return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).createUser(attributes);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
@@ -161,20 +175,20 @@ public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
     }
 
     @Override
-    public void setUserAttribute(String key, String value) throws FailedDataOperationException {
+    public boolean setUserAttribute(UUID userUUID, String key, String value) throws FailedDataOperationException {
         super.canInteract();
         try {
-            ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).setUserAttribute(key, value);
+            return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).setUserAttribute(userUUID, key, value);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
 
     @Override
-    public void removeUserAttribute(String key) throws FailedDataOperationException {
+    public boolean removeUserAttribute(UUID userUUID, String key) throws FailedDataOperationException {
         super.canInteract();
         try {
-            ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).removeUserAttribute(key);
+            return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).removeUserAttribute(userUUID, key);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
