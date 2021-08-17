@@ -58,8 +58,8 @@ public class DataAPI {
         return datamanager.getUsersByAttribute(key, value);
     }
     
-    public List<UserAccount> getUsersByAttributekey(String key) throws FailedDataOperationException {
-        return datamanager.getUsersByAttributekey(key);
+    public List<UserAccount> getUsersByAttributeKey(String key) throws FailedDataOperationException {
+        return datamanager.getUsersByAttributeKey(key);
     }
     
     public List<UserAccount> getUsersByAttributeValue(String value) throws FailedDataOperationException {

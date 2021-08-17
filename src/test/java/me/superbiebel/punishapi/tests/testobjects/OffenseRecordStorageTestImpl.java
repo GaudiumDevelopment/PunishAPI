@@ -9,7 +9,7 @@ import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 
 public class OffenseRecordStorageTestImpl extends BaseDataTestingService implements OffenseRecordStorageOperations {
 
-    Map<UUID, OffenseHistoryRecord> offenseHistoryRecordStorage = new HashMap<>();
+    final Map<UUID, OffenseHistoryRecord> offenseHistoryRecordStorage = new HashMap<>();
 
     @Override
     public Datamanager.DataServiceType[] supportsDataOperations() {

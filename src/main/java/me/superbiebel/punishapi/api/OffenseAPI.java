@@ -9,6 +9,7 @@ import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 
+@SuppressWarnings("ClassCanBeRecord")
 public class OffenseAPI {
     private final PunishCore core;
 

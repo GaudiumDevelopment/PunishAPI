@@ -6,7 +6,6 @@ import java.util.UUID;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.data.servicesoperations.OffenseProcessingTemplateStorageOperations;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
-import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 
 public class OffenseProcessingTemplateStorageTestImpl extends BaseDataTestingService implements OffenseProcessingTemplateStorageOperations {
 
@@ -20,22 +19,22 @@ public class OffenseProcessingTemplateStorageTestImpl extends BaseDataTestingSer
     }
 
     @Override
-    public void storeOffenseProcessingTemplate(OffenseProcessingTemplate template) throws FailedDataOperationException {
+    public void storeOffenseProcessingTemplate(OffenseProcessingTemplate template) {
         offenseProcessingTemplateStorage.put(template.getOffenseProcessingTemplateUUID(), template);
     }
 
     @Override
-    public OffenseProcessingTemplate retrieveOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
+    public OffenseProcessingTemplate retrieveOffenseProcessingTemplate(UUID templateUUID) {
         return offenseProcessingTemplateStorage.get(templateUUID);
     }
 
     @Override
-    public boolean deleteOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
+    public boolean deleteOffenseProcessingTemplate(UUID templateUUID) {
         return offenseProcessingTemplateStorage.remove(templateUUID) != null;
     }
 
     @Override
-    public boolean updateOffenseProcessorUUIDInOffenseProcessingTemplate(UUID templateUUID, UUID newOffenseProcessorUUID) throws FailedDataOperationException {
+    public boolean updateOffenseProcessorUUIDInOffenseProcessingTemplate(UUID templateUUID, UUID newOffenseProcessorUUID) {
         OffenseProcessingTemplate fetchedTemplate = offenseProcessingTemplateStorage.get(templateUUID);
         OffenseProcessingTemplate newTemplate = OffenseProcessingTemplate.builder().offenseProcessingTemplateUUID(fetchedTemplate.getOffenseProcessingTemplateUUID())
                 .offenseProcessorUUID(newOffenseProcessorUUID)
@@ -45,7 +44,7 @@ public class OffenseProcessingTemplateStorageTestImpl extends BaseDataTestingSer
     }
 
     @Override
-    public boolean updateScriptFile(UUID templateUUID, File newScriptFile) throws FailedDataOperationException {
+    public boolean updateScriptFile(UUID templateUUID, File newScriptFile) {
         OffenseProcessingTemplate fetchedTemplate = offenseProcessingTemplateStorage.get(templateUUID);
         OffenseProcessingTemplate newTemplate = OffenseProcessingTemplate.builder()
                 .offenseProcessingTemplateUUID(fetchedTemplate.getOffenseProcessingTemplateUUID())

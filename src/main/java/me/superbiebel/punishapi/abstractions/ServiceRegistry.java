@@ -6,6 +6,7 @@ import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 
+@SuppressWarnings("EmptyMethod")
 public abstract class ServiceRegistry<T> extends System {
 
     protected final ConcurrentMap<T, Service> serviceRegistryMap;
@@ -53,7 +54,7 @@ public abstract class ServiceRegistry<T> extends System {
 
     public Service removeService(T serviceType, boolean kill) throws ShutDownException, ServiceNotFoundException {
         if (!serviceRegistryMap.containsKey(serviceType)) {
-            throw new ServiceNotFoundException("Servicetype not found");
+            throw new ServiceNotFoundException("Service type not found");
         }
         Service service = serviceRegistryMap.remove(serviceType);
         if (kill) {

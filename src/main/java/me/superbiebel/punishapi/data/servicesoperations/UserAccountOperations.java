@@ -17,7 +17,7 @@ public interface UserAccountOperations {
 
     List<UserAccount> getUsersByAttribute(String key, String value) throws FailedDataOperationException;
 
-    List<UserAccount> getUsersByAttributekey(String key) throws FailedDataOperationException;
+    List<UserAccount> getUsersByAttributeKey(String key) throws FailedDataOperationException;
 
     List<UserAccount> getUsersByAttributeValue(String value) throws FailedDataOperationException;
 }

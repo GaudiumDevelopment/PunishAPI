@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import lombok.Getter;
 import me.superbiebel.punishapi.abstractions.Service;
 import me.superbiebel.punishapi.abstractions.ServiceRegistry;
 import me.superbiebel.punishapi.data.servicesoperations.OffenseProcessingTemplateStorageOperations;
@@ -31,9 +30,6 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
         , UserAccountOperations
         , UserLockOperations {
 
-    @Getter
-    private static final int MAXSERVICECOUNT = 2;
-
     public Datamanager() {
         super(new ConcurrentHashMap<>());
     }
@@ -42,7 +38,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     public Service getService(final DataServiceType serviceType) throws ServiceNotFoundException {
         final DataService foundService = (DataService) super.getService(serviceType);
         if (Arrays.stream(foundService.supportsDataOperations()).noneMatch(dataServiceType -> dataServiceType.equals(serviceType))) {
-            throw new IllegalStateException("A service was found but it didn't actually support the dataoperation");
+            throw new IllegalStateException("A service was found but it didn't actually support the data operation");
         }
         return foundService;
     }
@@ -205,10 +201,10 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public List<UserAccount> getUsersByAttributekey(final String key) throws FailedDataOperationException {
+    public List<UserAccount> getUsersByAttributeKey(final String key) throws FailedDataOperationException {
         super.canInteract();
         try {
-            return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).getUsersByAttributekey(key);
+            return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).getUsersByAttributeKey(key);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
@@ -236,7 +232,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
             try {
                 this.removeService(dataServiceType, false);
             } catch (Exception e) {
-                LogManager.getLogger().error("Could not unregister and shutdown servicetype: {}", dataServiceType, e);
+                LogManager.getLogger().error("Could not unregister and shutdown service type: {}", dataServiceType, e);
             }
         });
     }

@@ -5,11 +5,10 @@ import java.util.List;
 import java.util.UUID;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.data.servicesoperations.UserLockOperations;
-import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 
 public class UserLockTestImpl extends BaseDataTestingService implements UserLockOperations {
 
-    List<UUID> userLockList = new ArrayList<>();
+    final List<UUID> userLockList = new ArrayList<>();
 
     @Override
     public Datamanager.DataServiceType[] supportsDataOperations() {
@@ -19,7 +18,7 @@ public class UserLockTestImpl extends BaseDataTestingService implements UserLock
     }
 
     @Override
-    public boolean tryLockUser(UUID uuid) throws FailedDataOperationException {
+    public boolean tryLockUser(UUID uuid) {
         if (userLockList.contains(uuid)) {
             return false;
         } else {
@@ -29,12 +28,12 @@ public class UserLockTestImpl extends BaseDataTestingService implements UserLock
     }
 
     @Override
-    public void unlockUser(UUID uuid) throws FailedDataOperationException {
+    public void unlockUser(UUID uuid) {
         userLockList.remove(uuid);
     }
 
     @Override
-    public boolean isUserLocked(UUID userUUID) throws FailedDataOperationException {
+    public boolean isUserLocked(UUID userUUID) {
         return userLockList.contains(userUUID);
     }
 }

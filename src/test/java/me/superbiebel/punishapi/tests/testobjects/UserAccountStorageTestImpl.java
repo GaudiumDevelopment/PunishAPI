@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Disabled;
 @Disabled
 public class UserAccountStorageTestImpl extends BaseDataTestingService implements UserAccountOperations {
 
-    HashMap<UUID, UserAccount> userAccountStorage = new HashMap<>();
+    final HashMap<UUID, UserAccount> userAccountStorage = new HashMap<>();
 
     @Override
     public Datamanager.DataServiceType[] supportsDataOperations() {
@@ -57,7 +57,7 @@ public class UserAccountStorageTestImpl extends BaseDataTestingService implement
     }
 
     @Override
-    public List<UserAccount> getUsersByAttributekey(String key) {
+    public List<UserAccount> getUsersByAttributeKey(String key) {
         return null;
     }
 

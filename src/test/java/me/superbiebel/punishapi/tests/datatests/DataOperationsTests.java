@@ -30,26 +30,26 @@ class DataOperationsTests {
     @Test
     @Execution(ExecutionMode.CONCURRENT)
     void storeAndRetrieveOffenseRecordTest() throws StartupException, ServiceAlreadyRegisteredException, FailedDataOperationException {
-        PunishAPI api = new PunishAPI();
+        final PunishAPI api = new PunishAPI();
         api.startup();
 
-        OffenseRecordStorageTestImpl TestHistoryRecordService = new OffenseRecordStorageTestImpl();
+        final OffenseRecordStorageTestImpl TestHistoryRecordService = new OffenseRecordStorageTestImpl();
 
         api.getDataAPI().addService(Datamanager.DataServiceType.OFFENSE_RECORD_STORAGE,TestHistoryRecordService);
 
-        UUID requestUUID = UUID.randomUUID();
+        final UUID requestUUID = UUID.randomUUID();
         assertDoesNotThrow(()->api.getUnsafeCore().getDatamanager().storeOffenseRecord(OffenseHistoryRecord.builder().recordUUID(requestUUID).build()));
         assertEquals(requestUUID,api.getDataAPI().retrieveOffense(requestUUID).getRecordUUID());
     }
     @Test
     @Execution(ExecutionMode.CONCURRENT)
     void lockUserTest() throws StartupException, FailedDataOperationException, ServiceAlreadyRegisteredException {
-        PunishAPI api = new PunishAPI();
+        final PunishAPI api = new PunishAPI();
         api.startup();
-        UserLockTestImpl userLockTestImpl = new UserLockTestImpl();
+        final UserLockTestImpl userLockTestImpl = new UserLockTestImpl();
         api.getDataAPI().addService(Datamanager.DataServiceType.USER_LOCKING,userLockTestImpl);
 
-        UUID userUUID = UUID.randomUUID();
+        final UUID userUUID = UUID.randomUUID();
 
         assertTrue(api.getDataAPI().tryLockUser(userUUID));
         assertTrue(api.getDataAPI().isUserLocked(userUUID));
@@ -62,18 +62,18 @@ class DataOperationsTests {
     @Test
     @Execution(ExecutionMode.CONCURRENT)
     void offenseProcessingTemplateStorageTest() throws StartupException, ServiceAlreadyRegisteredException, URISyntaxException, FailedDataOperationException {
-        PunishAPI api = new PunishAPI();
+        final PunishAPI api = new PunishAPI();
         api.startup();
-        DataAPI dataAPI = api.getDataAPI();
+        final DataAPI dataAPI = api.getDataAPI();
 
         OffenseProcessingTemplateStorageTestImpl templateStorage = new OffenseProcessingTemplateStorageTestImpl();
         dataAPI.addService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE, templateStorage);
 
-        OffenseProcessingTemplate testTemplate = OffenseProcessingTemplate.builder()
+        final OffenseProcessingTemplate testTemplate = OffenseProcessingTemplate.builder()
                 .offenseProcessorUUID(UUID.randomUUID())
                 .scriptFile(new File(Objects.requireNonNull(getClass().getClassLoader().getResource("testFile.txt")).toURI())).build();
-        UUID offenseProcessorUUID = UUID.randomUUID();
-        File testFile2 = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("testFile2.txt")).toURI());
+        final UUID offenseProcessorUUID = UUID.randomUUID();
+        final File testFile2 = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("testFile2.txt")).toURI());
 
         assertDoesNotThrow(()->dataAPI.storeOffenseProcessingTemplate(testTemplate));
         assertEquals(testTemplate,dataAPI.retrieveOffenseProcessingTemplate(testTemplate.getOffenseProcessingTemplateUUID()));

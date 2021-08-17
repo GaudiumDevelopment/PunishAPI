@@ -14,24 +14,23 @@ public abstract class System implements Service{
     private final Lock startupShutdownLock = new ReentrantLock(true);
 
     @Getter
-    private final AtomicReference<SystemStatus> atomicstatus = new AtomicReference<>();
+    private final AtomicReference<SystemStatus> atomicStatus = new AtomicReference<>();
 
-    //locked so threadsafe
     public void startup(boolean force) throws StartupException {
         try {
             startupShutdownLock.lock();
-            if (atomicstatus.get() == SystemStatus.STARTING_UP) {
+            if (atomicStatus.get() == SystemStatus.STARTING_UP) {
                 throw new IllegalStateException("Cannot start up while already starting up!");
             }
-            if ((atomicstatus.get() == SystemStatus.READY || atomicstatus.get() == SystemStatus.FORCED_READY) && !force) {
+            if ((atomicStatus.get() == SystemStatus.READY || atomicStatus.get() == SystemStatus.FORCED_READY) && !force) {
                 throw new IllegalStateException("System already started up!");
             }
-            atomicstatus.set(SystemStatus.STARTING_UP);
+            atomicStatus.set(SystemStatus.STARTING_UP);
             onStartup(force);
             if (force) {
-                atomicstatus.set(SystemStatus.FORCED_READY);
+                atomicStatus.set(SystemStatus.FORCED_READY);
             } else {
-                atomicstatus.set(SystemStatus.READY);
+                atomicStatus.set(SystemStatus.READY);
             }
         } catch (StartupException e) {
             throw e;
@@ -42,20 +41,18 @@ public abstract class System implements Service{
         }
     }
 
-    //locked so threadsafe
     public void startup() throws StartupException {
         startup(false);
     }
 
-    //locked so threadsafe
     public void shutdown() throws ShutDownException {
         try {
             startupShutdownLock.lock();
-            if (atomicstatus.get() == SystemStatus.DOWN || atomicstatus.get() == SystemStatus.KILLED) {
+            if (atomicStatus.get() == SystemStatus.DOWN || atomicStatus.get() == SystemStatus.KILLED) {
                 throw new IllegalStateException("System already shut down!");
             }
             onShutdown();
-            atomicstatus.set(SystemStatus.DOWN);
+            atomicStatus.set(SystemStatus.DOWN);
         } catch (ShutDownException e) {
             throw e;
         } catch (Exception e) {
@@ -65,17 +62,16 @@ public abstract class System implements Service{
         }
     }
 
-    //locked so threadsafe
     public void kill() throws ShutDownException {
         try {
             startupShutdownLock.lock();
-            if (atomicstatus.get() == SystemStatus.KILLED) {
+            if (atomicStatus.get() == SystemStatus.KILLED) {
                 throw new IllegalStateException("System already killed!");
-            } else if (atomicstatus.get() == SystemStatus.DOWN) {
+            } else if (atomicStatus.get() == SystemStatus.DOWN) {
                 throw new IllegalStateException("System already shut down!");
             } else {
                 onKill();
-                atomicstatus.set(SystemStatus.KILLED);
+                atomicStatus.set(SystemStatus.KILLED);
             }
         } catch (Exception e) {
             throw new ShutDownException(e);
@@ -85,11 +81,11 @@ public abstract class System implements Service{
     }
 
     public @NotNull SystemStatus status() {
-        return atomicstatus.get();
+        return atomicStatus.get();
     }
 
     public void canInteract() {
-        if (!(atomicstatus.get().equals(SystemStatus.READY) || atomicstatus.get().equals(SystemStatus.FORCED_READY))) {
+        if (!(atomicStatus.get().equals(SystemStatus.READY) || atomicStatus.get().equals(SystemStatus.FORCED_READY))) {
             throw new IllegalStateException("Cannot interact with system because it is not ready");
         }
     }
