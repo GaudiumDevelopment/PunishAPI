@@ -1,5 +1,8 @@
 package me.superbiebel.punishapi.exceptions;
 
+/**
+ * Something went wrong, every other exception will be wrapped in this.
+ */
 public class ShutDownException extends Exception {
     public ShutDownException() {
         super();

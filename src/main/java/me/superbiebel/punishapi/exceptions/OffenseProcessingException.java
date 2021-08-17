@@ -1,5 +1,8 @@
 package me.superbiebel.punishapi.exceptions;
 
+/**
+ * If something unexpected happened and the operation failed.
+ */
 public class OffenseProcessingException extends Exception {
     public OffenseProcessingException() {
     }

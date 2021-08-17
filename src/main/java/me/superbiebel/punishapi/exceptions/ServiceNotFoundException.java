@@ -1,5 +1,8 @@
 package me.superbiebel.punishapi.exceptions;
 
+/**
+ * If the service cannot be found.
+ */
 public class ServiceNotFoundException extends Exception {
     public ServiceNotFoundException() {
         super();

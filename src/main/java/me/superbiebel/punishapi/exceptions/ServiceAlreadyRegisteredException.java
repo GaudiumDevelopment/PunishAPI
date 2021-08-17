@@ -1,5 +1,8 @@
 package me.superbiebel.punishapi.exceptions;
 
+/**
+ * If a service is already registered.
+ */
 public class ServiceAlreadyRegisteredException extends Exception {
     public ServiceAlreadyRegisteredException() {
         super();
