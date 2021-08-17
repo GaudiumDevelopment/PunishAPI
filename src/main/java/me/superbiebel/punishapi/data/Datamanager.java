@@ -40,7 +40,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public Service getService(DataServiceType serviceType) throws ServiceNotFoundException {
+    public Service getService(final DataServiceType serviceType) throws ServiceNotFoundException {
         DataService foundService = (DataService) super.getService(serviceType);
         if (Arrays.stream(foundService.supportsDataOperations()).noneMatch(dataServiceType -> dataServiceType.equals(serviceType))) {
             throw new IllegalStateException("A service was found but it didn't actually support the dataoperation");
@@ -49,7 +49,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public OffenseHistoryRecord retrieveOffenseRecord(UUID offenseUUID) throws FailedDataOperationException {
+    public OffenseHistoryRecord retrieveOffenseRecord(final UUID offenseUUID) throws FailedDataOperationException {
         super.canInteract();
         try {
             return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).retrieveOffenseRecord(offenseUUID);
@@ -59,13 +59,13 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public String exampleOperation(String returnString) {
+    public String exampleOperation(final String returnString) {
         super.canInteract();
         return returnString;
     }
 
     @Override
-    public boolean tryLockUser(UUID uuid) throws FailedDataOperationException {
+    public boolean tryLockUser(final UUID uuid) throws FailedDataOperationException {
         super.canInteract();
         try {
             return ((UserLockOperations) getService(Datamanager.DataServiceType.USER_LOCKING)).tryLockUser(uuid);
@@ -75,7 +75,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public void unlockUser(UUID userUUID) throws FailedDataOperationException {
+    public void unlockUser(final UUID userUUID) throws FailedDataOperationException {
         super.canInteract();
         try {
             ((UserLockOperations) getService(Datamanager.DataServiceType.USER_LOCKING)).unlockUser(userUUID);
@@ -85,7 +85,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public boolean isUserLocked(UUID userUUID) throws FailedDataOperationException {
+    public boolean isUserLocked(final UUID userUUID) throws FailedDataOperationException {
         super.canInteract();
         try {
             return ((UserLockOperations) getService(Datamanager.DataServiceType.USER_LOCKING)).isUserLocked(userUUID);
@@ -95,7 +95,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public void storeOffenseRecord(OffenseHistoryRecord offenseHistoryRecord) throws FailedDataOperationException {
+    public void storeOffenseRecord(final OffenseHistoryRecord offenseHistoryRecord) throws FailedDataOperationException {
         super.canInteract();
         try {
             ((OffenseRecordStorageOperations) getService(DataServiceType.OFFENSE_RECORD_STORAGE)).storeOffenseRecord(offenseHistoryRecord);
@@ -106,7 +106,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public void storeOffenseProcessingTemplate(OffenseProcessingTemplate template) throws FailedDataOperationException {
+    public void storeOffenseProcessingTemplate(final OffenseProcessingTemplate template) throws FailedDataOperationException {
         super.canInteract();
         try {
             ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).storeOffenseProcessingTemplate(template);
@@ -116,7 +116,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public OffenseProcessingTemplate retrieveOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
+    public OffenseProcessingTemplate retrieveOffenseProcessingTemplate(final UUID templateUUID) throws FailedDataOperationException {
         super.canInteract();
         try {
             return ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).retrieveOffenseProcessingTemplate(templateUUID);
@@ -126,7 +126,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public boolean deleteOffenseProcessingTemplate(UUID templateUUID) throws FailedDataOperationException {
+    public boolean deleteOffenseProcessingTemplate(final UUID templateUUID) throws FailedDataOperationException {
         super.canInteract();
         try {
             return ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).deleteOffenseProcessingTemplate(templateUUID);
@@ -136,7 +136,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public boolean updateOffenseProcessorUUIDInOffenseProcessingTemplate(UUID templateUUID, UUID newOffenseProcessorUUID) throws FailedDataOperationException {
+    public boolean updateOffenseProcessorUUIDInOffenseProcessingTemplate(final UUID templateUUID,final  UUID newOffenseProcessorUUID) throws FailedDataOperationException {
         super.canInteract();
         try {
             return ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).updateOffenseProcessorUUIDInOffenseProcessingTemplate(templateUUID, newOffenseProcessorUUID);
@@ -146,7 +146,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public boolean updateScriptFile(UUID templateUUID, File newScriptFile) throws FailedDataOperationException {
+    public boolean updateScriptFile(final UUID templateUUID, final  File newScriptFile) throws FailedDataOperationException {
         super.canInteract();
         try {
             return ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).updateScriptFile(templateUUID, newScriptFile);
@@ -156,7 +156,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public UserAccount createUser(Map<String, String> attributes) throws FailedDataOperationException {
+    public UserAccount createUser(final Map<String, String> attributes) throws FailedDataOperationException {
         super.canInteract();
         try {
             return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).createUser(attributes);
@@ -166,7 +166,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public UserAccount retrieveUser(UUID userUUID) throws FailedDataOperationException {
+    public UserAccount retrieveUser(final UUID userUUID) throws FailedDataOperationException {
         super.canInteract();
         try {
             UserAccountOperations service = (UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE);
@@ -177,7 +177,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public boolean setUserAttribute(UUID userUUID, String key, String value) throws FailedDataOperationException {
+    public boolean setUserAttribute(final UUID userUUID, final String key, final String value) throws FailedDataOperationException {
         super.canInteract();
         try {
             return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).setUserAttribute(userUUID, key, value);
@@ -187,7 +187,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public boolean removeUserAttribute(UUID userUUID, String key) throws FailedDataOperationException {
+    public boolean removeUserAttribute(final UUID userUUID, final String key) throws FailedDataOperationException {
         super.canInteract();
         try {
             return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).removeUserAttribute(userUUID, key);
@@ -197,7 +197,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public List<UserAccount> getUsersByAttribute(String key, String value) throws FailedDataOperationException {
+    public List<UserAccount> getUsersByAttribute(final String key, final String value) throws FailedDataOperationException {
         super.canInteract();
         try {
             return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).getUsersByAttribute(key, value);
@@ -207,7 +207,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public List<UserAccount> getUsersByAttributekey(String key) throws FailedDataOperationException {
+    public List<UserAccount> getUsersByAttributekey(final String key) throws FailedDataOperationException {
         super.canInteract();
         try {
             return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).getUsersByAttributekey(key);
@@ -217,7 +217,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public List<UserAccount> getUsersByAttributeValue(String value) throws FailedDataOperationException {
+    public List<UserAccount> getUsersByAttributeValue(final String value) throws FailedDataOperationException {
         super.canInteract();
         try {
             UserAccountOperations service = (UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE);
@@ -228,7 +228,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    protected void onServiceRegistryStartup(boolean force) {
+    protected void onServiceRegistryStartup(final boolean force) {
         //to be implemented if needed
     }
 
