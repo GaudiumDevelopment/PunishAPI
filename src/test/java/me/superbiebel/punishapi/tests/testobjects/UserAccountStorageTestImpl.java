@@ -7,7 +7,9 @@ import java.util.UUID;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.data.servicesoperations.UserAccountOperations;
 import me.superbiebel.punishapi.dataobjects.UserAccount;
+import org.junit.jupiter.api.Disabled;
 
+@Disabled
 public class UserAccountStorageTestImpl extends BaseDataTestingService implements UserAccountOperations {
 
     HashMap<UUID, UserAccount> userAccountStorage = new HashMap<>();
@@ -34,7 +36,13 @@ public class UserAccountStorageTestImpl extends BaseDataTestingService implement
     @Override
     public boolean setUserAttribute(UUID userUUID, String key, String value) {
         UserAccount userAccount = userAccountStorage.get(userUUID);
-        return userAccount.getAttributes().put(key, value) != null;//this is cheating and I know it
+
+        HashMap<String, String> newUserAttributes = new HashMap<>(userAccount.getAttributes());
+        boolean succeeded = newUserAttributes.put(key, value)!= null;
+
+        UserAccount newUserAccount = UserAccount.builder().userUUID(userAccount.getUserUUID()).attributes(newUserAttributes).offenseHistory(userAccount.getOffenseHistory()).build();
+        succeeded = userAccountStorage.put(newUserAccount.getUserUUID(), newUserAccount) != null && succeeded;
+        return succeeded;
     }
 
     @Override
