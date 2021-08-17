@@ -29,7 +29,7 @@ public class OffenseManager extends ServiceRegistry<UUID> {
         this.core = core;
     }
 
-    /**
+    /*
      * 1. Receives the request
      * 2. Gets the UUID of the offenseProcessingTemplate it wants to trigger and will download this template
      * 3. A custom offenseprocessor that is already supplied will be used otherwise the default processor will be used (JS)
@@ -37,7 +37,7 @@ public class OffenseManager extends ServiceRegistry<UUID> {
      * 5. The generated offenseHistoryRecord will then be stored inside the database.
      */
 
-    public OffenseHistoryRecord submitOffense(@NotNull OffenseProcessingRequest offenseProcessingRequest) throws OffenseProcessingException, FailedDataOperationException, ServiceNotFoundException {
+    public OffenseHistoryRecord submitOffense(@NotNull OffenseProcessingRequest offenseProcessingRequest) throws OffenseProcessingException {
         Datamanager datamanager = core.getDatamanager();
         try {
             //Indicate that processing on this user begins.
@@ -62,8 +62,14 @@ public class OffenseManager extends ServiceRegistry<UUID> {
                 }
             }
             return processor.processOffense(offenseProcessingRequest, template.getScriptFile());
+        } catch (Exception e) {
+            throw new OffenseProcessingException(e);
         } finally {
-            datamanager.unlockUser(offenseProcessingRequest.getCriminalUUID());
+            try {
+                datamanager.unlockUser(offenseProcessingRequest.getCriminalUUID());
+            } catch (FailedDataOperationException e) {
+                throw new OffenseProcessingException(e);
+            }
         }
     }
 
