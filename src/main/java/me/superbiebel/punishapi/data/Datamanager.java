@@ -23,12 +23,14 @@ import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.ApiStatus;
 
-/**
- * FOR INTERNAL USE ONLY!!!!
- */
+
 @ApiStatus.Internal
-public class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
-        implements OffenseProcessingTemplateStorageOperations, OffenseRecordStorageOperations, TestDataOperations, UserAccountOperations, UserLockOperations {
+public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
+        implements OffenseProcessingTemplateStorageOperations
+        , OffenseRecordStorageOperations
+        , TestDataOperations
+        , UserAccountOperations
+        , UserLockOperations {
 
     @Getter
     private static final int MAXSERVICECOUNT = 2;
