@@ -39,7 +39,7 @@ class DataOperationsTests {
 
         final UUID requestUUID = UUID.randomUUID();
         assertDoesNotThrow(()->api.getUnsafeCore().getDatamanager().storeOffenseRecord(OffenseHistoryRecord.builder().recordUUID(requestUUID).build()));
-        assertEquals(requestUUID,api.getDataAPI().retrieveOffense(requestUUID).getRecordUUID());
+        assertEquals(requestUUID,api.getDataAPI().retrieveOffenseRecord(requestUUID).getRecordUUID());
     }
     @Test
     @Execution(ExecutionMode.CONCURRENT)
