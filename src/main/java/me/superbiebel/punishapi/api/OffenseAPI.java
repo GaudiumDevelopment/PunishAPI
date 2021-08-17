@@ -13,7 +13,7 @@ import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 public class OffenseAPI {
     private final PunishCore core;
 
-    public OffenseAPI(PunishCore core) {
+    protected OffenseAPI(PunishCore core) {
         this.core = core;
     }
 
