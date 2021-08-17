@@ -1,6 +1,5 @@
 package me.superbiebel.punishapi.data;
 
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +40,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
 
     @Override
     public Service getService(final DataServiceType serviceType) throws ServiceNotFoundException {
-        DataService foundService = (DataService) super.getService(serviceType);
+        final DataService foundService = (DataService) super.getService(serviceType);
         if (Arrays.stream(foundService.supportsDataOperations()).noneMatch(dataServiceType -> dataServiceType.equals(serviceType))) {
             throw new IllegalStateException("A service was found but it didn't actually support the dataoperation");
         }
@@ -169,8 +168,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     public UserAccount retrieveUser(final UUID userUUID) throws FailedDataOperationException {
         super.canInteract();
         try {
-            UserAccountOperations service = (UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE);
-            return service.retrieveUser(userUUID);
+            return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).retrieveUser(userUUID);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
