@@ -15,6 +15,7 @@ import me.superbiebel.punishapi.data.servicesoperations.UserAccountOperations;
 import me.superbiebel.punishapi.data.servicesoperations.UserLockOperations;
 import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
+import me.superbiebel.punishapi.dataobjects.Punishment;
 import me.superbiebel.punishapi.dataobjects.UserAccount;
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
@@ -54,6 +55,133 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
+    public boolean setOffenseHistoryRecordAttribute(UUID offenseUUID, String key, String value) throws FailedDataOperationException {
+        try {
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).setOffenseHistoryRecordAttribute(offenseUUID, key, value);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public boolean removeOffenseHistoryRecordAttributeWithKey(UUID offenseUUID, String key) throws FailedDataOperationException {
+        try {
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).removeOffenseHistoryRecordAttributeWithKey(offenseUUID, key);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public boolean removeOffenseHistoryRecordAttributeWithValue(UUID offenseUUID, String value) throws FailedDataOperationException {
+        try {
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).removeOffenseHistoryRecordAttributeWithValue(offenseUUID, value);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public List<OffenseHistoryRecord> getOffenseHistoryRecordByAttribute(String key, String value) throws FailedDataOperationException {
+        try {
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).getOffenseHistoryRecordByAttribute(key, value);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public List<OffenseHistoryRecord> getOffenseHistoryRecordByAttributeKey(String key) throws FailedDataOperationException {
+        try {
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).getOffenseHistoryRecordByAttributeKey(key);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public List<OffenseHistoryRecord> getOffenseHistoryRecordByAttributeValue(String value) throws FailedDataOperationException {
+        try {
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).getOffenseHistoryRecordByAttributeValue(value);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public Punishment retrievePunishment(UUID offenseUUID) throws FailedDataOperationException {
+        try {
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).retrievePunishment(offenseUUID);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public boolean setPunishmentattribute(UUID punishmentUUID, String key, String value) throws FailedDataOperationException {
+        try {
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).setPunishmentattribute(punishmentUUID, key, value);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public boolean removePunishmentattributeWithKey(UUID punishmentUUID, String key) throws FailedDataOperationException {
+        try {
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).removePunishmentattributeWithKey(punishmentUUID, key);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public boolean removePunishmentattributeWithValue(UUID punishmentUUID, String value) throws FailedDataOperationException {
+        try {
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).removePunishmentattributeWithValue(punishmentUUID, value);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public List<Punishment> getPunishmentbyAttribute(String key, String value) throws FailedDataOperationException {
+        try {
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).getPunishmentbyAttribute(key, value);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public List<Punishment> getPunishmentbyAttributeKey(String key) throws FailedDataOperationException {
+        try {
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).getPunishmentbyAttributeKey(key);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public List<Punishment> getPunishmentbyAttributeValue(String value) throws FailedDataOperationException {
+        try {
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).getPunishmentbyAttributeValue(value);
+        } catch (Exception e) {
+            throw new FailedDataOperationException(e);
+        }
+    }
+
+    @Override
+    public boolean setDecrementsPunishmentDuration(UUID punishmentUUID, boolean value) {
+        return false;
+    }
+
+    @Override
+    public boolean setPunishmentActivation(UUID punishmentUUID, boolean value) {
+        return false;
+    }
+
+    @Override
     public String exampleOperation(final String returnString) {
         super.canInteract();
         return returnString;
@@ -90,14 +218,13 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public void storeOffenseRecord(final OffenseHistoryRecord offenseHistoryRecord) throws FailedDataOperationException {
+    public boolean storeOffenseRecord(final OffenseHistoryRecord offenseHistoryRecord) throws FailedDataOperationException {
         super.canInteract();
         try {
-            ((OffenseRecordStorageOperations) getService(DataServiceType.OFFENSE_RECORD_STORAGE)).storeOffenseRecord(offenseHistoryRecord);
+            return ((OffenseRecordStorageOperations) getService(DataServiceType.OFFENSE_RECORD_STORAGE)).storeOffenseRecord(offenseHistoryRecord);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
-
     }
 
     @Override
@@ -131,10 +258,10 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public boolean updateOffenseProcessorUUIDInOffenseProcessingTemplate(final UUID templateUUID,final  UUID newOffenseProcessorUUID) throws FailedDataOperationException {
+    public void updateOffenseProcessorUUIDInOffenseProcessingTemplate(final UUID templateUUID, final  UUID newOffenseProcessorUUID) throws FailedDataOperationException {
         super.canInteract();
         try {
-            return ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).updateOffenseProcessorUUIDInOffenseProcessingTemplate(templateUUID, newOffenseProcessorUUID);
+            ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).updateOffenseProcessorUUIDInOffenseProcessingTemplate(templateUUID, newOffenseProcessorUUID);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }

@@ -34,13 +34,13 @@ public class OffenseProcessingTemplateStorageTestImpl extends BaseDataTestingSer
     }
 
     @Override
-    public boolean updateOffenseProcessorUUIDInOffenseProcessingTemplate(UUID templateUUID, UUID newOffenseProcessorUUID) {
+    public void updateOffenseProcessorUUIDInOffenseProcessingTemplate(UUID templateUUID, UUID newOffenseProcessorUUID) {
         OffenseProcessingTemplate fetchedTemplate = offenseProcessingTemplateStorage.get(templateUUID);
         OffenseProcessingTemplate newTemplate = OffenseProcessingTemplate.builder().offenseProcessingTemplateUUID(fetchedTemplate.getOffenseProcessingTemplateUUID())
                 .offenseProcessorUUID(newOffenseProcessorUUID)
                 .scriptFile(fetchedTemplate.getScriptFile())
                 .build();
-        return offenseProcessingTemplateStorage.put(templateUUID,newTemplate) == null;
+        offenseProcessingTemplateStorage.put(templateUUID, newTemplate);
     }
 
     @Override

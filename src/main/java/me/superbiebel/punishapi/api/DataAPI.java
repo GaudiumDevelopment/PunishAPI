@@ -220,11 +220,10 @@ public class DataAPI {
      *
      * @param templateUUID            the template uuid
      * @param newOffenseProcessorUUID the new offense processor uuid
-     * @return the boolean
      * @throws FailedDataOperationException the failed data operation exception
      */
-    public boolean updateOffenseProcessorUUIDInOffenseProcessingTemplate(final UUID templateUUID, final UUID newOffenseProcessorUUID) throws FailedDataOperationException {
-        return datamanager.updateOffenseProcessorUUIDInOffenseProcessingTemplate(templateUUID, newOffenseProcessorUUID);
+    public void updateOffenseProcessorUUIDInOffenseProcessingTemplate(final UUID templateUUID, final UUID newOffenseProcessorUUID) throws FailedDataOperationException {
+        datamanager.updateOffenseProcessorUUIDInOffenseProcessingTemplate(templateUUID, newOffenseProcessorUUID);
     }
 
     /**
