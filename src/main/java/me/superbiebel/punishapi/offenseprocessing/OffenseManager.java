@@ -1,8 +1,5 @@
 package me.superbiebel.punishapi.offenseprocessing;
 
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.abstractions.Service;
 import me.superbiebel.punishapi.abstractions.ServiceRegistry;
@@ -15,11 +12,15 @@ import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 public class OffenseManager extends ServiceRegistry<UUID> {
 
     private final PunishCore core;
 
-    public OffenseManager(ConcurrentMap<UUID    , Service> serviceRegistryMap, PunishCore core) {
+    public OffenseManager(ConcurrentMap<UUID, Service> serviceRegistryMap, PunishCore core) {
         super(serviceRegistryMap);
         this.core = core;
     }
