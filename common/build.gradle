@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'maven-publish'
+}
+group 'me.superbiebel'
+version 'INDEV'
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    //lombok stuff
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    implementation 'org.jetbrains:annotations:21.0.1'
+}
+shadowJar {
+    archiveClassifier.set('')
+}
+build.dependsOn shadowJar
+jar {
+    manifest {
+        attributes 'Multi-Release': 'true'
+    }
+}

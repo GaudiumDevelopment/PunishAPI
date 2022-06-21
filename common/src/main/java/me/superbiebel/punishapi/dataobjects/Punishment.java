@@ -1,7 +1,7 @@
 package me.superbiebel.punishapi.dataobjects;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +18,6 @@ public class Punishment {
     private final long duration;
     private final boolean decrementsDuration;
     private final boolean activated;
-    private final Set<String> scopes;
-    private final Set<PunishmentReduction> punishmentReductions;
+    private final List<String> scopes;
+    private final List<PunishmentReduction> punishmentReductions;
 }

@@ -22,7 +22,6 @@ public class PunishAPI extends System {
 
     public PunishAPI() {
         core = new PunishCore();
-
     }
 
     public void onStartup(boolean force) throws StartupException {
