@@ -5,7 +5,6 @@ import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 
-@SuppressWarnings("ClassCanBeRecord")
 @Getter
 @Builder(toBuilder = true)
 public class OffenseProcessingRequest {
