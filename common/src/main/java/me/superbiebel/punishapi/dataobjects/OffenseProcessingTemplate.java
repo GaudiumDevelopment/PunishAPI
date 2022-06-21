@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("ClassCanBeRecord")
 @Getter
 @Builder
 public class OffenseProcessingTemplate {
