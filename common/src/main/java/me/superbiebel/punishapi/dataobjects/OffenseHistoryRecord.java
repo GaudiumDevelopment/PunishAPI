@@ -13,7 +13,7 @@ public class OffenseHistoryRecord {
     private final UUID moderatorUUID;
     private final UUID criminalUUID;
     private final UUID offenseProcessingTemplateUUID;
-    private final long timeregistered;
+    private final long timeRegistered;
     private final Map<String, String> attributes;
     private final List<Punishment> linkedPunishments;
 }
