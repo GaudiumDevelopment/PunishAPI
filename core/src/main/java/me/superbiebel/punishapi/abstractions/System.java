@@ -62,7 +62,7 @@ public abstract class System implements Service{
         }
     }
 
-    public void kill() throws ShutDownException {
+    public void kill() {
         try {
             startupShutdownLock.lock();
             if (atomicStatus.get() == SystemStatus.KILLED) {
@@ -74,7 +74,7 @@ public abstract class System implements Service{
                 atomicStatus.set(SystemStatus.KILLED);
             }
         } catch (Exception e) {
-            throw new ShutDownException(e);
+            e.printStackTrace();
         } finally {
             startupShutdownLock.unlock();
         }

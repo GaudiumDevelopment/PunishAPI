@@ -11,7 +11,7 @@ public interface Service {
     void shutdown() throws ShutDownException;
 
     //Will shut down without throwing any exception, force closing and killing anything that is in its way.
-    void kill() throws ShutDownException;
+    void kill();
 
     @NotNull
     SystemStatus status();
