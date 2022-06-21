@@ -1,17 +1,12 @@
-package me.superbiebel.punishapi.data.servicesoperations;
+package me.superbiebel.punishapi.data.servicesoperations.dataapi;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import me.superbiebel.punishapi.data.servicesoperations.dataapi.UserRetrieveOperations;
 import me.superbiebel.punishapi.dataobjects.UserAccount;
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 
-public interface UserAccountOperations extends UserRetrieveOperations {
-    UserAccount createUser(Map<String, String> attributes) throws FailedDataOperationException;
-    
-    
+import java.util.List;
+import java.util.UUID;
+
+public interface UserAccountAttributeOperations {
     boolean setUserAttribute(UUID userUUID, String key, String value) throws FailedDataOperationException;
     
     boolean removeUserAttribute(UUID userUUID, String key) throws FailedDataOperationException;

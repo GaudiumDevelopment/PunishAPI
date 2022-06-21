@@ -13,6 +13,7 @@ import me.superbiebel.punishapi.data.servicesoperations.OffenseRecordStorageOper
 import me.superbiebel.punishapi.data.servicesoperations.TestDataOperations;
 import me.superbiebel.punishapi.data.servicesoperations.UserAccountOperations;
 import me.superbiebel.punishapi.data.servicesoperations.UserLockOperations;
+import me.superbiebel.punishapi.data.servicesoperations.dataapi.UserAccountAttributeOperations;
 import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
 import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 import me.superbiebel.punishapi.dataobjects.Punishment;
@@ -118,54 +119,54 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public boolean setPunishmentattribute(UUID punishmentUUID, String key, String value) throws FailedDataOperationException {
+    public boolean setPunishmentAttribute(UUID punishmentUUID, String key, String value) throws FailedDataOperationException {
         try {
-            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).setPunishmentattribute(punishmentUUID, key, value);
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).setPunishmentAttribute(punishmentUUID, key, value);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
 
     @Override
-    public boolean removePunishmentattributeWithKey(UUID punishmentUUID, String key) throws FailedDataOperationException {
+    public boolean removePunishmentAttributeWithKey(UUID punishmentUUID, String key) throws FailedDataOperationException {
         try {
-            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).removePunishmentattributeWithKey(punishmentUUID, key);
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).removePunishmentAttributeWithKey(punishmentUUID, key);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
 
     @Override
-    public boolean removePunishmentattributeWithValue(UUID punishmentUUID, String value) throws FailedDataOperationException {
+    public boolean removePunishmentAttributeWithValue(UUID punishmentUUID, String value) throws FailedDataOperationException {
         try {
-            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).removePunishmentattributeWithValue(punishmentUUID, value);
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).removePunishmentAttributeWithValue(punishmentUUID, value);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
 
     @Override
-    public List<Punishment> getPunishmentbyAttribute(String key, String value) throws FailedDataOperationException {
+    public List<Punishment> getPunishmentByAttribute(String key, String value) throws FailedDataOperationException {
         try {
-            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).getPunishmentbyAttribute(key, value);
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).getPunishmentByAttribute(key, value);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
 
     @Override
-    public List<Punishment> getPunishmentbyAttributeKey(String key) throws FailedDataOperationException {
+    public List<Punishment> getPunishmentByAttributeKey(String key) throws FailedDataOperationException {
         try {
-            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).getPunishmentbyAttributeKey(key);
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).getPunishmentByAttributeKey(key);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
     }
 
     @Override
-    public List<Punishment> getPunishmentbyAttributeValue(String value) throws FailedDataOperationException {
+    public List<Punishment> getPunishmentByAttributeValue(String value) throws FailedDataOperationException {
         try {
-            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).getPunishmentbyAttributeValue(value);
+            return ((OffenseRecordStorageOperations) super.getService(DataServiceType.OFFENSE_RECORD_STORAGE)).getPunishmentByAttributeValue(value);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
@@ -301,7 +302,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     public boolean setUserAttribute(final UUID userUUID, final String key, final String value) throws FailedDataOperationException {
         super.canInteract();
         try {
-            return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).setUserAttribute(userUUID, key, value);
+            return ((UserAccountAttributeOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).setUserAttribute(userUUID, key, value);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
@@ -311,7 +312,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     public boolean removeUserAttribute(final UUID userUUID, final String key) throws FailedDataOperationException {
         super.canInteract();
         try {
-            return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).removeUserAttribute(userUUID, key);
+            return ((UserAccountAttributeOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).removeUserAttribute(userUUID, key);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
@@ -321,7 +322,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     public List<UserAccount> getUsersByAttribute(final String key, final String value) throws FailedDataOperationException {
         super.canInteract();
         try {
-            return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).getUsersByAttribute(key, value);
+            return ((UserAccountAttributeOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).getUsersByAttribute(key, value);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
@@ -331,7 +332,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     public List<UserAccount> getUsersByAttributeKey(final String key) throws FailedDataOperationException {
         super.canInteract();
         try {
-            return ((UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).getUsersByAttributeKey(key);
+            return ((UserAccountAttributeOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).getUsersByAttributeKey(key);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
@@ -341,8 +342,7 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     public List<UserAccount> getUsersByAttributeValue(final String value) throws FailedDataOperationException {
         super.canInteract();
         try {
-            UserAccountOperations service = (UserAccountOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE);
-            return service.getUsersByAttributeValue(value);
+            return ((UserAccountAttributeOperations) getService(DataServiceType.USER_ACCOUNT_STORAGE)).getUsersByAttributeValue(value);
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }

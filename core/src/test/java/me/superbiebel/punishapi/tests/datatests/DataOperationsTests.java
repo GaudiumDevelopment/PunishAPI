@@ -43,24 +43,6 @@ class DataOperationsTests {
     }
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    void lockUserTest() throws StartupException, FailedDataOperationException, ServiceAlreadyRegisteredException {
-        final PunishAPI api = new PunishAPI();
-        api.startup();
-        final UserLockTestImpl userLockTestImpl = new UserLockTestImpl();
-        api.getDataAPI().addService(Datamanager.DataServiceType.USER_LOCKING,userLockTestImpl);
-
-        final UUID userUUID = UUID.randomUUID();
-
-        assertTrue(api.getDataAPI().tryLockUser(userUUID));
-        assertTrue(api.getDataAPI().isUserLocked(userUUID));
-        assertFalse(api.getDataAPI().tryLockUser(userUUID));
-        assertDoesNotThrow(()->api.getDataAPI().unlockUser(userUUID));
-        assertFalse(api.getDataAPI().isUserLocked(userUUID));
-        assertTrue(api.getDataAPI().tryLockUser(userUUID));
-
-    }
-    @Test
-    @Execution(ExecutionMode.CONCURRENT)
     void offenseProcessingTemplateStorageTest() throws StartupException, ServiceAlreadyRegisteredException, URISyntaxException, FailedDataOperationException {
         final PunishAPI api = new PunishAPI();
         api.startup();

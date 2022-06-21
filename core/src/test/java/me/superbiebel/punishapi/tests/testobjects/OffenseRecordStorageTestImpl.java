@@ -66,32 +66,32 @@ public class OffenseRecordStorageTestImpl extends BaseDataTestingService impleme
     }
 
     @Override
-    public boolean setPunishmentattribute(UUID punishmentUUID, String key, String value) {
+    public boolean setPunishmentAttribute(UUID punishmentUUID, String key, String value) {
         return false;
     }
 
     @Override
-    public boolean removePunishmentattributeWithKey(UUID punishmentUUID, String key) {
+    public boolean removePunishmentAttributeWithKey(UUID punishmentUUID, String key) {
         return false;
     }
 
     @Override
-    public boolean removePunishmentattributeWithValue(UUID punishmentUUID, String value) {
+    public boolean removePunishmentAttributeWithValue(UUID punishmentUUID, String value) {
         return false;
     }
 
     @Override
-    public List<Punishment> getPunishmentbyAttribute(String key, String value) {
+    public List<Punishment> getPunishmentByAttribute(String key, String value) {
         return null;
     }
 
     @Override
-    public List<Punishment> getPunishmentbyAttributeKey(String key) {
+    public List<Punishment> getPunishmentByAttributeKey(String key) {
         return null;
     }
 
     @Override
-    public List<Punishment> getPunishmentbyAttributeValue(String value) {
+    public List<Punishment> getPunishmentByAttributeValue(String value) {
         return null;
     }
 
