@@ -24,7 +24,7 @@ public class PunishCore extends System {
     protected void onStartup(boolean forcedInit) throws StartupException {
         datamanager = new Datamanager();
         datamanager.startup();
-        offenseManager = new OffenseManager(this);
+        offenseManager = new OffenseManager(this, offenseProcessor);
         offenseManager.startup();
     }
 

@@ -2,7 +2,7 @@ package me.superbiebel.punishapi.data.servicesoperations;
 
 import java.io.File;
 import java.util.UUID;
-import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
+
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 
 /**

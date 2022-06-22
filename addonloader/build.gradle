@@ -1,0 +1,53 @@
+//file:noinspection GroovyAssignabilityCheck
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'maven-publish'
+}
+group 'me.superbiebel'
+version 'INDEV'
+
+repositories {
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        shadow(MavenPublication) { publication ->
+            project.shadow.component(publication)
+        }
+    }
+}
+
+dependencies {
+    //lombok stuff
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    //normal deps
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.1'
+    implementation 'org.jetbrains:annotations:21.0.1'
+    implementation project (':common')
+
+    //test stuff
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.7.2'
+    testCompileOnly 'org.projectlombok:lombok:1.18.20'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+}
+shadowJar {
+    archiveClassifier.set('')
+}
+build.dependsOn shadowJar
+
+jar {
+    manifest {
+        attributes 'Multi-Release': 'true'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

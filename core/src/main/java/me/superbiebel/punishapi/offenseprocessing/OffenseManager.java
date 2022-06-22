@@ -1,101 +1,84 @@
 package me.superbiebel.punishapi.offenseprocessing;
 
 import me.superbiebel.punishapi.PunishCore;
-import me.superbiebel.punishapi.abstractions.Service;
-import me.superbiebel.punishapi.abstractions.ServiceRegistry;
+import me.superbiebel.punishapi.abstractions.System;
 import me.superbiebel.punishapi.data.Datamanager;
-import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
-import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
-import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
+import me.superbiebel.punishapi.dataobjects.verdict.OffenseHistoryRecord;
+import me.superbiebel.punishapi.dataobjects.requestoffenseprocessing.PunishmentCalculationRequest;
+import me.superbiebel.punishapi.dataobjects.verdict.Punishment;
+import me.superbiebel.punishapi.dataobjects.verdict.PunishmentCalculation;
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
-import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
+import me.superbiebel.punishapi.exceptions.ShutDownException;
+import me.superbiebel.punishapi.exceptions.StartupException;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
-public class OffenseManager extends ServiceRegistry<UUID> {
+public class OffenseManager extends System {
 
     private final PunishCore core;
+    private final IOffenseCalculator offenseCalculator;
 
-    public OffenseManager(ConcurrentMap<UUID, Service> serviceRegistryMap, PunishCore core) {
-        super(serviceRegistryMap);
+    public OffenseManager(PunishCore core, IOffenseCalculator offenseCalculator) {
         this.core = core;
+        this.offenseCalculator = offenseCalculator;
     }
 
-    public OffenseManager(PunishCore core) {
-        super(new ConcurrentHashMap<>());
-        this.core = core;
-    }
-
-    /*
-     * 1. Receives the request
-     * 2. Gets the UUID of the offenseProcessingTemplate it wants to trigger and will download this template
-     * 3. A custom offenseprocessor that is already supplied will be used otherwise the default processor will be used (JS)
-     * 4. The offenseprocessor will process this offense and then generate an OffenseHistoryRecord
-     * 5. The generated offenseHistoryRecord will then be stored inside the database.
-     */
-
-    public OffenseHistoryRecord submitOffense(@NotNull OffenseProcessingRequest offenseProcessingRequest) throws OffenseProcessingException {
+    public OffenseHistoryRecord calculateRecord(@NotNull PunishmentCalculationRequest punishmentCalculationRequest) throws OffenseProcessingException {
         Datamanager datamanager = core.getDatamanager();
+        OffenseHistoryRecord historyRecord;
         try {
-            //Indicate that processing on this user begins.
-            datamanager.tryLockUser(offenseProcessingRequest.getCriminalUUID());
-
-            //Download this template.
-            OffenseProcessingTemplate template = datamanager.retrieveOffenseProcessingTemplate(offenseProcessingRequest.getProcessingTemplateUUID());
-
-            //Get the appropriate offense processor.
-            IOffenseProcessor processor = getOffenseProcessor(template);
-
-            if (processor.isScriptBased()) {
-                //confirm that if the processor is script based, the file can actually be found and run.
-                if (template.getScriptFile() == null) {
-                    throw new IllegalArgumentException("Script file cannot be null in a script based offenseprocessor!");
-                }
-                if (!template.getScriptFile().exists()) {
-                    throw new IllegalStateException("Script file that should be run does not exist!");
-                }
-                if (!template.getScriptFile().isFile()) {
-                    throw new IllegalStateException("Script file is not a file!");
-                }
-            }
-            return processor.processOffense(offenseProcessingRequest, template.getScriptFile());
-        } catch (Exception e) {
-            throw new OffenseProcessingException(e);
+            datamanager.tryLockUser(punishmentCalculationRequest.getCriminalUUID());
+            List<PunishmentCalculation> calculations = offenseCalculator.processOffense(punishmentCalculationRequest);
+            List<Punishment> punishments = new ArrayList<>();
+            calculations.forEach(punishmentCalculation -> punishments.add(Punishment.builder()
+                                                                                  .punishmentUUID(UUID.randomUUID())
+                                                                                  .attributes(new HashMap<>())
+                                                                                  .punishmentReductions(new ArrayList<>())
+                                                                                  .build()));
+            historyRecord = OffenseHistoryRecord.builder()
+                           .recordUUID(UUID.randomUUID())
+                           .moderatorUUID(punishmentCalculationRequest.getModeratorUUID())
+                           .criminalUUID(punishmentCalculationRequest.getCriminalUUID())
+                           .timeRegistered(ZonedDateTime.now())
+                           .offenses(punishmentCalculationRequest.getOffenses())
+                           .attributes(new HashMap<>())
+                           .linkedPunishments(punishments)
+                           .build();
+            
+            datamanager.storeOffenseRecord(historyRecord);
+        } catch (FailedDataOperationException e) {
+            throw new RuntimeException(e);
         } finally {
             try {
-                datamanager.unlockUser(offenseProcessingRequest.getCriminalUUID());
+                datamanager.unlockUser(punishmentCalculationRequest.getCriminalUUID());
             } catch (FailedDataOperationException e) {
-                throw new OffenseProcessingException(e);
+                throw new RuntimeException(e);
             }
         }
+        return historyRecord;
     }
-
     public void submitOffenseWithoutProcessing(OffenseHistoryRecord offenseHistoryRecord) throws FailedDataOperationException {
         core.getDatamanager().storeOffenseRecord(offenseHistoryRecord);
     }
-
-    private IOffenseProcessor getOffenseProcessor(@NotNull OffenseProcessingTemplate template) throws ServiceNotFoundException {
-        IOffenseProcessor processor;
-            processor = (IOffenseProcessor) super.getService(template.getOffenseProcessorUUID());
-        return processor;
-    }
-
+    
     @Override
-    protected void onServiceRegistryStartup(boolean force) {
-        //implement if needed
+    protected void onStartup(boolean force) throws StartupException {
+        //TODO add punishmentCalculator loading
     }
-
+    
     @Override
-    protected void onServiceRegistryShutdown() {
-        //implement if needed
+    protected void onShutdown() throws ShutDownException {
+        //TODO add punishmentCalculator shutdown
     }
-
+    
     @Override
-    protected void onServiceRegistryKill() {
-        //implement if needed
+    protected void onKill() throws ShutDownException {
+        //TODO add punishmentCalculator kill
     }
 }

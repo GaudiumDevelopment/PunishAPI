@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.UUID;
 import me.superbiebel.punishapi.data.Datamanager;
 import me.superbiebel.punishapi.data.servicesoperations.OffenseProcessingTemplateStorageOperations;
-import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
 
 public class OffenseProcessingTemplateStorageTestImpl extends BaseDataTestingService implements OffenseProcessingTemplateStorageOperations {
 

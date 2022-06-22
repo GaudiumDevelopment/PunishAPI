@@ -1,7 +1,7 @@
 package me.superbiebel.punishapi.data.servicesoperations.dataapi;
 
-import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
-import me.superbiebel.punishapi.dataobjects.Punishment;
+import me.superbiebel.punishapi.dataobjects.verdict.OffenseHistoryRecord;
+import me.superbiebel.punishapi.dataobjects.verdict.Punishment;
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 
 import java.util.List;

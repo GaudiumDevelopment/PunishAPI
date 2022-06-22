@@ -12,9 +12,8 @@ import me.superbiebel.punishapi.data.servicesoperations.dataapi.LockCheckOperati
 import me.superbiebel.punishapi.data.servicesoperations.dataapi.OffenseHistoryRecordAPIOperations;
 import me.superbiebel.punishapi.data.servicesoperations.dataapi.UserAccountAttributeOperations;
 import me.superbiebel.punishapi.data.servicesoperations.dataapi.UserRetrieveOperations;
-import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
-import me.superbiebel.punishapi.dataobjects.OffenseProcessingTemplate;
-import me.superbiebel.punishapi.dataobjects.Punishment;
+import me.superbiebel.punishapi.dataobjects.verdict.OffenseHistoryRecord;
+import me.superbiebel.punishapi.dataobjects.verdict.Punishment;
 import me.superbiebel.punishapi.dataobjects.UserAccount;
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;

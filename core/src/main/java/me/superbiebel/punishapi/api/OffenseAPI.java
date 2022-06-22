@@ -1,15 +1,14 @@
 package me.superbiebel.punishapi.api;
 
 import me.superbiebel.punishapi.PunishCore;
-import me.superbiebel.punishapi.dataobjects.OffenseHistoryRecord;
-import me.superbiebel.punishapi.dataobjects.OffenseProcessingRequest;
+import me.superbiebel.punishapi.dataobjects.verdict.OffenseHistoryRecord;
+import me.superbiebel.punishapi.dataobjects.requestoffenseprocessing.PunishmentCalculationRequest;
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
 
 /**
  * Class in which you can trigger the processing of a punishment.
  */
-@SuppressWarnings("ClassCanBeRecord")
 public class OffenseAPI {
     private final PunishCore core;
 
@@ -25,12 +24,12 @@ public class OffenseAPI {
     /**
      * Trigger an offense to be processed.
      *
-     * @param offenseProcessingRequest the request with all the information about the offense.
+     * @param punishmentCalculationRequest the request with all the information about the offense.
      * @return the offense history record(punishment) that was calculated
      * @throws OffenseProcessingException   thrown if something went wrong (wrapper)
      */
-    public OffenseHistoryRecord submitOffense(OffenseProcessingRequest offenseProcessingRequest) throws OffenseProcessingException {
-        return core.getOffenseManager().submitOffense(offenseProcessingRequest);
+    public OffenseHistoryRecord submitOffense(PunishmentCalculationRequest punishmentCalculationRequest) throws OffenseProcessingException {
+        return core.getOffenseManager().calculateRecord(punishmentCalculationRequest);
     }
 
     /**

@@ -13,13 +13,13 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DataManagerShutdownTests {
+class OffenseManagerShutdownTests {
     
     @Test
     @Execution(ExecutionMode.CONCURRENT)
     void readyBooleanShutdownTestTest() throws ShutDownException, StartupException {
         PunishCore core = new PunishCore();
-        OffenseManager offenseManager = new OffenseManager(core);
+        OffenseManager offenseManager = new OffenseManager(core, offenseProcessor);
         offenseManager.startup();
         offenseManager.shutdown();
         assertSame(SystemStatus.DOWN, offenseManager.status());
@@ -29,7 +29,7 @@ class DataManagerShutdownTests {
     @Execution(ExecutionMode.CONCURRENT)
     void multipleShutdownTest(int times) throws ShutDownException, StartupException {
         PunishCore core = new PunishCore();
-        OffenseManager offenseManager = new OffenseManager(core);
+        OffenseManager offenseManager = new OffenseManager(core, offenseProcessor);
         offenseManager.startup();
         offenseManager.shutdown();
         for (int i = 1; i<=times;i++) {
@@ -42,7 +42,7 @@ class DataManagerShutdownTests {
     @Execution(ExecutionMode.CONCURRENT)
     void killTest() throws StartupException, ShutDownException {
         PunishCore core = new PunishCore();
-        OffenseManager offenseManager = new OffenseManager(core);
+        OffenseManager offenseManager = new OffenseManager(core, offenseProcessor);
         offenseManager.startup();
         offenseManager.kill();
         assertSame(SystemStatus.KILLED,offenseManager.status());
@@ -53,7 +53,7 @@ class DataManagerShutdownTests {
     @Execution(ExecutionMode.CONCURRENT)
     void multipleKilledShutdownTest(int times) throws StartupException, ShutDownException {
         PunishCore core = new PunishCore();
-        OffenseManager offenseManager = new OffenseManager(core);
+        OffenseManager offenseManager = new OffenseManager(core, offenseProcessor);
         offenseManager.startup();
         offenseManager.kill();
         for (int i = 1; i<=times;i++) {

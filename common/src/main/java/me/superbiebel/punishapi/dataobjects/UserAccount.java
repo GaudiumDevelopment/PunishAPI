@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
+import me.superbiebel.punishapi.dataobjects.verdict.OffenseHistoryRecord;
 
 @Getter
 @Builder

@@ -1,4 +1,5 @@
 rootProject.name = 'PunishAPI'
 include 'common'
 include 'core'
+include 'addonloader'
 
