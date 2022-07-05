@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import me.superbiebel.punishapi.data.Datamanager;
-import me.superbiebel.punishapi.data.servicesoperations.UserAccountOperations;
-import me.superbiebel.punishapi.dataobjects.UserAccount;
+import me.superbiebel.punishapi.data.serviceoperations.UserAccountOperations;
+import me.superbiebel.punishapi.common.dataobjects.UserAccount;
 import org.junit.jupiter.api.Disabled;
 
 @Disabled

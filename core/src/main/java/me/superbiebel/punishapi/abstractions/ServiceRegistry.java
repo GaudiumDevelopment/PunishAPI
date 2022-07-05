@@ -7,7 +7,7 @@ import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 
 @SuppressWarnings("EmptyMethod")
-public abstract class ServiceRegistry<T> extends System {
+public abstract class ServiceRegistry<T> extends AbstractService {
 
     protected final ConcurrentMap<T, Service> serviceRegistryMap;
 
@@ -40,9 +40,13 @@ public abstract class ServiceRegistry<T> extends System {
         if (serviceRegistryMap.containsKey(serviceType)) {
             throw new ServiceAlreadyRegisteredException("Service was already registered");
         }
+         if (!addServiceCheck(serviceType, service)) {
+             throw new IllegalArgumentException("Service does not support that operation");
+         }
         serviceRegistryMap.put(serviceType, service);
         service.startup(false);
     }
+    protected abstract boolean addServiceCheck(T serviceType, Service service);
 
     public Service getService(T serviceType) throws ServiceNotFoundException {
         Service returnedService = serviceRegistryMap.get(serviceType);

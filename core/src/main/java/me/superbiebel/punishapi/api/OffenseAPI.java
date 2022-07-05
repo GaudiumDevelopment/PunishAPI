@@ -1,8 +1,8 @@
 package me.superbiebel.punishapi.api;
 
 import me.superbiebel.punishapi.PunishCore;
-import me.superbiebel.punishapi.dataobjects.verdict.OffenseHistoryRecord;
-import me.superbiebel.punishapi.dataobjects.requestoffenseprocessing.PunishmentCalculationRequest;
+import me.superbiebel.punishapi.common.dataobjects.verdict.OffenseHistoryRecord;
+import me.superbiebel.punishapi.common.dataobjects.requestoffenseprocessing.PunishmentCalculationRequest;
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
 

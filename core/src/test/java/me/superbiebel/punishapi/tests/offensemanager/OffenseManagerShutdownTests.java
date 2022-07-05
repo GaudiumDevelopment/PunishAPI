@@ -19,7 +19,7 @@ class OffenseManagerShutdownTests {
     @Execution(ExecutionMode.CONCURRENT)
     void readyBooleanShutdownTestTest() throws ShutDownException, StartupException {
         PunishCore core = new PunishCore();
-        OffenseManager offenseManager = new OffenseManager(core, offenseProcessor);
+        OffenseManager offenseManager = new OffenseManager(core);
         offenseManager.startup();
         offenseManager.shutdown();
         assertSame(SystemStatus.DOWN, offenseManager.status());
@@ -29,7 +29,7 @@ class OffenseManagerShutdownTests {
     @Execution(ExecutionMode.CONCURRENT)
     void multipleShutdownTest(int times) throws ShutDownException, StartupException {
         PunishCore core = new PunishCore();
-        OffenseManager offenseManager = new OffenseManager(core, offenseProcessor);
+        OffenseManager offenseManager = new OffenseManager(core);
         offenseManager.startup();
         offenseManager.shutdown();
         for (int i = 1; i<=times;i++) {
@@ -40,9 +40,9 @@ class OffenseManagerShutdownTests {
     
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    void killTest() throws StartupException, ShutDownException {
+    void killTest() throws StartupException {
         PunishCore core = new PunishCore();
-        OffenseManager offenseManager = new OffenseManager(core, offenseProcessor);
+        OffenseManager offenseManager = new OffenseManager(core);
         offenseManager.startup();
         offenseManager.kill();
         assertSame(SystemStatus.KILLED,offenseManager.status());
@@ -51,13 +51,13 @@ class OffenseManagerShutdownTests {
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
-    void multipleKilledShutdownTest(int times) throws StartupException, ShutDownException {
+    void multipleKilledShutdownTest(int times) throws StartupException {
         PunishCore core = new PunishCore();
-        OffenseManager offenseManager = new OffenseManager(core, offenseProcessor);
+        OffenseManager offenseManager = new OffenseManager(core);
         offenseManager.startup();
         offenseManager.kill();
         for (int i = 1; i<=times;i++) {
-            assertThrows(ShutDownException.class, offenseManager::kill);
+            assertThrows(IllegalStateException.class, offenseManager::kill);
             assertSame(SystemStatus.KILLED,offenseManager.status());
         }
     }

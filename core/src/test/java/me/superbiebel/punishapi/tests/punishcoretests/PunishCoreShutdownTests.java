@@ -43,13 +43,13 @@ class PunishCoreShutdownTests {
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
-    void multipleKilledShutdownTest(int times) throws StartupException, ShutDownException {
+    void multipleKilledShutdownTest(int times) throws StartupException {
         PunishAPI api = new PunishAPI();
         PunishCore core = api.getUnsafeCore();
         core.startup();
         core.kill();
         for (int i = 1; i<=times;i++) {
-            Throwable thrown = assertThrows(ShutDownException.class, core::kill);
+            Throwable thrown = assertThrows(IllegalStateException.class, core::kill);
             assertEquals(IllegalStateException.class, thrown.getCause().getClass());
         }
     }

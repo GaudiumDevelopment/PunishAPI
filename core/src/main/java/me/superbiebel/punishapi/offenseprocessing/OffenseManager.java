@@ -1,12 +1,12 @@
 package me.superbiebel.punishapi.offenseprocessing;
 
 import me.superbiebel.punishapi.PunishCore;
-import me.superbiebel.punishapi.abstractions.System;
+import me.superbiebel.punishapi.abstractions.AbstractService;
 import me.superbiebel.punishapi.data.Datamanager;
-import me.superbiebel.punishapi.dataobjects.verdict.OffenseHistoryRecord;
-import me.superbiebel.punishapi.dataobjects.requestoffenseprocessing.PunishmentCalculationRequest;
-import me.superbiebel.punishapi.dataobjects.verdict.Punishment;
-import me.superbiebel.punishapi.dataobjects.verdict.PunishmentCalculation;
+import me.superbiebel.punishapi.common.dataobjects.verdict.OffenseHistoryRecord;
+import me.superbiebel.punishapi.common.dataobjects.requestoffenseprocessing.PunishmentCalculationRequest;
+import me.superbiebel.punishapi.common.dataobjects.verdict.Punishment;
+import me.superbiebel.punishapi.common.dataobjects.verdict.PunishmentCalculation;
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 import me.superbiebel.punishapi.exceptions.OffenseProcessingException;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
@@ -19,14 +19,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class OffenseManager extends System {
+public class OffenseManager extends AbstractService {
 
     private final PunishCore core;
-    private final IOffenseCalculator offenseCalculator;
+    private IOffenseCalculator offenseCalculator;
 
-    public OffenseManager(PunishCore core, IOffenseCalculator offenseCalculator) {
+    public OffenseManager(PunishCore core) {
         this.core = core;
-        this.offenseCalculator = offenseCalculator;
     }
 
     public OffenseHistoryRecord calculateRecord(@NotNull PunishmentCalculationRequest punishmentCalculationRequest) throws OffenseProcessingException {

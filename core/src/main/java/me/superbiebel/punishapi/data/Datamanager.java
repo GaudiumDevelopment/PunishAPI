@@ -1,6 +1,5 @@
 package me.superbiebel.punishapi.data;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -8,40 +7,62 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import me.superbiebel.punishapi.abstractions.Service;
 import me.superbiebel.punishapi.abstractions.ServiceRegistry;
-import me.superbiebel.punishapi.data.servicesoperations.OffenseProcessingTemplateStorageOperations;
-import me.superbiebel.punishapi.data.servicesoperations.OffenseRecordStorageOperations;
-import me.superbiebel.punishapi.data.servicesoperations.TestDataOperations;
-import me.superbiebel.punishapi.data.servicesoperations.UserAccountOperations;
-import me.superbiebel.punishapi.data.servicesoperations.UserLockOperations;
-import me.superbiebel.punishapi.data.servicesoperations.dataapi.UserAccountAttributeOperations;
-import me.superbiebel.punishapi.dataobjects.verdict.OffenseHistoryRecord;
-import me.superbiebel.punishapi.dataobjects.verdict.Punishment;
-import me.superbiebel.punishapi.dataobjects.UserAccount;
+import me.superbiebel.punishapi.data.serviceoperations.OffenseRecordStorageOperations;
+import me.superbiebel.punishapi.data.serviceoperations.TestDataOperations;
+import me.superbiebel.punishapi.data.serviceoperations.UserAccountOperations;
+import me.superbiebel.punishapi.data.serviceoperations.UserLockOperations;
+import me.superbiebel.punishapi.data.serviceoperations.UserAccountAttributeOperations;
+import me.superbiebel.punishapi.common.dataobjects.verdict.OffenseHistoryRecord;
+import me.superbiebel.punishapi.common.dataobjects.verdict.Punishment;
+import me.superbiebel.punishapi.common.dataobjects.UserAccount;
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
-import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.ApiStatus;
 
 
 @ApiStatus.Internal
 public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceType>
-        implements OffenseProcessingTemplateStorageOperations
-        , OffenseRecordStorageOperations
+        implements OffenseRecordStorageOperations
         , TestDataOperations
         , UserAccountOperations
         , UserLockOperations {
-
+    
+    @Override
+    protected void onServiceRegistryStartup(final boolean force) {
+        //to be implemented if needed
+    }
+    
+    @Override
+    protected void onServiceRegistryShutdown() {
+        serviceRegistryMap.keySet().iterator().forEachRemaining(dataServiceType -> {
+            try {
+                this.removeService(dataServiceType, false);
+            } catch (Exception e) {
+                LogManager.getLogger().error("Could not unregister and shutdown service type: {}", dataServiceType, e);
+            }
+        });
+    }
+    
+    @Override
+    protected void onServiceRegistryKill() {
+        //to be implemented if needed
+    }
+    
+    @Override
+    protected boolean addServiceCheck(DataServiceType serviceType, Service service) {
+        if(!(service instanceof DataService)) throw new IllegalArgumentException("A service (NOT a dataservice) was passed in");
+        return Arrays.asList(((DataService) service).supportsDataOperations()).contains(serviceType);
+    }
+    
+    public int serviceCount() {
+        return serviceRegistryMap.size();
+    }
+    
+    public enum DataServiceType {
+        TEST, OFFENSE_PROCESSING_TEMPLATE_STORAGE, OFFENSE_RECORD_STORAGE, USER_LOCKING, USER_ACCOUNT_STORAGE
+    }
     public Datamanager() {
         super(new ConcurrentHashMap<>());
-    }
-
-    @Override
-    public Service getService(final DataServiceType serviceType) throws ServiceNotFoundException {
-        final DataService foundService = (DataService) super.getService(serviceType);
-        if (Arrays.stream(foundService.supportsDataOperations()).noneMatch(dataServiceType -> dataServiceType.equals(serviceType))) {
-            throw new IllegalStateException("A service was found but it didn't actually support the data operation");
-        }
-        return foundService;
     }
 
     @Override
@@ -228,56 +249,6 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
     }
 
     @Override
-    public void storeOffenseProcessingTemplate(final OffenseProcessingTemplate template) throws FailedDataOperationException {
-        super.canInteract();
-        try {
-            ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).storeOffenseProcessingTemplate(template);
-        } catch (Exception e) {
-            throw new FailedDataOperationException(e);
-        }
-    }
-
-    @Override
-    public OffenseProcessingTemplate retrieveOffenseProcessingTemplate(final UUID templateUUID) throws FailedDataOperationException {
-        super.canInteract();
-        try {
-            return ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).retrieveOffenseProcessingTemplate(templateUUID);
-        } catch (Exception e) {
-            throw new FailedDataOperationException(e);
-        }
-    }
-
-    @Override
-    public boolean deleteOffenseProcessingTemplate(final UUID templateUUID) throws FailedDataOperationException {
-        super.canInteract();
-        try {
-            return ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).deleteOffenseProcessingTemplate(templateUUID);
-        } catch (Exception e) {
-            throw new FailedDataOperationException(e);
-        }
-    }
-
-    @Override
-    public void updateOffenseProcessorUUIDInOffenseProcessingTemplate(final UUID templateUUID, final  UUID newOffenseProcessorUUID) throws FailedDataOperationException {
-        super.canInteract();
-        try {
-            ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).updateOffenseProcessorUUIDInOffenseProcessingTemplate(templateUUID, newOffenseProcessorUUID);
-        } catch (Exception e) {
-            throw new FailedDataOperationException(e);
-        }
-    }
-
-    @Override
-    public boolean updateScriptFile(final UUID templateUUID, final  File newScriptFile) throws FailedDataOperationException {
-        super.canInteract();
-        try {
-            return ((OffenseProcessingTemplateStorageOperations) getService(Datamanager.DataServiceType.OFFENSE_PROCESSING_TEMPLATE_STORAGE)).updateScriptFile(templateUUID, newScriptFile);
-        } catch (Exception e) {
-            throw new FailedDataOperationException(e);
-        }
-    }
-
-    @Override
     public UserAccount createUser(final Map<String, String> attributes) throws FailedDataOperationException {
         super.canInteract();
         try {
@@ -345,34 +316,5 @@ public final class Datamanager extends ServiceRegistry<Datamanager.DataServiceTy
         } catch (Exception e) {
             throw new FailedDataOperationException(e);
         }
-    }
-
-    @Override
-    protected void onServiceRegistryStartup(final boolean force) {
-        //to be implemented if needed
-    }
-
-    @Override
-    protected void onServiceRegistryShutdown() {
-        serviceRegistryMap.keySet().iterator().forEachRemaining(dataServiceType -> {
-            try {
-                this.removeService(dataServiceType, false);
-            } catch (Exception e) {
-                LogManager.getLogger().error("Could not unregister and shutdown service type: {}", dataServiceType, e);
-            }
-        });
-    }
-
-    @Override
-    protected void onServiceRegistryKill() {
-        //to be implemented if needed
-    }
-
-    public int serviceCount() {
-        return serviceRegistryMap.size();
-    }
-
-    public enum DataServiceType {
-        TEST, OFFENSE_PROCESSING_TEMPLATE_STORAGE, OFFENSE_RECORD_STORAGE, USER_LOCKING, USER_ACCOUNT_STORAGE
     }
 }

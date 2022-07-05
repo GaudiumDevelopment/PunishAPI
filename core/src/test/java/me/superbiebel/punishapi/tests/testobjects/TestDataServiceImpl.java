@@ -1,7 +1,7 @@
 package me.superbiebel.punishapi.tests.testobjects;
 
 import me.superbiebel.punishapi.data.Datamanager.DataServiceType;
-import me.superbiebel.punishapi.data.servicesoperations.TestDataOperations;
+import me.superbiebel.punishapi.data.serviceoperations.TestDataOperations;
 
 public class TestDataServiceImpl extends BaseDataTestingService implements TestDataOperations {
 

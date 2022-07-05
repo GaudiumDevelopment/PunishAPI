@@ -2,17 +2,17 @@ package me.superbiebel.punishapi.api;
 
 import lombok.Getter;
 import me.superbiebel.punishapi.PunishCore;
-import me.superbiebel.punishapi.abstractions.System;
+import me.superbiebel.punishapi.abstractions.AbstractService;
 import me.superbiebel.punishapi.exceptions.ShutDownException;
 import me.superbiebel.punishapi.exceptions.StartupException;
 import org.jetbrains.annotations.ApiStatus;
 
 
 /**
- * This is the base class of the whole API. This is the only class where there may be interacted with.
+ * This is the base class of the whole API.
  */
 
-public class PunishAPI extends System {
+public class PunishAPI extends AbstractService {
 
     private final PunishCore core; //do NOT interact with this!
     @Getter

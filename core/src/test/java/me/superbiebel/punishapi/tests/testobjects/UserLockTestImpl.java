@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import me.superbiebel.punishapi.data.Datamanager;
-import me.superbiebel.punishapi.data.servicesoperations.UserLockOperations;
+import me.superbiebel.punishapi.data.serviceoperations.UserLockOperations;
 
 public class UserLockTestImpl extends BaseDataTestingService implements UserLockOperations {
 

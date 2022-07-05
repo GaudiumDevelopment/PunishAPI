@@ -7,14 +7,13 @@ import me.superbiebel.punishapi.PunishCore;
 import me.superbiebel.punishapi.abstractions.Service;
 import me.superbiebel.punishapi.data.DataService;
 import me.superbiebel.punishapi.data.Datamanager;
-import me.superbiebel.punishapi.data.servicesoperations.*;
-import me.superbiebel.punishapi.data.servicesoperations.dataapi.LockCheckOperations;
-import me.superbiebel.punishapi.data.servicesoperations.dataapi.OffenseHistoryRecordAPIOperations;
-import me.superbiebel.punishapi.data.servicesoperations.dataapi.UserAccountAttributeOperations;
-import me.superbiebel.punishapi.data.servicesoperations.dataapi.UserRetrieveOperations;
-import me.superbiebel.punishapi.dataobjects.verdict.OffenseHistoryRecord;
-import me.superbiebel.punishapi.dataobjects.verdict.Punishment;
-import me.superbiebel.punishapi.dataobjects.UserAccount;
+import me.superbiebel.punishapi.data.serviceoperations.dataapi.LockCheckOperations;
+import me.superbiebel.punishapi.data.serviceoperations.dataapi.OffenseHistoryRecordAPIOperations;
+import me.superbiebel.punishapi.data.serviceoperations.UserAccountAttributeOperations;
+import me.superbiebel.punishapi.data.serviceoperations.UserRetrieveOperations;
+import me.superbiebel.punishapi.common.dataobjects.verdict.OffenseHistoryRecord;
+import me.superbiebel.punishapi.common.dataobjects.verdict.Punishment;
+import me.superbiebel.punishapi.common.dataobjects.UserAccount;
 import me.superbiebel.punishapi.exceptions.FailedDataOperationException;
 import me.superbiebel.punishapi.exceptions.ServiceAlreadyRegisteredException;
 import me.superbiebel.punishapi.exceptions.ServiceNotFoundException;
@@ -27,8 +26,7 @@ import org.jetbrains.annotations.Nullable;
  * The class where the application can safely modify any data.
  */
 @SuppressWarnings("ALL")
-public class DataAPI implements OffenseProcessingTemplateStorageOperations
-                                        , OffenseHistoryRecordAPIOperations
+public class DataAPI implements OffenseHistoryRecordAPIOperations
                                         , LockCheckOperations
                                         , UserAccountAttributeOperations
                                         , UserRetrieveOperations {
@@ -263,57 +261,4 @@ public class DataAPI implements OffenseProcessingTemplateStorageOperations
      * @param template the template
      * @throws FailedDataOperationException thrown if something went wrong.
      */
-    @Override
-    public void storeOffenseProcessingTemplate(final OffenseProcessingTemplate template) throws FailedDataOperationException {
-        datamanager.storeOffenseProcessingTemplate(template);
-    }
-
-    /**
-     * Retrieve an offense processing template by UUID.
-     *
-     * @param templateUUID the template UUID
-     * @return the offense processing template
-     * @throws FailedDataOperationException thrown if something went wrong.
-     */
-    @Override
-    public OffenseProcessingTemplate retrieveOffenseProcessingTemplate(final UUID templateUUID) throws FailedDataOperationException {
-        return datamanager.retrieveOffenseProcessingTemplate(templateUUID);
-    }
-
-    /**
-     * Delete an offense processing template by UUID.
-     *
-     * @param templateUUID the template uuid
-     * @return the boolean
-     * @throws FailedDataOperationException thrown if something went wrong.
-     */
-    @Override
-    public boolean deleteOffenseProcessingTemplate(final UUID templateUUID) throws FailedDataOperationException {
-        return datamanager.deleteOffenseProcessingTemplate(templateUUID);
-    }
-
-    /**
-     * Change the offense processor UUID for this offense processing template.
-     *
-     * @param templateUUID            the template uuid
-     * @param newOffenseProcessorUUID the new offense processor uuid
-     * @throws FailedDataOperationException the failed data operation exception
-     */
-    @Override
-    public void updateOffenseProcessorUUIDInOffenseProcessingTemplate(final UUID templateUUID, final UUID newOffenseProcessorUUID) throws FailedDataOperationException {
-        datamanager.updateOffenseProcessorUUIDInOffenseProcessingTemplate(templateUUID, newOffenseProcessorUUID);
-    }
-
-    /**
-     * Change scriptfile for this offense processing template.
-     *
-     * @param templateUUID  the template uuid
-     * @param newScriptFile the new script file
-     * @return the boolean
-     * @throws FailedDataOperationException the failed data operation exception
-     */
-    @Override
-    public boolean updateScriptFile(final UUID templateUUID, final File newScriptFile) throws FailedDataOperationException {
-        return datamanager.updateScriptFile(templateUUID, newScriptFile);
-    }
 }

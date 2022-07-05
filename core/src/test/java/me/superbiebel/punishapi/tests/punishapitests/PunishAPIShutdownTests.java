@@ -37,12 +37,12 @@ class PunishAPIShutdownTests {
     @ParameterizedTest
     @ValueSource(ints = {1,2,3,4,5})
     @Execution(ExecutionMode.CONCURRENT)
-    void multipleKilledShutdownTest(int times) throws StartupException, ShutDownException {
+    void multipleKilledShutdownTest(int times) throws StartupException {
         PunishAPI api = new PunishAPI();
         api.startup();
         api.kill();
         for (int i = 1; i<=times;i++) {
-            Throwable thrown = assertThrows(ShutDownException.class, api::kill);
+            Throwable thrown = assertThrows(IllegalStateException.class, api::kill);
             assertEquals(IllegalStateException.class, thrown.getCause().getClass());
         }
     }
